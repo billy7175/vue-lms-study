@@ -1,23 +1,24 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import NavMenu from './components/NavMenu.vue' 
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div id="app">
+    
+    <NavMenu></NavMenu>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
 
-  <main>
-    <TheWelcome />
-  </main>
+    <main class="main">
+      <div class="main__inner"></div>
+    </main>
+  </div>
 </template>
 
 <style scoped>
+#app {
+  /* border:1px solid red; */
+}
+
 header {
   line-height: 1.5;
 }
@@ -27,7 +28,7 @@ header {
   margin: 0 auto 2rem;
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   header {
     display: flex;
     place-items: center;
@@ -43,5 +44,5 @@ header {
     place-items: flex-start;
     flex-wrap: wrap;
   }
-}
+} */
 </style>

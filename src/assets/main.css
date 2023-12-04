@@ -1,12 +1,61 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+* {
+  padding: 0px;
+  margin:0px;
+  box-sizing: border-box;
+}
 
+body {
+  /* background:rgb(244, 243, 243); */
+  background:rgb(249, 249, 249);
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#app {
+  display:flex;
+  max-width: 1220px;
+  height:90vh;
+  background:#fff;
+  border:1px solid rgb(153, 184, 180);
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
   font-weight: normal;
 }
+
+.header {
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  font-weight:500;
+  opacity: .7;
+}
+
+.main {
+  width:1200px;
+  height: 100%;
+  box-sizing:border-box;
+  padding:20px;
+  display: flex;
+  align-items: stretch;
+}
+
+.main__inner {
+  background:rgb(249, 249, 249);
+  width:100%;
+  height:auto;
+  border-radius:10px;
+  
+}
+
 
 a,
 .green {
@@ -23,13 +72,13 @@ a,
 
 @media (min-width: 1024px) {
   body {
-    display: flex;
-    place-items: center;
+    /* display: flex; */
+    /* place-items: center; */
   }
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    /* display: grid; */
+    /* grid-template-columns: 1fr 1fr; */
+    /* padding: 0 2rem; */
   }
 }
