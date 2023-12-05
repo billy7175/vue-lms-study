@@ -4,13 +4,8 @@ import NavMenu from './components/NavMenu.vue'
 
 <template>
   <div id="app">
+    <router-view></router-view>
     
-    <NavMenu></NavMenu>
-
-
-    <main class="main">
-      <div class="main__inner"></div>
-    </main>
   </div>
 </template>
 
