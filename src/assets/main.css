@@ -17,6 +17,7 @@ body {
 
 #app {
   display:flex;
+  width:100%;
   max-width: 1220px;
   height:90vh;
   background:#fff;
@@ -56,13 +57,14 @@ button {
   
 }
 
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+.flex {
+  display:flex;
 }
+
+.small-text {
+  font-size:12px;
+}
+
 
 @media (hover: hover) {
   a:hover {
