@@ -1,7 +1,33 @@
 
 
 <script setup>
+import { ref }  from 'vue'
 import { getTest, loginPost } from "../apis/login";
+
+const userEmail = ref('')
+const userPassword = ref('')
+
+
+const login = () => {
+  const isValid = validateForms()
+  if(!isValid) return 
+  handleLoginPost()
+}
+
+const validateForms = () => {
+  if(!userEmail.value){
+    alert('Enter Email.')
+    return false
+  }
+
+  if(!userPassword.value){
+    alert('Enter Password.')
+    return false
+  }
+
+  return true
+}
+
 
 const handleLogin = () => {
   getTest();
@@ -9,7 +35,12 @@ const handleLogin = () => {
 
 const handleLoginPost = async () => {
   try {
-    const res = await loginPost();
+    const params = {
+      email: userEmail.value,
+      password: userPassword.value
+    }
+
+    const res = await loginPost(params);
     console.log("#res", res);
   } catch (error) {
     const errorData = error.response?.data
@@ -31,9 +62,9 @@ const handleLoginPost = async () => {
         <p class="message">Already registered? <a href="#">Sign In</a></p>
       </div>
       <div class="login-form">
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <button @click="handleLoginPost">Login(POST)</button>
+        <input v-model="userEmail" type="email" placeholder="Email" />
+        <input v-model="userPassword" type="password" placeholder="Password" />
+        <button @click="login">Login(POST)</button>
         <button @click="handleLogin">Login</button>
         <p class="message">Not registered? <a href="#">Create an Account</a></p>
       </div>

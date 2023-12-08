@@ -12,13 +12,10 @@ const getTest = async () => {
     }
 }
 
-const loginPost = async () => {
+const loginPost = async (params) => {
     try {
-        console.log('#loginPost')
-        const response = await axios.post('http://localhost:3000/api/login', {
-            email: 'test@test.com',
-            password: '12345'
-        })
+        console.log('#loginPost', params)
+        const response = await axios.post('http://localhost:3000/api/login', params)
         console.log('#response', response)
         return response
 
