@@ -1,22 +1,19 @@
 import { createWebHistory, createRouter } from "vue-router";
 import App from '../App.vue'
+import Login from '../pages/Login.vue' 
 import Main from '../pages/Main.vue'
 import PageNotFound from '../pages/NotFound.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import Assignment from '../pages/Assignment.vue'
 
-// const Dashboard = {
-//     template: '<div>User {{ $route.params.id }}</div>',
-// }
-
-// const Assignments = {
-//     template: '<div>Assignments</div>',
-// }
-
-
 const routes = [
     {
         path: "/",
+        name: "login",
+        component: Login,
+    },
+    {
+        path: "/main",
         name: "main",
         component: Main,
         children: [
