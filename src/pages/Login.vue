@@ -4,16 +4,16 @@
 import { ref } from "vue";
 import { getTest, loginPost } from "../apis/login";
 // import { defineComponent } from "vue";
-import Button from 'primevue/button';
-import ToggleButton from 'primevue/togglebutton';
+import ToggleButton from "primevue/togglebutton";
 
 import { useUserState } from "../stores/user.js";
-const userStore = useUserState()
+const userStore = useUserState();
 
 // const { isLoggedIn, test } = mapState(userStore, ["isLoggedIn", "test"]);
 // console.log("1#isLoggedIn", isLoggedIn);
 // console.log("1#test", test);
 
+const slideValue = ref(79);
 const checked = ref(false);
 const userEmail = ref("");
 const userPassword = ref("");
@@ -51,7 +51,7 @@ const handleLoginPost = async () => {
 
     const { data } = await loginPost(params);
     console.log("#res", data);
-    userStore.loginUser(data)
+    userStore.loginUser(data);
   } catch (error) {
     const errorData = error.response?.data;
     if (errorData && errorData.code === "IAM001") {
@@ -59,7 +59,6 @@ const handleLoginPost = async () => {
     }
   }
 };
-
 
 // export default defineComponent({
 //   name: "Login",
@@ -71,14 +70,15 @@ const handleLoginPost = async () => {
 
 <template>
   <div class="login-page">
-    <pre style="width
-    :100px;">
+    <pre style="width: 100px">
       {{ userStore.user }}
     </pre>
     <div class="form">
       <h1>
-        <Button label="Click To Get Started" icon="pi pi-check" iconPos="right"/>
         <ToggleButton v-model="checked" />
+
+        <InputText v-model.number="slideValue" />
+        <Slider v-model="slideValue" />
       </h1>
       <div class="register-form">
         <input type="text" placeholder="Name" />
