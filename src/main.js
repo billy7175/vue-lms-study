@@ -16,14 +16,10 @@ const pinia = createPinia();
 
 const app = createApp(App);
 // InputText
-import InputText from 'primevue/inputtext'
-import Slider from 'primevue/slider';
 
 app.use(axios);
 app.use(routers);
 app.use(pinia);
 app.use(PrimeVue)
-app.component('Slider', Slider);
-app.component('InputText', InputText);
 
 app.mount("#app");

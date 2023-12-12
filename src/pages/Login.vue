@@ -1,6 +1,6 @@
 
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { getTest, loginPost } from "../apis/login";
 // import { defineComponent } from "vue";
@@ -77,7 +77,7 @@ const handleLoginPost = async () => {
       <h1>
         <ToggleButton v-model="checked" />
 
-        <InputText v-model.number="slideValue" />
+        {{slideValue}}
         <Slider v-model="slideValue" />
       </h1>
       <div class="register-form">
