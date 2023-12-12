@@ -3,7 +3,12 @@
 <script setup>
 import { ref }  from 'vue'
 import { getTest, loginPost } from "../apis/login";
+// import { defineComponent } from "vue";
+import Button from 'primevue/button';
+import ToggleButton from 'primevue/togglebutton';
 
+
+const checked = ref(false)
 const userEmail = ref('')
 const userPassword = ref('')
 
@@ -49,11 +54,23 @@ const handleLoginPost = async () => {
     }
   }
 };
+
+
+// export default defineComponent({
+//   name: "Login",
+//   components: {
+//     Button
+//   },
+// });
 </script>
 
 <template>
   <div class="login-page">
     <div class="form">
+      <h1>
+        <Button label="Click To Get Started" icon="pi pi-check" iconPos="right"/>
+        <ToggleButton v-model="checked" />
+      </h1>
       <div class="register-form">
         <input type="text" placeholder="Name" />
         <input type="password" placeholder="Password" />
