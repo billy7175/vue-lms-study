@@ -1,38 +1,42 @@
 
 
 <script setup>
-import { ref }  from 'vue'
+import { ref } from "vue";
 import { getTest, loginPost } from "../apis/login";
 // import { defineComponent } from "vue";
 import Button from 'primevue/button';
 import ToggleButton from 'primevue/togglebutton';
 
+import { useUserState } from "../stores/user.js";
+const userStore = useUserState()
 
-const checked = ref(false)
-const userEmail = ref('')
-const userPassword = ref('')
+// const { isLoggedIn, test } = mapState(userStore, ["isLoggedIn", "test"]);
+// console.log("1#isLoggedIn", isLoggedIn);
+// console.log("1#test", test);
 
+const checked = ref(false);
+const userEmail = ref("");
+const userPassword = ref("");
 
 const login = () => {
-  const isValid = validateForms()
-  if(!isValid) return 
-  handleLoginPost()
-}
+  const isValid = validateForms();
+  if (!isValid) return;
+  handleLoginPost();
+};
 
 const validateForms = () => {
-  if(!userEmail.value){
-    alert('Enter Email.')
-    return false
+  if (!userEmail.value) {
+    alert("Enter Email.");
+    return false;
   }
 
-  if(!userPassword.value){
-    alert('Enter Password.')
-    return false
+  if (!userPassword.value) {
+    alert("Enter Password.");
+    return false;
   }
 
-  return true
-}
-
+  return true;
+};
 
 const handleLogin = () => {
   getTest();
@@ -42,15 +46,16 @@ const handleLoginPost = async () => {
   try {
     const params = {
       email: userEmail.value,
-      password: userPassword.value
-    }
+      password: userPassword.value,
+    };
 
-    const res = await loginPost(params);
-    console.log("#res", res);
+    const { data } = await loginPost(params);
+    console.log("#res", data);
+    userStore.loginUser(data)
   } catch (error) {
-    const errorData = error.response?.data
-    if(errorData && errorData.code === 'IAM001'){
-      alert(errorData.message)
+    const errorData = error.response?.data;
+    if (errorData && errorData.code === "IAM001") {
+      alert(errorData.message);
     }
   }
 };
@@ -66,6 +71,10 @@ const handleLoginPost = async () => {
 
 <template>
   <div class="login-page">
+    <pre style="width
+    :100px;">
+      {{ userStore.user }}
+    </pre>
     <div class="form">
       <h1>
         <Button label="Click To Get Started" icon="pi pi-check" iconPos="right"/>
