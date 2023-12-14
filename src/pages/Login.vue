@@ -1,13 +1,16 @@
 
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 import { getTest, loginPost } from "../apis/login";
 // import { defineComponent } from "vue";
 import ToggleButton from "primevue/togglebutton";
 
 import { useUserState } from "../stores/user.js";
+import { useRouter } from 'vue-router'
+import VueCookies from 'vue-cookies'
 const userStore = useUserState();
+const router = useRouter()
 
 // const { isLoggedIn, test } = mapState(userStore, ["isLoggedIn", "test"]);
 // console.log("1#isLoggedIn", isLoggedIn);
@@ -38,8 +41,17 @@ const validateForms = () => {
   return true;
 };
 
-const handleLogin = () => {
-  getTest();
+const handleLogin = async () => { // TEMP TEST
+  try {
+    console.log('#handleLogin')
+    await getTest();
+    console.log('#router', router)
+    await router.push({ name : 'main'})
+  } catch(error){
+    // 1. invalid signature *토큰 정보가 다른 경우
+    // 2. No authorization token was found // token 이 없는 경우
+    alert('error test when having no jwt token inside api request')
+  }
 };
 
 const handleLoginPost = async () => {
@@ -52,6 +64,11 @@ const handleLoginPost = async () => {
     const { data } = await loginPost(params);
     console.log("#res", data);
     userStore.loginUser(data);
+    const { uesr , token} = data
+    VueCookies.set('token', token)
+    VueCookies.set('user', uesr)
+    location.reload()
+    
   } catch (error) {
     const errorData = error.response?.data;
     if (errorData && errorData.code === "IAM001") {
