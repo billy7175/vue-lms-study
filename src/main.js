@@ -15,11 +15,24 @@ import 'primevue/resources/themes/lara-light-green/theme.css'
 const pinia = createPinia();
 
 const app = createApp(App);
-// InputText
+import { useUserState } from './stores/user'
+import VueCookies from 'vue-cookies'
+
+
 
 app.use(axios);
 app.use(routers);
 app.use(pinia);
+app.use(VueCookies, { expire: '7d' })
+const userState = useUserState()
 app.use(PrimeVue)
+const token = VueCookies.get('token')
+const user = VueCookies.get('user')
+if (token) {
+    userState.loginUser({
+        token,
+        user
+    })
+}
 
 app.mount("#app");
