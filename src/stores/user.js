@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import VueCookies  from "vue-cookies";
 
 export const useUserState = defineStore("user", {
   state: () => ({
@@ -14,5 +15,10 @@ export const useUserState = defineStore("user", {
       };
       
     },
+    logoutUser(){
+      VueCookies.remove('user')
+      VueCookies.remove('token')
+      location.reload()
+    }
   },
 });
