@@ -27,5 +27,12 @@
         <el-menu-item index="1-4-1">준비중-01...</el-menu-item>
       </el-sub-menu>
     </el-sub-menu>
+    <el-sub-menu>
+      <template #title>
+        <el-icon><location /></el-icon>
+        <span>Setting</span>
+      </template>
+      <el-menu-item @click="$emit('logout')">로그아웃</el-menu-item>
+    </el-sub-menu>
   </el-menu>
 </template>
