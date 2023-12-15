@@ -64,9 +64,9 @@ const handleLoginPost = async () => {
     const { data } = await loginPost(params);
     console.log("#res", data);
     userStore.loginUser(data);
-    const { uesr , token} = data
+    const { user , token} = data
     VueCookies.set('token', token)
-    VueCookies.set('user', uesr)
+    VueCookies.set('user', user)
     location.reload()
     
   } catch (error) {
