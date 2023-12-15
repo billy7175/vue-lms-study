@@ -1,4 +1,5 @@
 import axios from "axios";
+import VueCookies from "vue-cookies";
 
 const instance = axios.create({
   // withCredentials: true, //  NOT WORKING...
@@ -10,6 +11,8 @@ const instance = axios.create({
 // withCredentials : true 설정 for use of broswer cookie
 axios.interceptors.request.use(
   function (config) {
+    const token = VueCookies.get('token')
+    if(token) config.headers.Authorization = token
     config.withCredentials = true;
     return config;
   },
