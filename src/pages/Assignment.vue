@@ -36,8 +36,15 @@ const removeExtraSpaces = (sentence = "") => {
 };
 
 watch(question, (newVal, oldVal) => {
+  selectedLetter.value = '';
   console.log("#watch", newVal);
 });
+
+const hasAllOptions = computed(() => {
+  if(first.value !== '' && second.value && third.value && forth.value) return true
+  return false
+})
+
 
 const previewQuestion = computed(() => {
   const result = removeExtraSpaces(question);
@@ -96,7 +103,14 @@ const clickLetter = (str) => {
         <span
           v-if="str !== selectedLetter"
           @click="clickLetter(str, arrayStrings)"
-          style="margin-right: 5px"
+          style="
+            margin-right: 5px;
+            background: red;
+            color: #fff;
+            padding: 5px;
+            border-radius: 10px;
+            font-weight: 600;
+          "
         >
           {{ str }}
         </span>
@@ -105,40 +119,40 @@ const clickLetter = (str) => {
     </div>
 
     <section class="preview">
-      <h3>Previews</h3>
-
-      <div class="preview__question">
-        {{ previewQuestion }}
-      </div>
-
       <h3 class="title">
         <el-button
-          :color="selectedLetter === '' ? 'lightgrey' : ''"
+          :color="!hasAllOptions ? 'lightgrey' : ''"
           size="small"
           type="success"
           :icon="Check"
           circle
         />
-        선택지에 대한 빈칸을 입력해주세요.
+         선택지에 대한 빈칸을 입력해주세요.
       </h3>
 
-      <div>
-        <span>a.</span>
+      <div class="question-option">
+        <span class="question-option__prefix">A</span>
         <el-input v-model="first" :maxlength="100" show-word-limit></el-input>
       </div>
-      <div>
-        <span>b.</span>
+      <div class="question-option">
+        <span class="question-option__prefix">B</span>
         <el-input v-model="second" :maxlength="100" show-word-limit></el-input>
       </div>
-      <div>
-        <span>c.</span>
+      <div class="question-option">
+        <span class="question-option__prefix">C</span>
         <el-input v-model="third" :maxlength="100" show-word-limit></el-input>
       </div>
-      <div>
-        <span>d.</span>
+      <div class="question-option">
+        <span class="question-option__prefix">D</span>
         <el-input v-model="forth" :maxlength="100" show-word-limit></el-input>
       </div>
     </section>
+    <div class="preview__question">
+      <pre style="">
+          {{ previewQuestion }}
+        </pre
+      >
+    </div>
     <ul>
       <li>
         <p>
@@ -170,7 +184,7 @@ const clickLetter = (str) => {
         <p>
           3.
           <el-button
-            :color="first && second && third && forth ? '' : 'lightgrey'"
+            :color="hasAllOptions ? '' : 'lightgrey'"
             size="small"
             type="success"
             :icon="Check"
@@ -186,15 +200,42 @@ const clickLetter = (str) => {
   </div>
 </template>
 
+
+<style>
+
+.assignment .el-input__wrapper {
+  background:transparent !important;
+  /* border:none !important; */
+  box-shadow:  none ;
+  /* border:1px solid blue !important; */
+}
+
+.assignment .el-input {
+  border:none !important;
+}
+
+</style>
+
 <style scoped>
+.question-option {
+  display: flex;
+  background: rgb(252, 251, 251);
+}
+.question-option__prefix {
+  /* padding:10px; */
+  padding:10px;
+  padding-right:10px;
+  box-sizing: border-box;
+}
+
 .assignment {
   height: 100%;
 }
 
 .title {
   margin: 10px 0px;
-  display:flex;
-  gap:5px;
+  display: flex;
+  gap: 5px;
   align-items: center;
 }
 .assignment__question {
