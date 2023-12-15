@@ -12,14 +12,14 @@ body {
   display:flex;
   justify-content: center;
   align-items: center;
+  /* padding:20px; */
+  /* box-sizing: border-box; */
 }
 
 
 #app {
-  display:flex;
   width:100%;
-  max-width: 1220px;
-  height:90vh;
+  height:100vh;
   background:#fff;
   border:1px solid rgb(153, 184, 180);
   margin: 0 auto;
@@ -40,22 +40,6 @@ button {
   opacity: .7;
 }
 
-.main {
-  width:1200px;
-  height: 100%;
-  box-sizing:border-box;
-  padding:20px;
-  display: flex;
-  align-items: stretch;
-}
-
-.main__inner {
-  background:rgb(249, 249, 249);
-  width:100%;
-  height:auto;
-  border-radius:10px;
-  
-}
 
 .flex {
   display:flex;

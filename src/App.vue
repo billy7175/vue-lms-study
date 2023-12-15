@@ -3,16 +3,12 @@ import NavMenu from './components/NavMenu.vue'
 </script>
 
 <template>
-  <div id="app">
+  <div>
     <router-view></router-view>
-    
   </div>
 </template>
 
 <style scoped>
-#app {
-  /* border:1px solid red; */
-}
 
 header {
   line-height: 1.5;
