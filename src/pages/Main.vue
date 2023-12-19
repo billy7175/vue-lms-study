@@ -3,6 +3,7 @@ import { getTest } from "../apis/login";
 import { onMounted } from "vue";
 import NavMenu from "../components/NavMenu.vue";
 import { useUserState } from "../stores/user.js";
+import Header from '../components/Header.vue'
 const userState = useUserState();
 const logout = () => {
   const isConfirmed = confirm("로그아웃 하시겠습니까?");
@@ -19,11 +20,11 @@ onMounted(async () => {
 
 <template>
   <div class="top-container">
-    <NavMenu @logout="logout"></NavMenu>
+    <NavMenu 
+    style="width:250px;"
+    @logout="logout"></NavMenu>
     <div class="container__right ">
-      <header class="header">
-        <h1>this is a header section</h1>
-      </header>
+      <Header></Header>
       <main class="main">
         <div class="main__inner">
           <router-view></router-view>
@@ -35,36 +36,38 @@ onMounted(async () => {
 
 <style scoped>
 .top-container {
-  /* border: 1px solid red; */
   display:flex;
-  width:90%;
+  width:100%;
   margin: 0 auto;
   height:100vh;
+
 }
 .container__right {
   width:100%;
+  width:cal(100% - 250px);
+  /* width:1200px; */
 }
 
-.header {
-  height:80px;
-  display:flex;
-  padding:20px;
-  align-items: center;
-}
 .main {
   box-sizing:border-box;
-  padding:20px;
-  /* height:100%; */
+  padding:30px;
+  width:100%;
+  /* width:calc(100% - 0px); */
   height:calc(100% - 80px);
-  overflow-y:auto;
+  
 }
 
 
 .main__inner {
   width: 100%;
-  border: 1px solid rgb(127, 54, 54);
+  box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+    0 15px 40px rgba(166, 173, 201, 0.2);
+  overflow-x:auto;
   padding: 20px;
-  height: auto;
+  /* height: auto; */
+  /* height:calc(100% - 80px); */
+  overflow-y:auto; 
+  height:100%;
 }
 
 

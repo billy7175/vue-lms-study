@@ -1,14 +1,13 @@
 <script setup>
 import { ref, watch, computed } from "vue";
 import { Check } from "@element-plus/icons-vue";
+import Question from "../components/Question.vue";
 
 const first = ref("");
-
 const second = ref("");
-
 const third = ref("");
-
 const forth = ref("");
+const today = ref(new Date());
 
 const question = ref(
   "The problem has come the light of extremely delicate potentially criminal nature."
@@ -36,15 +35,15 @@ const removeExtraSpaces = (sentence = "") => {
 };
 
 watch(question, (newVal, oldVal) => {
-  selectedLetter.value = '';
+  selectedLetter.value = "";
   console.log("#watch", newVal);
 });
 
 const hasAllOptions = computed(() => {
-  if(first.value !== '' && second.value && third.value && forth.value) return true
-  return false
-})
-
+  if (first.value !== "" && second.value && third.value && forth.value)
+    return true;
+  return false;
+});
 
 const previewQuestion = computed(() => {
   const result = removeExtraSpaces(question);
@@ -64,167 +63,150 @@ const clickLetter = (str) => {
 
 <template>
   <div class="assignment">
-    <h2 class="title">
-      <el-button
-        :color="question === '' ? 'lightgrey' : ''"
-        size="small"
-        type="success"
-        :icon="Check"
-        circle
-      />
-      문제를 입력해주세요.
-    </h2>
-    <el-input
-      class="assignment__question"
-      v-model="question"
-      :maxlength="300"
-      placeholder="Please input"
-      show-word-limit
-      type="textarea"
-    />
-
-    <h3 class="title">
-      <el-button
-        :color="selectedLetter === '' ? 'lightgrey' : ''"
-        size="small"
-        type="success"
-        :icon="Check"
-        circle
-      />
-      빈칸으로 변경할 단어를 선택해주세요.
-    </h3>
-
-    <div class="preview__question">
-      <div
-        style="display: inline-block"
-        v-for="(str, idx) in arrayStrings"
-        :key="idx"
-      >
-        <span
-          v-if="str !== selectedLetter"
-          @click="clickLetter(str, arrayStrings)"
-          style="
-            margin-right: 5px;
-            background: red;
-            color: #fff;
-            padding: 5px;
-            border-radius: 10px;
-            font-weight: 600;
-          "
+    <div class="left">
+      <div>
+        <el-date-picker
+          v-model="today"
+          type="date"
+          placeholder="Pick a day"
+          size="large"
         >
-          {{ str }}
-        </span>
-        <!-- <span v-else @click="selectedLetter = ''"> ___ </span> -->
+        </el-date-picker>
       </div>
-    </div>
-
-    <section class="preview">
-      <h3 class="title">
+      <h2 class="title">
         <el-button
-          :color="!hasAllOptions ? 'lightgrey' : ''"
+          :color="question === '' ? 'lightgrey' : ''"
           size="small"
           type="success"
           :icon="Check"
           circle
         />
-         선택지에 대한 빈칸을 입력해주세요.
+        문제를 입력해주세요.
+      </h2>
+      <el-input
+        class="assignment__question"
+        v-model="question"
+        :maxlength="300"
+        placeholder="Please input"
+        show-word-limit
+        type="textarea"
+      />
+
+      <h3 class="title">
+        <el-button
+          :color="selectedLetter === '' ? 'lightgrey' : ''"
+          size="small"
+          type="success"
+          :icon="Check"
+          circle
+        />
+        빈칸으로 변경할 단어를 선택해주세요.
       </h3>
 
-      <div class="question-option">
-        <span class="question-option__prefix">A</span>
-        <el-input v-model="first" :maxlength="100" show-word-limit></el-input>
+      <div class="preview__question">
+        <div
+          style="display: inline-block"
+          v-for="(str, idx) in arrayStrings"
+          :key="idx"
+        >
+          <span
+            v-if="str !== selectedLetter"
+            @click="clickLetter(str, arrayStrings)"
+            style="
+              background: #409eff;
+              color: #fff;
+              padding: 5px;
+              display: inline-block;
+              margin: 5px;
+              border-radius: 10px;
+              font-weight: 600;
+            "
+          >
+            {{ str }}
+          </span>
+        </div>
       </div>
-      <div class="question-option">
-        <span class="question-option__prefix">B</span>
-        <el-input v-model="second" :maxlength="100" show-word-limit></el-input>
-      </div>
-      <div class="question-option">
-        <span class="question-option__prefix">C</span>
-        <el-input v-model="third" :maxlength="100" show-word-limit></el-input>
-      </div>
-      <div class="question-option">
-        <span class="question-option__prefix">D</span>
-        <el-input v-model="forth" :maxlength="100" show-word-limit></el-input>
-      </div>
-    </section>
-    <div class="preview__question">
-      <pre style="">
-          {{ previewQuestion }}
-        </pre
-      >
+
+      <section class="preview">
+        <h3 class="title">
+          <el-button
+            :color="!hasAllOptions ? 'lightgrey' : ''"
+            size="small"
+            type="success"
+            :icon="Check"
+            circle
+          />
+          선택지에 대한 빈칸을 입력해주세요.
+        </h3>
+
+        <div class="question-option">
+          <span class="question-option__prefix">A</span>
+          <el-input v-model="first" :maxlength="100" show-word-limit></el-input>
+        </div>
+        <div class="question-option">
+          <span class="question-option__prefix">B</span>
+          <el-input
+            v-model="second"
+            :maxlength="100"
+            show-word-limit
+          ></el-input>
+        </div>
+        <div class="question-option">
+          <span class="question-option__prefix">C</span>
+          <el-input v-model="third" :maxlength="100" show-word-limit></el-input>
+        </div>
+        <div class="question-option">
+          <span class="question-option__prefix">D</span>
+          <el-input v-model="forth" :maxlength="100" show-word-limit></el-input>
+        </div>
+      </section>
+      <section class="button-wrapper">
+        <el-button type="primary">문제 생성</el-button>
+      </section>
     </div>
-    <ul>
-      <li>
-        <p>
-          1.
-          <el-button
-            :color="question === '' ? 'lightgrey' : ''"
-            size="small"
-            type="success"
-            :icon="Check"
-            circle
-          />
-          <span> 문제를 입력해주세요. </span>
-        </p>
-      </li>
-      <li>
-        <p>
-          2.
-          <el-button
-            :color="selectedLetter === '' ? 'lightgrey' : ''"
-            size="small"
-            type="success"
-            :icon="Check"
-            circle
-          />
-          <span> 빈칸으로 변경할 단어를 선택해주세요. </span>
-        </p>
-      </li>
-      <li>
-        <p>
-          3.
-          <el-button
-            :color="hasAllOptions ? '' : 'lightgrey'"
-            size="small"
-            type="success"
-            :icon="Check"
-            circle
-          />
-          <span> 선택지에 대한 빈칸을 입력해주세요. </span>
-        </p>
-      </li>
-    </ul>
-    <section class="button-wrapper">
-      <el-button type="primary">문제 생성</el-button>
-    </section>
+    <div class="right">
+      section 2
+      <Question></Question>
+    </div>
   </div>
 </template>
 
 
 <style>
-
 .assignment .el-input__wrapper {
-  background:transparent !important;
+  background: transparent !important;
   /* border:none !important; */
-  box-shadow:  none ;
+  box-shadow: none;
   /* border:1px solid blue !important; */
 }
 
 .assignment .el-input {
-  border:none !important;
+  border: none !important;
 }
-
 </style>
 
 <style scoped>
+.assignment {
+  display: flex;
+}
+.assignment .left {
+  width: 50%;
+}
+
+.assignment .right {
+  width: 50%;
+  padding:20px;
+}
+
 .question-option {
   display: flex;
   background: rgb(252, 251, 251);
+  background: #f4f4f4;
 }
 .question-option__prefix {
   /* padding:10px; */
-  padding:10px;
-  padding-right:10px;
+  padding: 10px;
+  padding-right: 10px;
   box-sizing: border-box;
 }
 
@@ -250,12 +232,16 @@ const clickLetter = (str) => {
 .preview__question {
   opacity: 0.7;
   border: 1px solid rgb(184, 183, 183);
+  border-radius: 4px;
   background: #fff;
   min-height: 100px;
   padding: 10px;
   font-weight: 700;
   color: #000;
   white-space: pre;
+  overflow-x: auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .button-wrapper {

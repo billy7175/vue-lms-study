@@ -8,6 +8,8 @@
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
+    background-color="#f4f4f4"
+    text-color="#241a37"
   >
     <el-sub-menu index="1">
       <template #title>
