@@ -2,12 +2,16 @@
 import { ref, watch, computed } from "vue";
 import { Check } from "@element-plus/icons-vue";
 import Question from "../components/Question.vue";
+import QuestionOptions from '../components/QuestionOptions.vue'
+import { getQuestions } from "../apis/question";
 
 const first = ref("");
 const second = ref("");
 const third = ref("");
 const forth = ref("");
 const today = ref(new Date());
+
+getQuestions();
 
 const question = ref(
   "The problem has come the light of extremely delicate potentially criminal nature."
@@ -138,35 +142,42 @@ const clickLetter = (str) => {
           />
           선택지에 대한 빈칸을 입력해주세요.
         </h3>
-
-        <div class="question-option">
-          <span class="question-option__prefix">A</span>
-          <el-input v-model="first" :maxlength="100" show-word-limit></el-input>
-        </div>
-        <div class="question-option">
-          <span class="question-option__prefix">B</span>
-          <el-input
-            v-model="second"
-            :maxlength="100"
-            show-word-limit
-          ></el-input>
-        </div>
-        <div class="question-option">
-          <span class="question-option__prefix">C</span>
-          <el-input v-model="third" :maxlength="100" show-word-limit></el-input>
-        </div>
-        <div class="question-option">
-          <span class="question-option__prefix">D</span>
-          <el-input v-model="forth" :maxlength="100" show-word-limit></el-input>
-        </div>
+        <question-options></question-options>
       </section>
       <section class="button-wrapper">
         <el-button type="primary">문제 생성</el-button>
       </section>
     </div>
     <div class="right">
-      section 2
-      <Question></Question>
+      <Accordion :activeIndex="0" :multiple="true">
+        <AccordionTab header="1번 문제입니다">
+          <p class="m-0" style="padding: 20px; border: 1px solid red">
+            <Question></Question>
+          </p>
+        </AccordionTab>
+        <AccordionTab header="2번 문제입니다.">
+          <p class="m-0" style="padding: 20px; border: 1px solid red">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+            aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+            eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci
+            velit, sed quia non numquam eius modi.
+          </p>
+        </AccordionTab>
+        <AccordionTab header="3번 문제입니다.">
+          <p class="m-0">
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui
+            blanditiis praesentium voluptatum deleniti atque corrupti quos
+            dolores et quas molestias excepturi sint occaecati cupiditate non
+            provident, similique sunt in culpa qui officia deserunt mollitia
+            animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis
+            est et expedita distinctio. Nam libero tempore, cum soluta nobis est
+            eligendi optio cumque nihil impedit quo minus.
+          </p>
+        </AccordionTab>
+      </Accordion>
     </div>
   </div>
 </template>
@@ -195,19 +206,7 @@ const clickLetter = (str) => {
 
 .assignment .right {
   width: 50%;
-  padding:20px;
-}
-
-.question-option {
-  display: flex;
-  background: rgb(252, 251, 251);
-  background: #f4f4f4;
-}
-.question-option__prefix {
-  /* padding:10px; */
-  padding: 10px;
-  padding-right: 10px;
-  box-sizing: border-box;
+  padding: 20px;
 }
 
 .assignment {
