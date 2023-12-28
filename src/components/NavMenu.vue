@@ -17,8 +17,8 @@
         <span>Navigator One</span>
       </template>
       <el-menu-item-group title="관리자">
-        <el-menu-item index="dashboard">대시보드</el-menu-item>
-        <el-menu-item index="assignments">과제 생성</el-menu-item>
+        <el-menu-item index="dashboard" :route="{ name : 'dashboard' }">대시보드</el-menu-item>
+        <el-menu-item index="assignments" :route="{ name : 'assignments' }">과제 생성</el-menu-item>
       </el-menu-item-group>
       <el-menu-item-group title="사용자">
         <el-menu-item index="mypage">My Page</el-menu-item>

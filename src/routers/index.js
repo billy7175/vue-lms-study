@@ -5,6 +5,7 @@ import Main from '../pages/Main.vue'
 import PageNotFound from '../pages/NotFound.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import Assignment from '../pages/Assignment.vue'
+import AssignmentList from '../pages/AssignmentList.vue'
 import { useUserState } from "../stores/user.js";
 
 const routes = [
@@ -32,8 +33,18 @@ const routes = [
             {
                 path: 'assignments',
                 name: 'assignments',
-                component: Assignment,
+                component: AssignmentList,
             },
+            {
+                path:'assignments/create',
+                name : 'assignment-create',
+                component:  Assignment
+            },
+            {
+                path:'assignments/:id',
+                name : 'assignment-update',
+                component:  Assignment
+            }
         ],
     },
     {
