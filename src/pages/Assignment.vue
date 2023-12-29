@@ -1,8 +1,8 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import { Check } from "@element-plus/icons-vue";
 import Question from "../components/Question.vue";
-import QuestionOptions from '../components/QuestionOptions.vue'
+import QuestionOptions from "../components/QuestionOptions.vue";
 import { getQuestions } from "../apis/question";
 
 const first = ref("");
@@ -10,16 +10,19 @@ const second = ref("");
 const third = ref("");
 const forth = ref("");
 const today = ref(new Date());
+const questions = ref([]);
 
-getQuestions();
+onMounted(async () => {
+  const { data } = await getQuestions();
+  questions.value = data;
+});
 
-const question = ref(
-  "The problem has come the light of extremely delicate potentially criminal nature."
-);
+const question = ref();
 const selectedLetter = ref("");
 
 const removeExtraSpaces = (sentence = "") => {
-  let cleanedSentence = sentence.value.replace(/[^\S\r\n]+/g, " ");
+  if(!sentence.value) return ''
+  let cleanedSentence = sentence?.value.replace(/[^\S\r\n]+/g, " ");
   const escapedSelectedLetter = selectedLetter.value.replace(
     /[-/\\^$*+?.()|[\]{}]/g,
     "\\$&"
@@ -40,18 +43,23 @@ const removeExtraSpaces = (sentence = "") => {
 
 watch(question, (newVal, oldVal) => {
   selectedLetter.value = "";
-  console.log("#watch", newVal);
 });
+
+watch(
+  questions,
+  (newVal, oldVal) => {
+    console.log(99999999, newVal);
+  },
+  {
+    deep: true,
+  }
+);
+
 
 const hasAllOptions = computed(() => {
   if (first.value !== "" && second.value && third.value && forth.value)
     return true;
   return false;
-});
-
-const previewQuestion = computed(() => {
-  const result = removeExtraSpaces(question);
-  return result;
 });
 
 const arrayStrings = computed(() => {
@@ -149,10 +157,14 @@ const clickLetter = (str) => {
       </section>
     </div>
     <div class="right">
-      <Accordion :activeIndex="0" :multiple="true">
+      <Accordion
+        v-if="questions && questions.length"
+        :activeIndex="0"
+        :multiple="true"
+      >
         <AccordionTab header="1번 문제입니다">
           <p class="m-0" style="padding: 20px; border: 1px solid red">
-            <Question></Question>
+            <Question :data="questions[0]"></Question>
           </p>
         </AccordionTab>
         <AccordionTab header="2번 문제입니다.">

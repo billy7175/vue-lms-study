@@ -13,10 +13,25 @@
 </template>
 
 <script>
-import QuestionOptions from './QuestionOptions.vue';
+import { defineProps, onMounted } from "vue";
+import QuestionOptions from "./QuestionOptions.vue";
 export default {
   components: { QuestionOptions },
-  setup() {
+  setup(props) {
+    console.log('#setup props', props)
+    const propss = defineProps({
+      data: {
+        type: Object,
+        default: () => {},
+      },
+    });
+
+    console.log('#props', propss)
+
+    onMounted(() => {
+      console.log("#onMounted: Question.vue");
+    });
+
     const sampleQuestion = {
       number: 1,
       question:
