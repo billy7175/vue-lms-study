@@ -17,6 +17,12 @@ onMounted(async () => {
   questions.value = data;
 });
 
+// fetch question list 
+// it should fetch data for a specific date  * It will be fixed later
+const computedQuestions = computed(() => {
+  return questions.value?.[0]?.questions
+})
+
 const question = ref();
 const selectedLetter = ref("");
 
@@ -157,18 +163,26 @@ const clickLetter = (str) => {
       </section>
     </div>
     <div class="right">
+      <Accordion v-if="computedQuestions && computedQuestions.length">
+        <AccordionTab
+          v-for="(qustion, idx) in computedQuestions"
+          :key="idx"
+          :header="` ${idx + 1}번 문제입니다`"
+        >
+        <p class="m-0" style="padding: 20px;">
+            <Question :data="qustion"></Question>
+          </p>
+      </AccordionTab>
+      </Accordion>
+
+
       <Accordion
         v-if="questions && questions.length"
         :activeIndex="0"
         :multiple="true"
       >
-        <AccordionTab header="1번 문제입니다">
-          <p class="m-0" style="padding: 20px; border: 1px solid red">
-            <Question :data="questions[0]"></Question>
-          </p>
-        </AccordionTab>
         <AccordionTab header="2번 문제입니다.">
-          <p class="m-0" style="padding: 20px; border: 1px solid red">
+          <p class="m-0" style="padding: 20px;">
             Sed ut perspiciatis unde omnis iste natus error sit voluptatem
             accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
             quae ab illo inventore veritatis et quasi architecto beatae vitae
@@ -179,7 +193,7 @@ const clickLetter = (str) => {
           </p>
         </AccordionTab>
         <AccordionTab header="3번 문제입니다.">
-          <p class="m-0">
+          <p class="m-0" style="padding: 20px;">
             At vero eos et accusamus et iusto odio dignissimos ducimus qui
             blanditiis praesentium voluptatum deleniti atque corrupti quos
             dolores et quas molestias excepturi sint occaecati cupiditate non

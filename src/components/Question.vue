@@ -1,68 +1,38 @@
 <template>
   <div>
     <div style="margin-bottom:10px;">
-      <span>1</span>
+      <span>{{ data.number }}</span>
       <el-input
         :autosize="{ minRows: 2, maxRows: 4 }"
         type="textarea"
-        :value="sampleQuestion.question"
+        v-model="data.question"
+        disabled
       />
     </div>
-    <question-options></question-options>
+    <question-options
+      :data="data.options"
+    ></question-options>
   </div>
 </template>
 
 <script>
-import { defineProps, onMounted } from "vue";
 import QuestionOptions from "./QuestionOptions.vue";
 export default {
   components: { QuestionOptions },
+  props:{
+    data: {
+      type: Object,
+      default: () => {},
+    }
+  },
   setup(props) {
-    console.log('#setup props', props)
-    const propss = defineProps({
-      data: {
-        type: Object,
-        default: () => {},
-      },
-    });
-
-    console.log('#props', propss)
-
-    onMounted(() => {
-      console.log("#onMounted: Question.vue");
-    });
-
-    const sampleQuestion = {
-      number: 1,
-      question:
-        "The prolblem has come to light of extremely delicate potentially criminal nature.",
-      answer: {
-        positionIndex: 6,
-        value: "light",
-      },
-      options: [
-        {
-          label: "A",
-          value: "light",
-        },
-        {
-          label: "B",
-          value: "dark",
-        },
-        {
-          label: "C",
-          value: "light",
-        },
-        {
-          label: "A",
-          value: "light",
-        },
-      ],
-      description: "light of 가 정답입니다.",
-    };
+    const sampleData = props.data
+    console.log('#sampleData', sampleData)
+    console.log('#sampleData', sampleData.number)
+    console.log('#sampleData', sampleData.options)
 
     return {
-      sampleQuestion: sampleQuestion,
+      data : sampleData
     };
   },
 };
