@@ -67,7 +67,7 @@ const props = defineProps({
 .simple-card__contents-text {
   position: relative;
   padding: 10px;
-  border-radius: 50%;
+  border-radius: 30%;
   color: #000;
   font-size:18px;
 }

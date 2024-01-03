@@ -5,25 +5,25 @@
       <div class="card__wrapper">
         <simple-card
           title="학생 수"
-          contents="33명"
+          :contents="dashboard.studentCount"
           type="type-01"
           is-horizontal
         ></simple-card>
         <simple-card
           title="선생 수"
-          contents="2명"
+          :contents="dashboard.teacherCount"
           type="type-02"
           is-horizontal
         ></simple-card>
         <simple-card
           title="반"
-          contents="3개"
+          :contents="dashboard.classCount"
           type="type-03"
           is-horizontal
         ></simple-card>
         <simple-card
           title="생성된 문제 수"
-          contents="3개"
+          :contents="dashboard.questionCount"
           type="type-04"
           is-horizontal
         ></simple-card>
@@ -41,6 +41,16 @@
           contents="7$"
           mainBackground="red"
         ></simple-card>
+        <p>
+          <iframe
+            src="https://www.youtube.com/embed/jSJM9iOiQ1g" 
+            width="560"
+            height="315"
+            frameborder="0"
+            allowfullscreen
+          >
+          </iframe>
+        </p>
       </div>
     </section>
     <section style="margin-top: 50px">
@@ -117,8 +127,32 @@
   </div>
 </template>
 
-<script setup>
+<script>
+import { onMounted, reactive, toRef } from "vue";
 import SimpleCard from "../components/cards/SimpleCard.vue";
+import { getDashboard } from "../apis/dashboard";
+export default {
+  components: {
+    SimpleCard,
+  },
+  setup() {
+    const dashboard = reactive({
+      studentCount: 0,
+      teacherCount: 0,
+      classCount: 0,
+      questionCount: 0,
+    });
+
+    onMounted(async () => {
+      const { data } = await getDashboard();
+      Object.assign(dashboard, data); // #ChekcPoint
+    });
+
+    return {
+      dashboard,
+    };
+  },
+};
 </script>
 
 <style scoped>
