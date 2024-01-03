@@ -1,5 +1,5 @@
 <template>
-  <div class="simple-card" :class="[type]">
+  <div class="simple-card" :class="[type, {'is-horizontal' : isHorizontal}]">
     <p class="simple-card__title">{{ title }}</p>
     <div class="simple-card__contents">
       <span class="simple-card__contents-text" :class="[type]">{{
@@ -24,6 +24,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  isHorizontal: {
+    type: Boolean,
+    default: false
+  }
 });
 </script>
 
@@ -38,6 +42,14 @@ const props = defineProps({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.simple-card.is-horizontal {
+  height:70px;
+  flex-direction: row;
+  align-items: center;
+  /* border:1px solid red; */
+  border:1px solid #1f90a259
 }
 
 .simple-card__title {
@@ -57,6 +69,7 @@ const props = defineProps({
   padding: 10px;
   border-radius: 50%;
   color: #000;
+  font-size:18px;
 }
 
 .simple-card.type-01 {
