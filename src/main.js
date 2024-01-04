@@ -26,7 +26,9 @@ app.use(routers);
 app.use(pinia);
 app.use(VueCookies, { expire: '7d' })
 const userState = useUserState()
-app.use(PrimeVue)
+app.use(PrimeVue, {
+    ripple: true
+})
 const token = VueCookies.get('token')
 const user = VueCookies.get('user')
 if (token) {

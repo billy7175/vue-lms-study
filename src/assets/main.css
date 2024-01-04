@@ -1,19 +1,16 @@
 @import './base.css';
-
+/* 
 * {
   padding: 0px;
   margin:0px;
   box-sizing: border-box;
-}
+} */
 
 body {
-  /* background:rgb(244, 243, 243); */
   background:rgb(249, 249, 249);
   display:flex;
   justify-content: center;
   align-items: center;
-  /* padding:20px; */
-  /* box-sizing: border-box; */
 }
 
 
