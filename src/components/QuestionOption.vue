@@ -1,23 +1,37 @@
 <template>
-  <div :class="[{ 'is-focused': isInputFocused }]" style="margin: 4px 0px">
+  <div :class="[{ 'is-focused': isInputFocused }]" style="margin: 4px 0px; border:1px solid red;">
     <div class="p-inputgroup">
-      <span class="p-inputgroup-addon">A</span>
-      <InputText ref="input" type="text" maxlength="10" v-model="optionValue" />
+      <span class="p-inputgroup-addon">{{ label }}</span>
+      <InputText
+        ref="input"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        type="text"
+        maxlength="10"
+        :value="modelValue"
+        @change="handleChange"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 export default {
-  setup() {
-    
-    const optionValue = ref("");
-    const input = ref(null);
+  props: {
+    label: {
+      type: String,
+      default: "A",
+    },
+    modelValue: {
+      type: String,
+      default: "",
+    },
+  },
+  setup(props, context) {
+    const input = ref(null)
+    const modelValue = props.modelValue;
     const isInputFocused = ref(false);
-    
-    const isFocused = ref(false )
-
 
     const handleFocus = () => {
       isInputFocused.value = true;
@@ -26,18 +40,24 @@ export default {
     const handleBlur = () => {
       isInputFocused.value = false;
     };
-    onMounted(() => {
-      console.log("#question option is mounted", input);
-      if (input.value) {
-        isFocused.value = input.value.$el.activeElement
-        input.value.$el.addEventListener("focus", handleFocus);
-        input.value.$el.addEventListener("blur", handleBlur);
-      }
-    });
+
+    const handleChange = (event) => {
+      console.log('#handleChange')
+      context.emit("update:modelValue", event.target.value);
+    };
+
+    const focus = () => {
+      input.value.$el.focus()
+    };
+
     return {
       input,
-      optionValue,
+      modelValue,
       isInputFocused,
+      handleFocus,
+      handleBlur,
+      handleChange,
+      focus,
     };
   },
 };
@@ -47,7 +67,7 @@ export default {
 <style scoped>
 .is-focused {
   /* border:1px solid red; */
-  outline:1px solid #10b981;
+  outline: 1px solid #10b981;
   box-shadow: 0 0 0 0.2rem #a7f3d0;
 }
 .question-option {
@@ -64,7 +84,7 @@ export default {
 .p-inputgroup-addon {
   border: none;
   background: transparent;
-  padding: 10px 0px;
+  padding: 10px 10px;
   background: #f6f6f6;
 }
 

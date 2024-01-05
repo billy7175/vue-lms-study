@@ -23,8 +23,6 @@
         rows="5"
         cols="20"
       />
-
-      <!-- <preview-question></preview-question> -->
       <section>
         <h3>Select Answer</h3>
         <question-option
@@ -121,12 +119,11 @@
 <script>
 import { ref } from "vue";
 // import QuestionOptions from "@/components/questionOptions.vue";
-import PreviewQuestion from "@/components/PreviewQuestion.vue";
 
 export default {
   components: {
     // QuestionOptions,
-    PreviewQuestion,
+    // PreviewQuestion,
   },
   setup() {
     const isPublic = ref(false);

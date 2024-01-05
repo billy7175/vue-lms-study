@@ -1,49 +1,13 @@
 <template>
   <div class="question-options">
     <div v-if="isCreateMode">
-      <question-option></question-option>
-      <question-option></question-option>
-      <question-option></question-option>
-      <question-option></question-option>
+      <question-option v-model="first"></question-option>
+      <question-option v-model="second"></question-option>
+      <question-option v-model="third"></question-option>
+      <question-option v-model="forth"></question-option>
     </div>
-    <section v-if="!isCreateMode && data && data.length">
-      <div v-for="(x, idx) in data" :key="idx" class="question-option">
-        <span class="question-option__prefix">{{ x.label }}</span>
-        <el-input
-          v-model="x.value"
-          :maxlength="100"
-          show-word-limit
-          disabled
-        ></el-input>
-      </div>
-    </section>
-    <section v-if="!isCreateMode && data && data.length === 0">
-      <p>입력된 보기가 없습니다.</p>
-    </section>
 
-    <!-- SETTING SECTION -->
-    <section>
-      <h3 style="margin-bottom: 10px; margin-top: 20px">Options</h3>
 
-      <div style="display: flex; align-items: center; gap: 10px">
-        <InputSwitch v-model="isPublic" />
-        <span>Release Question</span>
-        <span style="margin-left: 10px"
-          >Question will be visible to registered students.</span
-        >
-      </div>
-      <div style="display: flex; align-items: center; gap: 10px">
-        <InputSwitch v-model="isScheduled" />
-        <span>Enable Schedule</span>
-
-        <el-date-picker
-          v-model="value1"
-          type="date"
-          placeholder="Pick a day"
-          size="large"
-        />
-      </div>
-    </section>
   </div>
 </template>
 <script>

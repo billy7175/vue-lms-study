@@ -1,147 +1,175 @@
 <template>
   <div>
     <question-form></question-form>
-    <article class="question">
-      <div style="display: flex; align-items: flex-start;">
-        <span class="question-order">Q1.</span>
-        <div class="question-wrapper">
-          <p>Which of the following is not a rule of language.</p>
-          <div>
-            <div class="field-radiobutton">
-              <RadioButton
-                id="city1"
-                name="city"
-                value="Chicago"
-                v-model="city"
-              />
-              <label for="city1">Chicago</label>
-            </div>
-            <div class="field-radiobutton">
-              <RadioButton
-                id="city2"
-                name="city"
-                value="Los Angeles"
-                v-model="city"
-              />
-              <label for="city2">Los Angeles</label>
-            </div>
-            <div class="field-radiobutton">
-              <RadioButton
-                id="city3"
-                name="city"
-                value="New York"
-                v-model="city"
-              />
-              <label for="city3">New York</label>
-            </div>
-            <div class="field-radiobutton">
-              <RadioButton
-                id="city4"
-                name="city"
-                value="San Francisco"
-                v-model="city"
-              />
-              <label for="city4">San Francisco</label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-    <article class="question">
-      <div style="display: flex; align-items: flex-start;">
-        <span class="question-order">Q1.</span>
-        <div class="question-wrapper">
-          <p>Which of the following is not a rule of language.</p>
-          <div>
-            <div class="field-radiobutton">
-              <RadioButton
-                id="city1"
-                name="city"
-                value="Chicago"
-                v-model="city"
-              />
-              <label for="city1">Chicago</label>
-            </div>
-            <div class="field-radiobutton">
-              <RadioButton
-                id="city2"
-                name="city"
-                value="Los Angeles"
-                v-model="city"
-              />
-              <label for="city2">Los Angeles</label>
-            </div>
-            <div class="field-radiobutton">
-              <RadioButton
-                id="city3"
-                name="city"
-                value="New York"
-                v-model="city"
-              />
-              <label for="city3">New York</label>
-            </div>
-            <div class="field-radiobutton">
-              <RadioButton
-                id="city4"
-                name="city"
-                value="San Francisco"
-                v-model="city"
-              />
-              <label for="city4">San Francisco</label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
+    <div v-if="questionList && questionList.length">
+      <question
+        v-for="(question, idx) in questionList"
+        :key="idx"
+        :data="question"
+        v-model="question.userSelectedAnswer.value"
+      ></question>
+    </div>
+    <div style="display:flex; justify-content: center;">
+      <Button
+        label="Submit"
+        icon="pi pi-check"
+        @click="handleSubmit"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import QuestionForm from '../components/form/QuestionForm.vue'
+import { ref } from 'vue'
+import QuestionForm from "../components/form/QuestionForm.vue";
+import Question from "../components/Question.vue";
 export default {
   components: {
-    QuestionForm  
+    QuestionForm,
+    Question,
   },
-  data() {
+  setup() {
+    const handleSubmit = () => {
+        console.log('#handleSubmit', 'asdasdashdjkahjk')
+        console.log('#questionList', questionList.value)
+    }
+    const questionList = ref([
+      {
+        number: 1,
+        question:
+          "The prolblem has come to light of extremely delicate potentially criminal nature.",
+        answer: {
+          positionIndex: 6,
+          value: "light",
+        },
+        options: [
+          {
+            label: "A",
+            value: "light",
+          },
+          {
+            label: "B",
+            value: "dark",
+          },
+          {
+            label: "C",
+            value: "green",
+          },
+          {
+            label: "D",
+            value: "yello",
+          },
+        ],
+        userSelectedAnswer: {
+          value: "light",
+        },
+        description: "light of 가 정답입니다.",
+        isSubmited: true 
+      },
+      {
+        number: 2,
+        question:
+          'The object we are passing into createApp is in fact a component. Every app requires a "root component" that can contain other components as its children.',
+        answer: {
+          positionIndex: 6,
+          value: "light",
+        },
+        options: [
+          {
+            label: "A",
+            value: "daum",
+          },
+          {
+            label: "B",
+            value: "naver",
+          },
+          {
+            label: "C",
+            value: "google",
+          },
+          {
+            label: "D",
+            value: "hotmail",
+          },
+        ],
+        userSelectedAnswer: {
+          value: "daum",
+        },
+        description: "light of 가 정답입니다.",
+        isSubmited: true 
+      },
+      {
+        number: 2,
+        question:
+          'The object we are passing into createApp is in fact a component. Every app requires a "root component" that can contain other components as its children.',
+        answer: {
+          positionIndex: 6,
+          value: "light",
+        },
+        options: [
+          {
+            label: "A",
+            value: "jpa",
+          },
+          {
+            label: "B",
+            value: "mybatis",
+          },
+          {
+            label: "C",
+            value: "react",
+          },
+          {
+            label: "D",
+            value: "vue3",
+          },
+        ],
+        userSelectedAnswer: {
+          value: "light",
+        },
+        description: "light of 가 정답입니다.",
+        isSubmited: false 
+      },
+    ]);
+
     return {
-      city: null,
+      questionList,
+      handleSubmit
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
 * {
-  /* border:1px solid red; */
 }
 .question-order {
-  padding:4px 6px;
+  padding: 4px 6px;
   box-sizing: border-box;
-  background: #C4EED0;
-  color:#000;
+  background: #c4eed0;
+  color: #000;
   border-radius: 6px;
 }
 /* padding-left:10px; margin:0px; margin-top:5px; */
 p {
-  margin:0px;
+  margin: 0px;
 }
 
 .question-wrapper {
-  border:1px solid red;
-  padding-left:10px;
-  margin:0px;
-  margin-top:5px;
+  border: 1px solid red;
+  padding-left: 10px;
+  margin: 0px;
+  margin-top: 5px;
 }
 .field-radiobutton {
-  margin-top:5px;
+  margin-top: 5px;
 }
 
 label {
-  margin-left:5px;
+  margin-left: 5px;
 }
 
 .question {
-  display:inline-block;
+  display: inline-block;
 }
-
 </style>
