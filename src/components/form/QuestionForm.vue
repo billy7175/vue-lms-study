@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5>문제 생성</h5>
-    <div style="display:flex; justify-content: flex-end;">
+    <div style="display: flex; justify-content: flex-end">
       <Button
         label="Create Question"
         icon="pi pi-external-link"
@@ -23,6 +23,29 @@
         rows="5"
         cols="20"
       />
+      <div class="preview__question">
+        <div
+          style="display: inline-block"
+          v-for="(str, idx) in arrayStrings"
+          :key="idx"
+        >
+          <!-- @click="clickLetter(str, arrayStrings)" -->
+          <span
+            v-if="str !== selectedLetter"
+            style="
+              background: #409eff;
+              color: #fff;
+              padding: 5px;
+              display: inline-block;
+              margin: 5px;
+              border-radius: 10px;
+              font-weight: 600;
+            "
+          >
+            {{ str }}
+          </span>
+        </div>
+      </div>
       <section>
         <h3>Select Answer</h3>
         <question-option
@@ -117,7 +140,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 // import QuestionOptions from "@/components/questionOptions.vue";
 
 export default {
@@ -142,6 +165,7 @@ export default {
     const second = ref("");
     const third = ref("");
     const forth = ref("");
+    const selectedLetter = ref("");
 
     const handleModalOpen = () => {
       displayBasic.value = true;
@@ -149,6 +173,33 @@ export default {
     const handleModalClose = () => {
       displayBasic.value = false;
     };
+
+    const removeExtraSpaces = (sentence = "") => {
+      if (!sentence.value) return "";
+      let cleanedSentence = sentence?.value.replace(/[^\S\r\n]+/g, " ");
+      const escapedSelectedLetter = selectedLetter.value.replace(
+        /[-/\\^$*+?.()|[\]{}]/g,
+        "\\$&"
+      );
+
+      if (
+        questionText.value &&
+        selectedLetter.value !== "" &&
+        cleanedSentence.includes(selectedLetter.value)
+      ) {
+        cleanedSentence = cleanedSentence.replace(
+          new RegExp(`\\b${escapedSelectedLetter}\\b`, "gi"),
+          "___"
+        );
+      }
+      return cleanedSentence;
+    };
+
+    const arrayStrings = computed(() => {
+      const result = removeExtraSpaces(questionText);
+      const arrayStrings = result.replace(/[.\r\n]+/g, " ").split(" ");
+      return arrayStrings;
+    });
 
     const handleCreate = () => {
       const isValidate = validateInputFields();
@@ -218,6 +269,7 @@ export default {
       secondOptionRef,
       thirdOptionRef,
       forthOptionRef,
+      arrayStrings,
     };
   },
 };

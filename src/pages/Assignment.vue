@@ -64,7 +64,7 @@ export default {
           value: "light",
         },
         description: "light of 가 정답입니다.",
-        isSubmited: true 
+        isSubmited: false
       },
       {
         number: 2,
@@ -96,7 +96,7 @@ export default {
           value: "daum",
         },
         description: "light of 가 정답입니다.",
-        isSubmited: true 
+        isSubmited: false
       },
       {
         number: 2,
