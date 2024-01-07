@@ -125,7 +125,7 @@ export default {
           },
         ],
         userSelectedAnswer: {
-          value: "light",
+          value: "",
         },
         description: "light of 가 정답입니다.",
         isSubmited: false 

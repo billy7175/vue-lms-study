@@ -1,5 +1,5 @@
 <template>
-  <div :class="[{ 'is-focused': isInputFocused }]" style="margin: 4px 0px; border:1px solid red;">
+  <div :class="[{ 'is-focused': isInputFocused }]" style="margin: 4px 0px;">
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">{{ label }}</span>
       <InputText
