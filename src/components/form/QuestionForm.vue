@@ -15,7 +15,7 @@
       style="width: 900px; padding: 20px; background: #fff"
     >
       <div style="height: 30px"></div>
-      <h3>Insert Question</h3>
+      <h3>Insert Question {{ selectedLetter }}</h3>
       <Textarea
         style="width: 100%; padding: 10px"
         ref="questionTextRef"
@@ -29,9 +29,8 @@
           v-for="(str, idx) in arrayStrings"
           :key="idx"
         >
-          <!-- @click="clickLetter(str, arrayStrings)" -->
           <span
-            v-if="str !== selectedLetter"
+            @click="clickLetter(str, arrayStrings)"
             style="
               background: #409eff;
               color: #fff;
@@ -49,9 +48,10 @@
       <section>
         <h3>Select Answer</h3>
         <question-option
-          ref="firstOptionRef"
-          v-model="first"
+          ref="selectedLetterRef"
+          v-model="selectedLetter"
           label="정답"
+          disabled
         ></question-option>
         <!-- <h3>Insert the word you want to make it as "____"</h3> -->
       </section>
@@ -157,6 +157,7 @@ export default {
 
     const questionTextRef = ref(null);
     const firstOptionRef = ref(null);
+    const selectedLetterRef = ref(null)
     const secondOptionRef = ref(null);
     const thirdOptionRef = ref(null);
     const forthOptionRef = ref(null);
@@ -177,7 +178,7 @@ export default {
     const removeExtraSpaces = (sentence = "") => {
       if (!sentence.value) return "";
       let cleanedSentence = sentence?.value.replace(/[^\S\r\n]+/g, " ");
-      const escapedSelectedLetter = selectedLetter.value.replace(
+      const escapedSelectedLetter = selectedLetter.value?.replace(
         /[-/\\^$*+?.()|[\]{}]/g,
         "\\$&"
       );
@@ -200,6 +201,9 @@ export default {
       const arrayStrings = result.replace(/[.\r\n]+/g, " ").split(" ");
       return arrayStrings;
     });
+    const clickLetter = (str) => {
+      selectedLetter.value = str;
+    };
 
     const handleCreate = () => {
       const isValidate = validateInputFields();
@@ -257,6 +261,7 @@ export default {
       displayBasic,
       questionText,
       questionTextRef,
+      selectedLetter,
       first,
       second,
       third,
@@ -269,7 +274,9 @@ export default {
       secondOptionRef,
       thirdOptionRef,
       forthOptionRef,
+      selectedLetterRef,
       arrayStrings,
+      clickLetter,
     };
   },
 };

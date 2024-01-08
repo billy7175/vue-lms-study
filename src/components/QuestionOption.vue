@@ -10,13 +10,14 @@
         maxlength="10"
         :value="modelValue"
         @change="handleChange"
+        :disabled="isDisabled"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 export default {
   props: {
     label: {
@@ -27,10 +28,15 @@ export default {
       type: String,
       default: "",
     },
+    disabled : {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props, context) {
     const input = ref(null)
-    const modelValue = props.modelValue;
+    const modelValue = ref(props.modelValue);
+    const isDisabled = ref(props.disabled)
     const isInputFocused = ref(false);
 
     const handleFocus = () => {
@@ -42,22 +48,27 @@ export default {
     };
 
     const handleChange = (event) => {
-      console.log('#handleChange')
       context.emit("update:modelValue", event.target.value);
     };
 
     const focus = () => {
       input.value.$el.focus()
     };
+  
+
+    watch(() => props.modelValue, (newVal , oldVal ) => {
+      modelValue.value = newVal; 
+    })
 
     return {
       input,
-      modelValue,
+      modelValue: modelValue,
       isInputFocused,
       handleFocus,
       handleBlur,
       handleChange,
       focus,
+      isDisabled
     };
   },
 };
