@@ -30,7 +30,7 @@
           :key="idx"
         >
           <span
-            @click="clickLetter(str, arrayStrings)"
+            @click="clickLetter(str, idx, arrayStrings)"
             style="
               background: #409eff;
               color: #fff;
@@ -86,7 +86,7 @@
         <h3 style="margin-bottom: 10px; margin-top: 20px">Options</h3>
 
         <div style="display: flex; align-items: center; gap: 10px">
-          <InputSwitch v-model="isPublic" />
+          <InputSwitch v-model="isReleased" />
           <span>Release Question</span>
           <span style="margin-left: 10px"
             >*Question will be visible to registered students.</span
@@ -149,15 +149,16 @@ export default {
     // PreviewQuestion,
   },
   setup() {
-    const isPublic = ref(false);
+    const isReleased = ref(false);
     const isScheduled = ref(false);
     const scheduledDate = ref(new Date());
     const displayBasic = ref(false);
     const questionText = ref("");
+    const positionIdx = ref(undefined)
 
     const questionTextRef = ref(null);
     const firstOptionRef = ref(null);
-    const selectedLetterRef = ref(null)
+    const selectedLetterRef = ref(null);
     const secondOptionRef = ref(null);
     const thirdOptionRef = ref(null);
     const forthOptionRef = ref(null);
@@ -172,7 +173,7 @@ export default {
       displayBasic.value = true;
     };
     const handleModalClose = () => {
-      displayBasic.value = false;
+      alert("#handleModalClose");
     };
 
     const removeExtraSpaces = (sentence = "") => {
@@ -201,21 +202,47 @@ export default {
       const arrayStrings = result.replace(/[.\r\n]+/g, " ").split(" ");
       return arrayStrings;
     });
-    const clickLetter = (str) => {
+    const clickLetter = (str, idx) => {
       if(str === '___') str = ''
       selectedLetter.value = str;
+      positionIdx.value = idx
     };
 
     const handleCreate = () => {
       const isValidate = validateInputFields();
       console.log("#isValidated", isValidate);
       const result = {
-        type: "multiple choice",
+        type: "MULTIPLE_CHOICE",
         question: questionText.value,
-        answer: "",
-        options: [first.value, second.value, third.value, forth.value],
-        isPublick: isPublic.value,
-        isScheduled: isScheduled.value,
+        answer: {
+          positionIndex: positionIdx.value,
+          value : selectedLetter.value
+        },
+        options: [
+          {
+            label: "A",
+            value: first.value,
+          },
+          {
+            label: "B",
+            value: second.value,
+          },
+          {
+            label: "C",
+            value: third.value,
+          },
+          {
+            label: "D",
+            value: forth.value,
+          },
+        ],
+        userSelectedAnswer: {
+          value: selectedLetter.value,
+        },
+        isReleased: isReleased.value,
+        isScheduled: false,
+        isSubmitted: false,
+        scheduledDate: scheduledDate.value,
       };
       console.log("#result", result);
     };
@@ -256,7 +283,7 @@ export default {
     };
 
     return {
-      isPublic,
+      isReleased,
       isScheduled,
       scheduledDate,
       displayBasic,
