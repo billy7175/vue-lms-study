@@ -202,6 +202,7 @@ export default {
       return arrayStrings;
     });
     const clickLetter = (str) => {
+      if(str === '___') str = ''
       selectedLetter.value = str;
     };
 
