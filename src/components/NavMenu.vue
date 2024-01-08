@@ -8,11 +8,11 @@
       :router="true"
       default-active="2"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       background-color="#f4f4f4"
       text-color="#241a37"
-    >
+      >
+      <!-- @open="handleOpen" -->
+      <!-- @close="handleClose" -->
       <el-sub-menu index="1">
         <template #title>
           <el-icon><location /></el-icon>
@@ -35,7 +35,7 @@
           <el-menu-item index="1-4-1">준비중-01...</el-menu-item>
         </el-sub-menu>
       </el-sub-menu>
-      <el-sub-menu>
+      <el-sub-menu index="2">
         <template #title>
           <el-icon><location /></el-icon>
           <span>Setting</span>
