@@ -22,7 +22,7 @@
         </g>
       </svg>
     </div>
-    <div style="display: flex; align-items: flex-start; padding: 10px">
+    <div style="display: flex; align-items: flex-start; padding: 40px;">
       <span class="question-order">Q{{ data.number }}.</span>
       <div class="question-wrapper">
         <p>{{ data.question }}</p>
@@ -135,7 +135,7 @@ export default {
 .question {
   display: inline-block;
   position: relative;
-  width:500px;
+  width:50%;
 }
 .question.is-correct::before {
   position: absolute;

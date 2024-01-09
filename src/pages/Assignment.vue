@@ -1,17 +1,22 @@
 <template>
   <div>
     <question-form @create="handleCreate" ></question-form>
-    <section v-if="(questionList && questionList.length)">
-      <div style="display:flex; justify-content: flex-start; gap:50px; flex-direction: row; flex-wrap:wrap; width:75%; margin:auto;">
-        <question
+    <section v-if="(questionList && questionList.length)" style="border:1px solid red;">
+      <div class="question-wrapper">
+        <header class="question-header">
+          <p> {{ paramId }} </p>
+        </header>
+        <div>
+          <question
           v-for="(question, idx) in questionList"
           :key="idx"
           :data="question"
           v-model="question.userSelectedAnswer.value"
         ></question>
+        </div>
       </div>
-      <div style="display: flex; justify-content: center; margin-top:50px;">
-        <Button label="Submit" icon="pi pi-check" @click="handleSubmit" />
+      <div style="display: flex; justify-content: center; margin:25px 0px;">
+        <Button label="Submit" @click="handleSubmit" />
       </div>
     </section>
     <section v-else>
@@ -91,11 +96,24 @@ p {
 }
 
 .question-wrapper {
-  border: 1px solid red;
-  padding-left: 10px;
-  margin: 0px;
-  margin-top: 5px;
+  margin:0px auto;
+  width:75%; 
+  border:1px solid red;
 }
+
+.question-header {
+  padding:10px;
+  text-align: center;
+  background: #666;
+  color:#fff;
+  font-size:16px;
+}
+
+.question-header p {
+  font-size:26px;
+  font-weight: 700;
+}
+
 .field-radiobutton {
   margin-top: 5px;
 }

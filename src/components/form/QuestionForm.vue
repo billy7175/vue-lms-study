@@ -142,6 +142,7 @@
 
 <script>
 import axios from 'axios'
+import { useRoute } from 'vue-router';
 import { ref, computed } from "vue";
 // import QuestionOptions from "@/components/questionOptions.vue";
 
@@ -151,9 +152,11 @@ export default {
     // PreviewQuestion,
   },
   setup(props, context) {
+    const route = useRoute()
+    const paramDate = route.params.id
     const isReleased = ref(false);
     const isScheduled = ref(false);
-    const scheduledDate = ref(new Date());
+    const scheduledDate = ref(new Date(paramDate));
     const displayBasic = ref(false);
     const questionText = ref("");
     const positionIdx = ref(undefined)
