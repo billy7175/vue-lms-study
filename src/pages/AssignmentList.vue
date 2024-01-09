@@ -1,55 +1,52 @@
 <template>
   <div>
     <div style="display: flex; justify-content: flex-end; padding-bottom: 20px">
-      <Button label="Create" @click="routeTo('assignment-create')" />
+      <Button label="Create" @click="handleCreate" />
     </div>
+    <Dialog
+      header="Basic Assignment Infomation"
+      :visible="isModalOpen"
+      style="width: 900px; padding: 20px; background: #fff"
+    >
+    
+    <div>
+      <question-board-form></question-board-form>
+    </div>
+  </Dialog>
+    
     <DataTable
       stripedRows
       selectionMode="single"
       @rowSelect="(row) => routeTo('assignment-update', row.data)"
       :value="[
         {
-          date: '2023-12-12',
+          date: today,
           title: '파트 5문제 입니다~!',
           description: 'No. 189, Grove St, Los Angeles',
           rating: 3,
           isPublic: 'success',
         },
         {
-          date: '2023-12-12',
+          date: today,
           title: '파트 5문제 입니다~!',
           description: 'No. 189, Grove St, Los Angeles',
           rating: 3,
           isPublic: 'success',
         },
         {
-          date: '2023-12-12',
+          date: today,
           title: '파트 5문제 입니다~!(상)',
           description: 'take your time and stay focused.',
           rating: 5,
           isPublic: 'success',
         },
         {
-          date: '2023-12-12',
+          date: today,
           title: '파트 5문제 입니다~!(상)',
           description: 'take your time and stay focused.',
           rating: 5,
           isPublic: 'success',
-        },
-        {
-          date: '2023-12-12',
-          title: '파트 5문제 입니다~!(상)',
-          description: 'take your time and stay focused.',
-          rating: 1,
-          isPublic: 'success',
-        },
-        {
-          date: '2023-12-12',
-          title: '파트 5문제 입니다~!(상)',
-          description: 'take your time and stay focused.',
-          rating: 0,
-          isPublic: 'success',
-        },
+        }
       ]"
       tableStyle="min-width: 50rem"
       size="Normal"
@@ -80,8 +77,10 @@
   
   <script lang="ts">
 import { onMounted, ref } from "vue";
+import dayjs from 'dayjs'
 import { getQuestions } from "../apis/question";
 import { useRouter } from "vue-router";
+import QuestionBoardForm from '../components/form/QuestionBoardForm.vue'
 
 interface Row {
   // id? : any,
@@ -89,8 +88,14 @@ interface Row {
 }
 
 export default {
+  components: { QuestionBoardForm },
   setup() {
+    const isModalOpen = ref(true)
+    const today = dayjs(new Date()).format("YYYY-MM-DD")
     const router = useRouter();
+    const handleCreate = () => {
+      alert('#handleCreate')
+    }
     const routeTo = (routeName, row: Row = {}) => {
       const date = row?.date;
 
@@ -107,11 +112,14 @@ export default {
       const { data } = await getQuestions();
       console.log(data);
       questions.value = ref(data);
-    });
 
+    });
     return {
+      handleCreate,
       questions: questions,
       routeTo,
+      today,
+      isModalOpen
     };
   },
 };

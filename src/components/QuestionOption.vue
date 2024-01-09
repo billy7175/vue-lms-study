@@ -25,7 +25,7 @@ export default {
       default: "A",
     },
     modelValue: {
-      type: String,
+      type: [String, Number],
       default: "",
     },
     disabled : {

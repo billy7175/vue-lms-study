@@ -1,26 +1,68 @@
 <template>
   <div>
-    <question-form></question-form>
-    <div v-if="questionList && questionList.length">
-      <question
-        v-for="(question, idx) in questionList"
-        :key="idx"
-        :data="question"
-        v-model="question.userSelectedAnswer.value"
-      ></question>
-    </div>
-    <div style="display:flex; justify-content: center;">
-      <Button
-        label="Submit"
-        icon="pi pi-check"
-        @click="handleSubmit"
-      />
-    </div>
+    <section v-if="(questionList && questionList.length)">
+      <question-form></question-form>
+      <div>
+        <question
+          v-for="(question, idx) in questionList"
+          :key="idx"
+          :data="question"
+          v-model="question.userSelectedAnswer.value"
+        ></question>
+      </div>
+      <div style="display: flex; justify-content: center">
+        <Button label="Submit" icon="pi pi-check" @click="handleSubmit" />
+      </div>
+    </section>
+    <section>
+      <h2>해당 날짜에 대한 데이터를 입력 후 문제 생성이 가능합니다.</h2>
+      <pre>
+        - Date To Be Released
+        - Title
+        - Description
+        - Rate Of Today's Questions
+        - Status Whether It Is Released Or Not
+        - Classes
+      </pre>
+      <div style="padding: 100px; padding-bottom: 50px">
+        <Calendar v-model="date" showIcon style="width: 100%" />
+        <question-option
+          ref="titleRef"
+          v-model="title"
+          label="Title"
+        ></question-option>
+        <question-option
+          ref="descriptionRef"
+          v-model="description"
+          label="Description"
+        ></question-option>
+        <question-option
+          ref="rateRef"
+          v-model="rate"
+          label="Rate"
+        ></question-option>
+        <question-option
+          ref="statusRef"
+          v-model="status"
+          label="Status"
+        ></question-option>
+      </div>
+      <div style="display: flex; justify-content: center">
+        <Button
+          label="CREATE"
+          icon="pi pi-check"
+          @click="handleCreateQuestionBoard"
+        />
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { useRouter, useRoute } from "vue-router";
+import axios from "axios";
+import dayjs from "dayjs";
+import { ref, onMounted } from "vue";
 import QuestionForm from "../components/form/QuestionForm.vue";
 import Question from "../components/Question.vue";
 export default {
@@ -29,10 +71,63 @@ export default {
     Question,
   },
   setup() {
+    const mode = ref("");
+    const date = ref(new Date());
+    const title = ref("");
+    const description = ref("");
+    const rate = ref("");
+    const status = ref("");
+    const route = useRoute();
+    const router = useRouter();
+
+    onMounted(async () => {
+      console.log("#onMounted", 55555);
+      console.log("#router", router);
+      console.log("#route", route);
+      console.log("#route", route.name);
+      console.log("#route", route.path);
+      console.log("#route", route.path.split("/").at(-1));
+      console.log("#params", route.params);
+      const lastPath = route.path.split("/").at(-1);
+      console.log("#lastPath", lastPath);
+      if (lastPath === "create") {
+        // 이 경우는 생성 모드
+        mode.value = "CREATE";
+      } else {
+        const date = route.params.id;
+        console.log("#date", date);
+        const response = await axios.get(
+          `http://127.0.0.1:3000/api/question-board/${date}`
+        );
+        console.log("#response", response);
+      }
+    });
+
     const handleSubmit = () => {
-        console.log('#handleSubmit', 'asdasdashdjkahjk')
-        console.log('#questionList', questionList.value)
-    }
+      console.log("#handleSubmit", "asdasdashdjkahjk");
+      console.log("#questionList", questionList.value);
+    };
+
+    const handleCreateQuestionBoard = async () => {
+      const body = {
+        date: date.value,
+        title: title.value,
+        description: description.value,
+        rate: rate.value,
+        status: status.value,
+      };
+      console.log("#body", body);
+      const formattedDate = dayjs(body.date).format("YYYY-MM-DD");
+      const routeName = "assignment-update";
+      router.push({
+        params: {
+          id: formattedDate,
+        },
+        name: `${routeName}`,
+      });
+
+      console.log("#formattedDate", formattedDate);
+    };
     const questionList = ref([
       {
         number: 1,
@@ -64,7 +159,7 @@ export default {
           value: "light",
         },
         description: "light of 가 정답입니다.",
-        isSubmited: false
+        isSubmited: false,
       },
       {
         number: 2,
@@ -96,7 +191,7 @@ export default {
           value: "daum",
         },
         description: "light of 가 정답입니다.",
-        isSubmited: false
+        isSubmited: false,
       },
       {
         number: 2,
@@ -128,13 +223,19 @@ export default {
           value: "",
         },
         description: "light of 가 정답입니다.",
-        isSubmited: false 
+        isSubmited: false,
       },
     ]);
 
     return {
+      date,
+      title,
+      description,
+      rate,
+      status,
       questionList,
-      handleSubmit
+      handleSubmit,
+      handleCreateQuestionBoard,
     };
   },
 };
@@ -150,7 +251,7 @@ export default {
   color: #000;
   border-radius: 6px;
 }
-/* padding-left:10px; margin:0px; margin-top:5px; */
+
 p {
   margin: 0px;
 }

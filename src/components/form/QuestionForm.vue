@@ -140,6 +140,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { ref, computed } from "vue";
 // import QuestionOptions from "@/components/questionOptions.vue";
 
@@ -173,7 +174,7 @@ export default {
       displayBasic.value = true;
     };
     const handleModalClose = () => {
-      alert("#handleModalClose");
+      displayBasic.value = false;
     };
 
     const removeExtraSpaces = (sentence = "") => {
@@ -208,7 +209,7 @@ export default {
       positionIdx.value = idx
     };
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
       const isValidate = validateInputFields();
       console.log("#isValidated", isValidate);
       const result = {
@@ -237,13 +238,15 @@ export default {
           },
         ],
         userSelectedAnswer: {
-          value: selectedLetter.value,
+          value: null
         },
         isReleased: isReleased.value,
         isScheduled: false,
         isSubmitted: false,
         scheduledDate: scheduledDate.value,
       };
+      const response = await axios.post("http://127.0.0.1:3000/api/question", result);
+      console.log('#response', response)
       console.log("#result", result);
     };
 
