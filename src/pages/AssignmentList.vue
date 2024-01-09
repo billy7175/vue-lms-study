@@ -1,60 +1,33 @@
 <template>
   <div>
     <div style="display: flex; justify-content: flex-end; padding-bottom: 20px">
-      <Button label="Create" @click="handleCreate" />
+      <Button label="Create" @click="handleModalOpen" />
     </div>
     <Dialog
       header="Basic Assignment Infomation"
       :visible="isModalOpen"
       style="width: 900px; padding: 20px; background: #fff"
     >
-    
-    <div>
-      <question-board-form></question-board-form>
-    </div>
-  </Dialog>
-    
+      <question-board-form 
+        @create="handleCreateBoard"
+        @cancel="handleModalCancel"
+        
+        
+        ></question-board-form>
+    </Dialog>
+
     <DataTable
       stripedRows
       selectionMode="single"
       @rowSelect="(row) => routeTo('assignment-update', row.data)"
-      :value="[
-        {
-          date: today,
-          title: '파트 5문제 입니다~!',
-          description: 'No. 189, Grove St, Los Angeles',
-          rating: 3,
-          isPublic: 'success',
-        },
-        {
-          date: today,
-          title: '파트 5문제 입니다~!',
-          description: 'No. 189, Grove St, Los Angeles',
-          rating: 3,
-          isPublic: 'success',
-        },
-        {
-          date: today,
-          title: '파트 5문제 입니다~!(상)',
-          description: 'take your time and stay focused.',
-          rating: 5,
-          isPublic: 'success',
-        },
-        {
-          date: today,
-          title: '파트 5문제 입니다~!(상)',
-          description: 'take your time and stay focused.',
-          rating: 5,
-          isPublic: 'success',
-        }
-      ]"
+      :value="questions"
       tableStyle="min-width: 50rem"
       size="Normal"
     >
       <Column field="date" header="Date"></Column>
       <Column field="title" header="Title"></Column>
       <Column field="description" header="Description"></Column>
-      <Column field="rating" header="Reviews">
+      <!-- <Column field="rating" header="Reviews">
         <template #body="slotProps">
           <Rating
             :modelValue="slotProps.data.rating"
@@ -62,7 +35,7 @@
             :cancel="false"
           />
         </template>
-      </Column>
+      </Column> -->
       <Column field="isPublic" header="Status">
         <!-- <template #body="slotProps">
             <Tag :value="slotProps.data.isPublic" severity="success"/>
@@ -76,11 +49,12 @@
 </template>
   
   <script lang="ts">
+import axios from "axios";
 import { onMounted, ref } from "vue";
-import dayjs from 'dayjs'
-import { getQuestions } from "../apis/question";
+import dayjs from "dayjs";
+import { getQuestionBoards } from "../apis/question";
 import { useRouter } from "vue-router";
-import QuestionBoardForm from '../components/form/QuestionBoardForm.vue'
+import QuestionBoardForm from "../components/form/QuestionBoardForm.vue";
 
 interface Row {
   // id? : any,
@@ -90,14 +64,45 @@ interface Row {
 export default {
   components: { QuestionBoardForm },
   setup() {
-    const isModalOpen = ref(true)
-    const today = dayjs(new Date()).format("YYYY-MM-DD")
+    const isModalOpen = ref(false);
+    const today = dayjs(new Date()).format("YYYY-MM-DD");
     const router = useRouter();
-    const handleCreate = () => {
-      alert('#handleCreate')
+    const handleModalOpen = () => {
+      isModalOpen.value = true;
+    };
+
+    const handleModalCancel = () => {
+      isModalOpen.value = false;
+    }
+
+    const handleCreateBoard = async (body) => {
+      isModalOpen.value = false;
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:3000/api/question-board",
+          body
+        );
+
+        console.log('#response', response)
+        isModalOpen.value = false;
+        fetchQuestionBoards()
+      } catch (error) {
+        alert('실패 !')
+      }
+    };
+
+
+    const fetchQuestionBoards = async () => {
+      const { data } = await getQuestionBoards();
+      questions.value = data.map(x => {
+        return {
+          ...x,
+          date: dayjs(x.date).format('YYYY.MM.DD')
+        }
+      });
     }
     const routeTo = (routeName, row: Row = {}) => {
-      const date = row?.date;
+      const date = dayjs(row?.date).format('YYYY-MM-DD');
 
       router.push({
         params: {
@@ -109,17 +114,17 @@ export default {
 
     let questions = ref([]);
     onMounted(async () => {
-      const { data } = await getQuestions();
-      console.log(data);
-      questions.value = ref(data);
-
+      fetchQuestionBoards()
+      
     });
     return {
-      handleCreate,
+      handleModalOpen,
+      handleModalCancel,
       questions: questions,
       routeTo,
       today,
-      isModalOpen
+      isModalOpen,
+      handleCreateBoard,
     };
   },
 };

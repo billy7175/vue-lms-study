@@ -33,10 +33,14 @@
         label="Status"
       ></question-option>
     </div>
-    <div style="display: flex; justify-content: center">
+    <div style="display: flex; justify-content: center; gap: 20px;">
+      <Button
+        label="CANCEL"
+        severity="secondary"
+        @click="handleModalCancel"
+      />
       <Button
         label="CREATE"
-        icon="pi pi-check"
         @click="handleCreateQuestionBoard"
       />
     </div>
@@ -49,13 +53,17 @@ import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { useRouter } from "vue-router";
 export default {
-  setup() {
+  setup(props, context) {
     const date = ref(new Date());
     const title = ref("");
     const description = ref("");
     const rate = ref(1);
     const status = ref("");
     const router = useRouter();
+    const handleModalCancel = () => {
+      context.emit('cancel')
+    }
+
     const handleCreateQuestionBoard = async () => {
       const body = {
         date: date.value,
@@ -64,20 +72,10 @@ export default {
         rate: rate.value,
         status: status.value,
       };
-      // console.log("#body", body);
-      // const formattedDate = dayjs(body.date).format("YYYY-MM-DD");
-      // const routeName = "assignment-update";
-      // router.push({
-      //   params: {
-      //     id: formattedDate,
-      //   },
-      //   name: `${routeName}`,
-      // });
       try {
-        const response = await axios.post("http://127.0.0.1:3000/api/question-board", body);
-        window.reload()
+        context.emit("create", body);
       } catch (error){
-
+        alert('실패')
       }
       
 
@@ -97,6 +95,7 @@ export default {
       rate,
       status,
       handleCreateQuestionBoard,
+      handleModalCancel
     };
   },
 };
