@@ -8,16 +8,15 @@
       :visible="isModalOpen"
       style="width: 900px; padding: 20px; background: #fff"
     >
-      <question-board-form 
+      <question-board-form
         @create="handleCreateBoard"
         @cancel="handleModalCancel"
+
         
-        
-        ></question-board-form>
+      ></question-board-form>
     </Dialog>
 
     <DataTable
-      stripedRows
       selectionMode="single"
       @rowSelect="(row) => routeTo('assignment-update', row.data)"
       :value="questions"
@@ -27,21 +26,19 @@
       <Column field="date" header="Date"></Column>
       <Column field="title" header="Title"></Column>
       <Column field="description" header="Description"></Column>
-      <!-- <Column field="rating" header="Reviews">
+      <Column field="rate" header="Rate">
         <template #body="slotProps">
-          <Rating
-            :modelValue="slotProps.data.rating"
-            readonly
-            :cancel="false"
-          />
+          <Rating :modelValue="slotProps.data.rate" readonly :cancel="false" />
         </template>
-      </Column> -->
-      <Column field="isPublic" header="Status">
-        <!-- <template #body="slotProps">
-            <Tag :value="slotProps.data.isPublic" severity="success"/>
-        </template> -->
+      </Column>
+      <Column field="" header="Released">
         <template #body>
-          <Tag value="info" severity="info" />
+          <InputSwitch v-model="isTest"/>
+        </template>
+      </Column>
+      <Column field="" header="비고">
+        <template #body>
+          <Button label="DELETE" severity="danger" rounded size="small" @click="handleDelete" />
         </template>
       </Column>
     </DataTable>
@@ -64,6 +61,7 @@ interface Row {
 export default {
   components: { QuestionBoardForm },
   setup() {
+    const isTest = ref(true)
     const isModalOpen = ref(false);
     const today = dayjs(new Date()).format("YYYY-MM-DD");
     const router = useRouter();
@@ -73,7 +71,7 @@ export default {
 
     const handleModalCancel = () => {
       isModalOpen.value = false;
-    }
+    };
 
     const handleCreateBoard = async (body) => {
       isModalOpen.value = false;
@@ -83,26 +81,25 @@ export default {
           body
         );
 
-        console.log('#response', response)
+        console.log("#response", response);
         isModalOpen.value = false;
-        fetchQuestionBoards()
+        fetchQuestionBoards();
       } catch (error) {
-        alert('실패 !')
+        alert("실패 !");
       }
     };
 
-
     const fetchQuestionBoards = async () => {
       const { data } = await getQuestionBoards();
-      questions.value = data.map(x => {
+      questions.value = data.map((x) => {
         return {
           ...x,
-          date: dayjs(x.date).format('YYYY.MM.DD')
-        }
+          date: dayjs(x.date).format("YYYY.MM.DD"),
+        };
       });
-    }
+    };
     const routeTo = (routeName, row: Row = {}) => {
-      const date = dayjs(row?.date).format('YYYY-MM-DD');
+      const date = dayjs(row?.date).format("YYYY-MM-DD");
 
       router.push({
         params: {
@@ -111,15 +108,21 @@ export default {
         name: `${routeName}`,
       });
     };
+    
+    const handleDelete = () => {
+        const isConfirmed = confirm('handleDelete')
+        alert(isConfirmed)
+    }
 
     let questions = ref([]);
     onMounted(async () => {
-      fetchQuestionBoards()
-      
+      fetchQuestionBoards();
     });
     return {
+      isTest,
       handleModalOpen,
       handleModalCancel,
+      handleDelete,
       questions: questions,
       routeTo,
       today,
