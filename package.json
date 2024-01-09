@@ -13,6 +13,7 @@
     "dayjs": "^1.11.10",
     "element-plus": "^2.4.3",
     "pinia": "^2.1.7",
+    "primeicons": "^6.0.1",
     "primevue": "^3.43.0",
     "vue": "^3.3.4",
     "vue-cookies": "^1.8.3",
