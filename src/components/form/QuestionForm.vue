@@ -1,18 +1,19 @@
 <template>
   <div>
-    <h5>문제 생성</h5>
     <div style="display: flex; justify-content: flex-end">
       <Button
         label="Create Question"
         icon="pi pi-external-link"
         @click="handleModalOpen"
         style="margin-bottom: 50px"
+        @closeButton="handleCloseButton"
       />
     </div>
     <Dialog
       header="CREATE QUESTION"
       :visible="displayBasic"
       style="width: 900px; padding: 20px; background: #fff"
+      :closable="false"
     >
       <div style="height: 30px"></div>
       <h3>Insert Question {{ selectedLetter }}</h3>
@@ -177,6 +178,10 @@ export default {
       displayBasic.value = false;
     };
 
+    const handleCloseButton = () => {
+      alert('handleCloseButton')
+    }
+
     const removeExtraSpaces = (sentence = "") => {
       if (!sentence.value) return "";
       let cleanedSentence = sentence?.value.replace(/[^\S\r\n]+/g, " ");
@@ -308,6 +313,7 @@ export default {
       selectedLetterRef,
       arrayStrings,
       clickLetter,
+      handleCloseButton
     };
   },
 };

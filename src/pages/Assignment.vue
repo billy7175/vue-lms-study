@@ -1,7 +1,7 @@
 <template>
   <div>
+    <question-form></question-form>
     <section v-if="(questionList && questionList.length)">
-      <question-form></question-form>
       <div>
         <question
           v-for="(question, idx) in questionList"
@@ -14,46 +14,10 @@
         <Button label="Submit" icon="pi pi-check" @click="handleSubmit" />
       </div>
     </section>
-    <section>
-      <h2>해당 날짜에 대한 데이터를 입력 후 문제 생성이 가능합니다.</h2>
-      <pre>
-        - Date To Be Released
-        - Title
-        - Description
-        - Rate Of Today's Questions
-        - Status Whether It Is Released Or Not
-        - Classes
-      </pre>
-      <div style="padding: 100px; padding-bottom: 50px">
-        <Calendar v-model="date" showIcon style="width: 100%" />
-        <question-option
-          ref="titleRef"
-          v-model="title"
-          label="Title"
-        ></question-option>
-        <question-option
-          ref="descriptionRef"
-          v-model="description"
-          label="Description"
-        ></question-option>
-        <question-option
-          ref="rateRef"
-          v-model="rate"
-          label="Rate"
-        ></question-option>
-        <question-option
-          ref="statusRef"
-          v-model="status"
-          label="Status"
-        ></question-option>
-      </div>
-      <div style="display: flex; justify-content: center">
-        <Button
-          label="CREATE"
-          icon="pi pi-check"
-          @click="handleCreateQuestionBoard"
-        />
-      </div>
+    <section v-else>
+      <h2 style="color:#777; text-align: center;">
+        문제를 생성해주세요
+      </h2>
     </section>
   </div>
 </template>
