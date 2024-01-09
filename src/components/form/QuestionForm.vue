@@ -150,7 +150,7 @@ export default {
     // QuestionOptions,
     // PreviewQuestion,
   },
-  setup() {
+  setup(props, context) {
     const isReleased = ref(false);
     const isScheduled = ref(false);
     const scheduledDate = ref(new Date());
@@ -253,6 +253,8 @@ export default {
       const response = await axios.post("http://127.0.0.1:3000/api/question", result);
       console.log('#response', response)
       console.log("#result", result);
+      displayBasic.value = false
+      context.emit('create')
     };
 
     const validateInputFields = () => {

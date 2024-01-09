@@ -7,7 +7,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
         type="text"
-        maxlength="10"
+        maxlength="20"
         :value="modelValue"
         @change="handleChange"
         :disabled="isDisabled"

@@ -134,9 +134,8 @@ export default {
 <style scoped>
 .question {
   display: inline-block;
-  margin: 20px;
-  max-width: 550px;
   position: relative;
+  width:500px;
 }
 .question.is-correct::before {
   position: absolute;
