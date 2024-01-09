@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const getQuestions = async () => {
+const getQuestions = async (date) => {
   try {
-    const response = await axios.get("http://127.0.0.1:3000/api/questions");
+    const response = await axios.get(`http://127.0.0.1:3000/api/questions/${date}`);
     return response;
   } catch (error) {
     throw error;
