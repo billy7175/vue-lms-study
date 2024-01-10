@@ -1,10 +1,13 @@
 <template>
   <div>
-    <question-form @create="handleCreate" ></question-form>
-    <section v-if="(questionList && questionList.length)" style="border:1px solid red;">
+    <question-form 
+      @create="handleCreate"
+      
+      ></question-form>
+    <section v-if="(questionList && questionList.length)">
       <div class="question-wrapper">
         <header class="question-header">
-          <p> {{ paramId }} </p>
+          <p> {{ paramId }} </p> 
         </header>
         <div>
           <question
@@ -12,6 +15,8 @@
           :key="idx"
           :data="question"
           v-model="question.userSelectedAnswer.value"
+          :number="(idx + 1)"
+          @delete="handleDelete"
         ></question>
         </div>
       </div>
@@ -64,6 +69,10 @@ export default {
     const handleCreate = () => {
       fetchQuestion()
     }
+    
+    const handleDelete = () => {
+      fetchQuestion()
+    }
 
     return {
       date,
@@ -74,6 +83,7 @@ export default {
       questionList,
       handleSubmit,
       handleCreate,
+      handleDelete,
       paramId
     };
   },

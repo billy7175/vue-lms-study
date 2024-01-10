@@ -1,5 +1,8 @@
 <template>
   <article class="question" :class="[{ 'is-correct': true }]">
+    <i 
+      @click="handleQuestionDelete(data)"
+      class="icon-trash pi pi-trash"></i>
     <div style="display: none; position: absolute; top: -20%; left: -3%">
       <svg
         class="uitLogo_path"
@@ -22,10 +25,10 @@
         </g>
       </svg>
     </div>
-    <div style="display: flex; align-items: flex-start; padding: 40px;">
-      <span class="question-order">Q{{ data.number }}.</span>
+    <div style="display: flex; align-items: flex-start; padding: 40px">
+      <span class="question-order">Q{{ number }}.</span>
       <div class="question-wrapper">
-        <p>{{ data.question }}</p>
+        <p>{{ convertQuestion(data.question, data.answer.value) }}</p>
         <div>
           <!-- 문제 풀기 후 -->
           <div v-if="data.isSubmited">
@@ -69,6 +72,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { ref, watch } from "vue";
 export default {
   components: {},
@@ -76,17 +80,19 @@ export default {
     data: {
       type: Object,
       default: () => {
-        return {
-          number: 1,
-        };
+        return {};
       },
     },
     modelValue: {
       type: String,
       default: "",
     },
+    number: {
+      type: Number,
+      default: 0,
+    },
   },
-  setup(props) {
+  setup(props, context) {
     var pathes = document.querySelectorAll("path");
     pathes.forEach(function (path) {
       var pathLength = path.getTotalLength();
@@ -116,15 +122,36 @@ export default {
       console.log("#sampleData", sampleData);
       console.log("#sampleData", sampleData.userSelectedAnswer);
       console.log(newVal);
-      updateSelectedAnswer(sampleData, newVal)
-      // sampleData.value.userSelectedAnswer.value = newVal;
+      updateSelectedAnswer(sampleData, newVal);
     });
 
+    const convertQuestion = (question, answerValue) => {
+      return question.replace(answerValue, '______')
+    }
+
+    const handleQuestionDelete = async (data) => {
+      const id = data._id
+      const isConfirmed = confirm('Do you really want to delete it?')
+      if(isConfirmed) {
+        try {
+          const response = await axios.delete(`http://127.0.0.1:3000/api/question/${id}`);
+          console.log('#handleQuestionDelete', response)
+          context.emit('delete')
+        } catch (error){
+          console.log('#error', error)
+        }
+
+      }
+    }
+
     return {
+      convertQuestion,
+      number: props.number,
       data: sampleData,
       modelValue: modelValue,
       testValue: testValue,
       selectedAnswer: selectedAnswer,
+      handleQuestionDelete
     };
   },
 };
@@ -137,6 +164,19 @@ export default {
   position: relative;
   width:50%;
 }
+
+.icon-trash {
+  display:none;
+  position:absolute;
+  bottom:20px;
+  right:50px;
+  font-size:20px;
+}
+
+.question:hover .icon-trash{
+  display:block;
+}
+
 .question.is-correct::before {
   position: absolute;
   content: "";

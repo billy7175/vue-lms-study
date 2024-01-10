@@ -32,8 +32,8 @@
         </template>
       </Column>
       <Column field="" header="Released">
-        <template #body>
-          <InputSwitch v-model="isTest"/>
+        <template #body="slotProps">
+          <InputSwitch v-model="slotProps.data.isReleased"/>
         </template>
       </Column>
       <Column field="" header="비고">
@@ -61,7 +61,6 @@ interface Row {
 export default {
   components: { QuestionBoardForm },
   setup() {
-    const isTest = ref(true)
     const isModalOpen = ref(false);
     const today = dayjs(new Date()).format("YYYY-MM-DD");
     const router = useRouter();
@@ -119,7 +118,6 @@ export default {
       fetchQuestionBoards();
     });
     return {
-      isTest,
       handleModalOpen,
       handleModalCancel,
       handleDelete,
