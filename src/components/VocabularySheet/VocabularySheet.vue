@@ -1,9 +1,22 @@
 <template>
   <div class="vocabulary-sheet">
+    <div>
+      <input
+        class="form-control form-control-sm"
+        type="file"
+        @change="parseData"
+        ref="fileupload"
+      />
+    </div>
     <header class="header">
       <div class="header__inner">
         <div class="sub-title">Unit 02 BUSY BEES</div>
-        <div class="sub-info">Date __________ / __________  <span style="margin-left:10px; display:inline-block;">Name : __________ </span></div>
+        <div class="sub-info">
+          Date __________ / __________
+          <span style="margin-left: 10px; display: inline-block"
+            >Name : __________
+          </span>
+        </div>
         <h2>바로 읽는 배경지식 독해 LEVEL 1</h2>
         <strong> Vocaburary List </strong>
       </div>
@@ -51,6 +64,7 @@
   
   <script>
 import { ref, onMounted } from "vue";
+import { read, utils } from "xlsx";
 export default {
   setup() {
     const createEmptyItem = () => ({ kor: "", eng: "" });
@@ -133,10 +147,34 @@ export default {
       ];
     });
 
+    async function fileToJson(e) {
+      const file = e.target.files[0];
+      const blob = await file.arrayBuffer();
+      const workbook = read(blob);
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      return utils.sheet_to_json(worksheet);
+    }
+
+    async function parseData(e) {
+      const json = await fileToJson(e);
+      for (const x in json) {
+        console.log("x ", x);
+        const item = json[x];
+        if (item && item.korean && item.english) {
+          inputValuesSection1.value[x].kor = item.korean;
+          inputValuesSection1.value[x].eng = item.english;
+        }
+        if(x === 15) break 
+      }
+
+    }
+
     return {
       inputValuesSection1,
       inputValuesSection2,
       handleCheckData,
+      fileToJson,
+      parseData,
     };
   },
 };
@@ -190,7 +228,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border: 1px solid red;
   position: relative;
 }
 
