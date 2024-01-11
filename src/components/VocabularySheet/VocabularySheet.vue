@@ -45,16 +45,32 @@
     </header>
     <div class="vocabulary-sheet__body">
       <section class="section -left">
-        <div v-for="(x, idx) in inputValuesSection1" class="item" :key="x">
+        <div
+          v-for="(x, idx) in inputValuesSection1"
+          class="item -left"
+          :key="x"
+        >
           <span class="number">0{{ idx + 1 }}</span>
-          <InputText type="text" v-model="inputValuesSection1[idx].eng" />
+          <InputText
+            class="eng"
+            type="text"
+            v-model="inputValuesSection1[idx].eng"
+          />
           <InputText type="text" v-model="inputValuesSection1[idx].kor" />
         </div>
       </section>
       <section class="section -right">
-        <div v-for="(x, idx) in inputValuesSection2" class="item" :key="x">
+        <div
+          v-for="(x, idx) in inputValuesSection2"
+          class="item -righ"
+          :key="x"
+        >
           <span class="number">0{{ idx + 1 + 15 }}</span>
-          <InputText type="text" v-model="inputValuesSection2[idx].eng" />
+          <InputText
+            class="eng"
+            type="text"
+            v-model="inputValuesSection2[idx].eng"
+          />
           <InputText type="text" v-model="inputValuesSection2[idx].kor" />
         </div>
       </section>
@@ -83,68 +99,6 @@ export default {
     };
 
     onMounted(() => {
-      inputValuesSection1.value = [
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-        {
-          eng: "play",
-          kor: "놀다",
-        },
-      ];
     });
 
     async function fileToJson(e) {
@@ -158,15 +112,22 @@ export default {
     async function parseData(e) {
       const json = await fileToJson(e);
       for (const x in json) {
-        console.log("x ", x);
+        console.log("x ", x, typeof x);
         const item = json[x];
-        if (item && item.korean && item.english) {
-          inputValuesSection1.value[x].kor = item.korean;
-          inputValuesSection1.value[x].eng = item.english;
+        if (Number(x) <= 14) {
+          if (item && item.korean && item.english) {
+            inputValuesSection1.value[x].kor = item.korean;
+            inputValuesSection1.value[x].eng = item.english;
+          }
+        } else {
+          console.log(3333333333)
+          console.log(inputValuesSection2.value)
+          console.log(item)
+          inputValuesSection2.value[x - 15].kor = item.korean;
+          inputValuesSection2.value[x - 15].eng = item.english;
         }
-        if(x === 15) break 
+        if (Number(x) === 30) break;
       }
-
     }
 
     return {
@@ -191,29 +152,45 @@ export default {
 .vocabulary-sheet__body {
   display: flex;
   justify-content: center;
+  padding: 40px 0px;
+  gap: 30px;
 }
 
 .section {
-  width: 42%;
-  display: flex;
-  flex-direction: column;
 }
+
 .p-inputtext {
-  border: 1px solid blue;
+  border: 1px solid #333;
+  border-radius: 0px;
+  flex: 0 0 150px;
+  border-bottom: none;
+}
+
+.p-inputtext.eng {
+  border-left: none;
+  border-right: none;
 }
 
 .item {
   width: 100%;
   display: flex;
-  gap: 10px;
 }
 
 .item .number {
-  flex: 0 0 100px;
+  flex: 0 0 60px;
   line-height: 2;
   padding: 10px;
   display: inline-block;
-  border: 1px solid red;
+  border: 1px solid #333;
+  border-bottom: none;
+}
+
+.item:last-child .number {
+  border-bottom: 1px solid #333;
+}
+
+.item:last-child .p-inputtext {
+  border-bottom: 1px solid #333;
 }
 
 .header {
