@@ -102,33 +102,65 @@
 </template>
   
   <script>
-import axios from 'axios'
-import { ref, onMounted } from "vue";
+import axios from "axios";
+import { ref, onMounted, watch } from "vue";
 import { read, utils } from "xlsx";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useUserState } from "../../stores/user.js";
 export default {
+  props: {
+    data: {
+      type: Object,
+      default: () => {},
+    }
+  },
   setup(props, context) {
+    const userStore = useUserState();
+    const userId = userStore.user.user._id;
+    const data = ref(props.data);
+    const modelValue = props.modelValue
+    watch(
+      data,
+      (newVal) => {
+        if(newVal.value && newVal.value._id){
+          const list = newVal.value.data
+          for(const x in list){
+            const row = list[x]
+            if(Number(x) < 25){
+              inputValuesSection1.value[x].eng = row.eng
+              inputValuesSection1.value[x].kor = row.kor
+         
+            } else {
+              inputValuesSection2.value[x -25].eng = row.eng
+              inputValuesSection2.value[x -25].kor = row.kor     
+            }
+          
 
-    const userStore = useUserState()
-    console.log(111111, userStore.user.user._id)
-    const userId = userStore.user.user._id
-
-    console.log('#Vocabulary Sheet')
-    console.log(props)
-    console.log(context)
+            
+          }
+        }
+      },
+      {
+        deep: true,
+      }
+    );
     const handleSave = async () => {
       console.log(123123123);
       const body = {
         title: "바로 읽는 배경지식 독해 LEVEL 2",
         date: new Date(),
-        register : userId,
+        register: userId,
         data: [...inputValuesSection1.value, ...inputValuesSection2.value],
       };
       console.log("#body", body);
-      const res = await axios.post('http://127.0.0.1:3000/api/vocabulary-sheet', body)
-      console.log('#res', res)
+      const res = await axios.post(
+        "http://127.0.0.1:3000/api/vocabulary-sheet",
+        body
+      );
+
+      context.emit('create')
+      console.log("#res", res);
     };
 
     const handleDownload = () => {
@@ -251,6 +283,8 @@ export default {
       handleDownload,
       makePDF,
       handleSave,
+      data,
+      modelValue
     };
   },
 };
