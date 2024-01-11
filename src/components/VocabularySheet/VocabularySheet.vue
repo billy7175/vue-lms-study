@@ -294,7 +294,7 @@ export default {
 .vocabulary-sheet {
   width: 70%;
   margin: auto;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   height: auto;
 }
 
@@ -303,6 +303,8 @@ export default {
   justify-content: center;
   padding: 60px 0px;
   gap: 30px;
+  border:1px solid #c9c2c2;
+  border-top: none;
 }
 
 .p-inputtext {
