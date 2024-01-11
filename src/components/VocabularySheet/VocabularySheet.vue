@@ -65,7 +65,7 @@
           class="item -righ"
           :key="x"
         >
-          <span class="number">0{{ idx + 1 + 15 }}</span>
+          <span class="number">0{{ idx + 1 + 25 }}</span>
           <InputText
             class="eng"
             type="text"
@@ -86,8 +86,8 @@ export default {
     const createEmptyItem = () => ({ kor: "", eng: "" });
     // const inputValuesSection1 = ref(new Array(30).fill({ kor: "", eng: "" }));
     // const inputValuesSection2 = ref(new Array(30).fill({ kor: "", eng: "" }));
-    const inputValuesSection1 = ref(new Array(15).fill(0).map(createEmptyItem));
-    const inputValuesSection2 = ref(new Array(15).fill(0).map(createEmptyItem));
+    const inputValuesSection1 = ref(new Array(25).fill(0).map(createEmptyItem));
+    const inputValuesSection2 = ref(new Array(25).fill(0).map(createEmptyItem));
 
     const handleCheckData = () => {
       console.log("#inputValuesSection1");
@@ -114,7 +114,7 @@ export default {
       for (const x in json) {
         console.log("x ", x, typeof x);
         const item = json[x];
-        if (Number(x) <= 14) {
+        if (Number(x) <= 24) {
           if (item && item.korean && item.english) {
             inputValuesSection1.value[x].kor = item.korean;
             inputValuesSection1.value[x].eng = item.english;
@@ -123,10 +123,10 @@ export default {
           console.log(3333333333)
           console.log(inputValuesSection2.value)
           console.log(item)
-          inputValuesSection2.value[x - 15].kor = item.korean;
-          inputValuesSection2.value[x - 15].eng = item.english;
+          inputValuesSection2.value[x - 25].kor = item.korean;
+          inputValuesSection2.value[x - 25].eng = item.english;
         }
-        if (Number(x) === 30) break;
+        if (Number(x) === 50) break;
       }
     }
 
