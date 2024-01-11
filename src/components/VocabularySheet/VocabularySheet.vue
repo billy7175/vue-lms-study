@@ -17,15 +17,10 @@
         type="file"
         @change="parseData"
         ref="fileupload"
-        style="display:none;"
+        style="display: none"
       />
-      <label
-        for="file"
-        class="p-button"
-        style="font-weight: 700;"
-
-      >
-        <i class="pi pi-upload" style="margin-right:10px; "></i>
+      <label for="file" class="p-button" style="font-weight: 700">
+        <i class="pi pi-upload" style="margin-right: 10px"></i>
         Excel Upload
       </label>
 
@@ -43,7 +38,14 @@
         @click="handleDownload"
         label="PDF Download"
         icon="pi pi-external-link"
-        severity="secondary"
+        severity="danger"
+      />
+
+      <Button
+        @click="handleSave"
+        label="Save Data"
+        icon="pi pi-save"
+        severity="info"
       />
     </header>
     <header class="header">
@@ -100,12 +102,35 @@
 </template>
   
   <script>
+import axios from 'axios'
 import { ref, onMounted } from "vue";
 import { read, utils } from "xlsx";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { useUserState } from "../../stores/user.js";
 export default {
-  setup() {
+  setup(props, context) {
+
+    const userStore = useUserState()
+    console.log(111111, userStore.user.user._id)
+    const userId = userStore.user.user._id
+
+    console.log('#Vocabulary Sheet')
+    console.log(props)
+    console.log(context)
+    const handleSave = async () => {
+      console.log(123123123);
+      const body = {
+        title: "바로 읽는 배경지식 독해 LEVEL 2",
+        date: new Date(),
+        register : userId,
+        data: [...inputValuesSection1.value, ...inputValuesSection2.value],
+      };
+      console.log("#body", body);
+      const res = await axios.post('http://127.0.0.1:3000/api/vocabulary-sheet', body)
+      console.log('#res', res)
+    };
+
     const handleDownload = () => {
       console.log(111, handleDownload);
       const isConfiremd = confirm("Do you want to download it as PDF file.");
@@ -225,6 +250,7 @@ export default {
       downloadPDF,
       handleDownload,
       makePDF,
+      handleSave,
     };
   },
 };
@@ -241,9 +267,8 @@ export default {
 .vocabulary-sheet__body {
   display: flex;
   justify-content: center;
-  padding:60px 0px;
+  padding: 60px 0px;
   gap: 30px;
-
 }
 
 .p-inputtext {
