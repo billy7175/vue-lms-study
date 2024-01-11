@@ -1,5 +1,11 @@
 <template>
   <div class="vocabulary-sheet">
+    <h1
+      data-html2canvas-ignore="true"
+      v-if="data && data.value && data.value._id"
+    >
+      {{ data.value._id }}
+    </h1>
     <header
       data-html2canvas-ignore="true"
       style="
@@ -57,7 +63,25 @@
             >Name : __________
           </span>
         </div>
-        <h2>바로 읽는 배경지식 독해 LEVEL 1</h2>
+        <!-- <h2>바로 읽는 배경지식 독해 LEVEL 1</h2> -->
+        <h2 v-if="!isEditing">
+          {{ title }}
+        </h2>
+        <div v-else style="margin: 10px 0px">
+          <InputText
+            type="text"
+            v-model="title"
+            style="
+              background: transparent;
+              color: #000;
+              border: none;
+              box-shadow: none;
+              font-size: 22px;
+              font-weight: 700;
+            "
+          />
+        </div>
+
         <strong> Vocaburary List </strong>
       </div>
     </header>
@@ -100,10 +124,10 @@
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import axios from "axios";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, reactive } from "vue";
 import { read, utils } from "xlsx";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -113,31 +137,34 @@ export default {
     data: {
       type: Object,
       default: () => {},
-    }
+    },
   },
   setup(props, context) {
     const userStore = useUserState();
     const userId = userStore.user.user._id;
-    const data = ref(props.data);
-    const modelValue = props.modelValue
+    const data = reactive(props.data);
+
+    const title = ref("");
+    const modelValue = props.modelValue;
+    const isEditing = ref(false);
+
     watch(
       data,
       (newVal) => {
-        if(newVal.value && newVal.value._id){
-          const list = newVal.value.data
-          for(const x in list){
-            const row = list[x]
-            if(Number(x) < 25){
-              inputValuesSection1.value[x].eng = row.eng
-              inputValuesSection1.value[x].kor = row.kor
-         
-            } else {
-              inputValuesSection2.value[x -25].eng = row.eng
-              inputValuesSection2.value[x -25].kor = row.kor     
-            }
-          
+        // const
+        if (newVal.value && newVal.value._id) {
+          const list = newVal.value.data;
 
-            
+          title.value = newVal.value.title;
+          for (const x in list) {
+            const row = list[x];
+            if (Number(x) < 25) {
+              inputValuesSection1.value[x].eng = row.eng;
+              inputValuesSection1.value[x].kor = row.kor;
+            } else {
+              inputValuesSection2.value[x - 25].eng = row.eng;
+              inputValuesSection2.value[x - 25].kor = row.kor;
+            }
           }
         }
       },
@@ -159,7 +186,7 @@ export default {
         body
       );
 
-      context.emit('create')
+      context.emit("create");
       console.log("#res", res);
     };
 
@@ -284,12 +311,14 @@ export default {
       makePDF,
       handleSave,
       data,
-      modelValue
+      modelValue,
+      title,
+      isEditing,
     };
   },
 };
 </script>
-  
+
 <style scoped>
 .vocabulary-sheet {
   width: 70%;
@@ -303,7 +332,7 @@ export default {
   justify-content: center;
   padding: 60px 0px;
   gap: 30px;
-  border:1px solid #c9c2c2;
+  border: 1px solid #c9c2c2;
   border-top: none;
 }
 
