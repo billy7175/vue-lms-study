@@ -25,6 +25,9 @@
           <el-menu-item index="assignments" :route="{ name: 'assignments' }"
             >과제 생성</el-menu-item
           >
+          <el-menu-item index="vocabulary-list" :route="{ name: 'vocabulary-list' }"
+            >대시보드</el-menu-item
+          >
         </el-menu-item-group>
         <el-menu-item-group title="사용자">
           <el-menu-item index="mypage">My Page</el-menu-item>

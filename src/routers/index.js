@@ -6,6 +6,7 @@ import PageNotFound from '../pages/NotFound.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import Assignment from '../pages/Assignment.vue'
 import AssignmentList from '../pages/AssignmentList.vue'
+import VocabularyList from '../pages/VocabularyList.vue'
 import { useUserState } from "../stores/user.js";
 
 const routes = [
@@ -44,6 +45,11 @@ const routes = [
                 path:'assignments/:id',
                 name : 'assignment-update',
                 component:  Assignment
+            },
+            {
+                path: 'vocabulary',
+                name : 'vocabulary-list',
+                component: VocabularyList
             }
         ],
     },
