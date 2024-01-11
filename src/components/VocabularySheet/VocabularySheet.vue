@@ -1,13 +1,50 @@
 <template>
   <div class="vocabulary-sheet">
-    <div>
+    <header
+      data-html2canvas-ignore="true"
+      style="
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 30px;
+        margin-top: 50px;
+      "
+    >
       <input
-        class="form-control form-control-sm"
+        id="file"
+        class="form-control form-control-sm p-button"
         type="file"
         @change="parseData"
         ref="fileupload"
+        style="display:none;"
       />
-    </div>
+      <label
+        for="file"
+        class="p-button"
+        style="font-weight: 700;"
+
+      >
+        <i class="pi pi-upload" style="margin-right:10px; "></i>
+        Excel Upload
+      </label>
+
+      <!-- <FileUpload
+        mode="basic"
+        :maxFileSize="1000000"
+        @upload="parseData"
+        :auto="true"
+        chooseLabel="Excel Upload"
+        accept=".xlsx,.pdf,.csv,.xls,.numbers"
+      /> -->
+
+      <!-- accept="image/*"  -->
+      <Button
+        @click="handleDownload"
+        label="PDF Download"
+        icon="pi pi-external-link"
+        severity="secondary"
+      />
+    </header>
     <header class="header">
       <div class="header__inner">
         <div class="sub-title">Unit 02 BUSY BEES</div>
@@ -21,28 +58,6 @@
         <strong> Vocaburary List </strong>
       </div>
     </header>
-    <header
-      style="
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        padding: 30px;
-        margin-top: 50px;
-      "
-    >
-      <Button
-        @click="handleCheckData"
-        label="Check Data"
-        icon="pi pi-external-link"
-      />
-
-      <Button
-        @click="handleCheckData"
-        label="PDF Download"
-        icon="pi pi-external-link"
-        severity="secondary"
-      />
-    </header>
     <div class="vocabulary-sheet__body">
       <section class="section -left">
         <div
@@ -55,8 +70,13 @@
             class="eng"
             type="text"
             v-model="inputValuesSection1[idx].eng"
+            size="small"
           />
-          <InputText type="text" v-model="inputValuesSection1[idx].kor" />
+          <InputText
+            type="text"
+            v-model="inputValuesSection1[idx].kor"
+            size="small"
+          />
         </div>
       </section>
       <section class="section -right">
@@ -81,8 +101,74 @@
   <script>
 import { ref, onMounted } from "vue";
 import { read, utils } from "xlsx";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 export default {
   setup() {
+    const handleDownload = () => {
+      console.log(111, handleDownload);
+      const isConfiremd = confirm("Do you want to download it as PDF file.");
+      if (isConfiremd) {
+        makePDF();
+      }
+    };
+    const makePDF = async (selector = "body") => {
+      const tagName = ".vocabulary-sheet";
+      window.html2canvas = html2canvas;
+      let pdf = new jsPDF("p", "mm", "a4");
+
+      let ele = document.querySelector(tagName);
+
+      if (!ele) {
+        console.warn(selector + " is not exist.");
+        return false;
+      }
+
+      try {
+        const canvas = await html2canvas(ele);
+
+        let position = 0;
+        const imgData = canvas.toDataURL("image/png");
+
+        const pageWidth = 210; // canvas width
+        const pageHeight = 295; // canvas height
+        let width = ele.offsetWidth;
+        let height = ele.offsetHeight;
+        let imgHeight = (pageWidth * height) / width;
+
+        pdf.addImage(
+          imgData,
+          "png",
+          0,
+          position,
+          pageWidth,
+          imgHeight,
+          undefined,
+          "slow"
+        );
+
+        let heightLeft = imgHeight;
+        heightLeft -= pageHeight;
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, "png", 0, position, pageWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        pdf.save("your_file_name.pdf"); // Change the file name as needed
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+      }
+    };
+    const downloadPDF = () => {
+      const pdf = new jsPDF();
+      // Add content to the PDF
+      pdf.text("Hello, this is a PDF!", 10, 10);
+
+      // Save the PDF
+      pdf.save("your_file_name.pdf");
+    };
     const createEmptyItem = () => ({ kor: "", eng: "" });
     // const inputValuesSection1 = ref(new Array(30).fill({ kor: "", eng: "" }));
     // const inputValuesSection2 = ref(new Array(30).fill({ kor: "", eng: "" }));
@@ -98,8 +184,7 @@ export default {
       console.log(inputValuesSection2.value);
     };
 
-    onMounted(() => {
-    });
+    onMounted(() => {});
 
     async function fileToJson(e) {
       const file = e.target.files[0];
@@ -110,7 +195,10 @@ export default {
     }
 
     async function parseData(e) {
+      console.log("#parseData upload", e);
       const json = await fileToJson(e);
+
+      console.log("#json", json);
       for (const x in json) {
         console.log("x ", x, typeof x);
         const item = json[x];
@@ -120,9 +208,6 @@ export default {
             inputValuesSection1.value[x].eng = item.english;
           }
         } else {
-          console.log(3333333333)
-          console.log(inputValuesSection2.value)
-          console.log(item)
           inputValuesSection2.value[x - 25].kor = item.korean;
           inputValuesSection2.value[x - 25].eng = item.english;
         }
@@ -136,6 +221,9 @@ export default {
       handleCheckData,
       fileToJson,
       parseData,
+      downloadPDF,
+      handleDownload,
+      makePDF,
     };
   },
 };
@@ -152,11 +240,9 @@ export default {
 .vocabulary-sheet__body {
   display: flex;
   justify-content: center;
-  padding: 40px 0px;
+  padding:60px 0px;
   gap: 30px;
-}
 
-.section {
 }
 
 .p-inputtext {
@@ -164,6 +250,10 @@ export default {
   border-radius: 0px;
   flex: 0 0 150px;
   border-bottom: none;
+  padding: 10px;
+  /* text-indent: 10px; */
+  /* height:30px;  */
+  /* height:40px */
 }
 
 .p-inputtext.eng {
@@ -173,13 +263,15 @@ export default {
 
 .item {
   width: 100%;
+  height: 40px;
   display: flex;
 }
 
 .item .number {
-  flex: 0 0 60px;
-  line-height: 2;
-  padding: 10px;
+  flex: 0 0 50px;
+  height: 40px;
+  line-height: 40px;
+  text-indent: 10px;
   display: inline-block;
   border: 1px solid #333;
   border-bottom: none;
@@ -195,7 +287,6 @@ export default {
 
 .header {
   background: #6eadd7;
-  /* color:#fff */
 }
 
 .header .header__inner {
@@ -234,7 +325,7 @@ export default {
   font-weight: 700;
   background: #fff;
   color: #000;
-  width: 40%;
+  width: 50%;
   border-radius: 6px;
 }
 </style>
