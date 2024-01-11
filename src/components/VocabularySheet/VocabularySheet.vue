@@ -12,6 +12,7 @@
     >
       <input
         id="file"
+        accept=".xlsx, .numbers"
         class="form-control form-control-sm p-button"
         type="file"
         @change="parseData"
