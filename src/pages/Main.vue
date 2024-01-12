@@ -2,6 +2,7 @@
 import { getTest } from "../apis/login";
 import { onMounted } from "vue";
 import NavMenu from "../components/NavMenu.vue";
+import NavMenuTest from '../components/NavMenuTest.vue'
 import { useUserState } from "../stores/user.js";
 import Header from "../components/Header.vue";
 const userState = useUserState();
@@ -139,6 +140,7 @@ const items = [
   <div class="main-component">
     <PanelMenu :model="items" style="display: none" />
     <NavMenu style="width: 250px" @logout="logout"></NavMenu>
+    <NavMenuTest></NavMenuTest>
     <div class="container__right">
       <Header></Header>
       <main class="main">
