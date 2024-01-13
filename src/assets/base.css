@@ -1,3 +1,10 @@
+:root {
+  --dark--background--light--color: #2A2B2D;
+  --dark--background--color: #17181A;
+  --dark--font--color :#C6CCDA; 
+  --dark--font--color__hover: #4f63d2;
+}
+
 /* :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;

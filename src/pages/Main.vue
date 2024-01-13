@@ -139,7 +139,6 @@ const items = [
 <template>
   <div class="main-component">
     <PanelMenu :model="items" style="display: none" />
-    <NavMenu style="width: 250px" @logout="logout"></NavMenu>
     <NavMenuTest></NavMenuTest>
     <div class="container__right">
       <Header></Header>
@@ -158,11 +157,11 @@ const items = [
   width: 100%;
   margin: 0 auto;
   height: 100vh;
+  background:var(--dark--background--color);
 }
 .container__right {
   width: 100%;
   width: cal(100% - 250px);
-  /* width:1200px; */
 }
 
 .main {
@@ -182,17 +181,3 @@ const items = [
   height: 100%;
 }
 </style>
-<!-- <style>
-.main-component .el-sub-menu__title {
-  font-weight: 700;
-  color:#6c757d;
-  font-size:14px;
-}
-
-
-.main-component .el-menu-item {
-  font-weight: 500;
-  color: #495057;
-  font-size:14px;
-}
-</style> -->

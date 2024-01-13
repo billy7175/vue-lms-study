@@ -7,7 +7,7 @@
           :size="30"
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         />
-        <span>{{ userName }} 님</span>
+        <span class="text">{{ userName }} 님</span>
       </li>
     </ul>
   </header>
@@ -32,11 +32,12 @@ const userName = computed(() => {
   padding: 30px;
   padding-right: 100px;
   align-items: center;
-  /* border-bottom: 1px solid lightgrey; */
   display: flex;
   justify-content: space-between;
   box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
     0 15px 40px rgba(166, 173, 201, 0.2);
+  background:var(--dark--background--light--color);
+  border-radius: 6px;
 }
 
 
@@ -53,4 +54,8 @@ const userName = computed(() => {
   justify-content: center;
 }
 
+.text {
+  color:var(--dark--font--color);
+  font-weight: 700;
+}
 </style>

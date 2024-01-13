@@ -117,9 +117,10 @@ export default {
 </style>
 <style>
 .nav-menu-second .p-menu {
+  --color: 'red';
   padding: 20px;
   background:#fff;
-  background:#17181A;
+  background:var(--dark--background--color);
 
 }
 
@@ -138,7 +139,7 @@ export default {
  .nav-menu-second .p-menuitem-link {
   font-weight: 500;
   color:#9d9191;
-  color: #C6CCDA;
+  color: var(--dark--font--color);
  }
 
  .nav-menu-second .p-menuitem-link:hover {
@@ -147,10 +148,9 @@ export default {
  }
 
 .nav-menu-second .p-submenu-header {
-  background:#17181A;
-  color: #C6CCDA;
   padding:20px;
-  background: #2A2B2D;
+  color:var(--dark--font--color);
+  background: var(--dark--background--light--color);
   margin-top:10px;
   border-radius: 6px;
 }
@@ -160,8 +160,7 @@ export default {
 }
 
 .nav-menu-second .p-menuitem-link:hover {
-  color:#10b981;
-  color:#4f63d2;
+  color:var(--dark--font--color__hover);
   background:transparent;
 }
 
@@ -172,9 +171,7 @@ export default {
 
 
 .nav-menu-second .p-menuitem-link:hover .p-menuitem-icon {
-  color:#10b981;
-  color: #1E3CEF;
-  color: #4f63d2;
+  color:var(--dark--font--color__hover);
 }
 
 </style>
