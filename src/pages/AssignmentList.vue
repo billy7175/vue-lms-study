@@ -140,19 +140,23 @@ export default {
 <style>
 .p-datatable-wrapper {
   border-radius: 10px;
-  border:1px solid rgb(56, 54, 54);
+  border:2px solid rgb(56, 54, 54);
 }
 .p-datatable-wrapper tr, td, th {
   background:#222223;
   border:1px solid #222223;
   color:var(--dark--font--color);
-  font-weight: 500;
+  font-weight: 700;
   text-indent: 10px;
   padding:20px;
 }
 
 .p-datatable-wrapper th, td {
-  border-bottom:1px solid rgb(56, 54, 54);
+  border-bottom:2px solid rgb(56, 54, 54);
+}
+
+.p-datatable-wrapper .p-rating-item path {
+  color: #FFF27A;
 }
 
 

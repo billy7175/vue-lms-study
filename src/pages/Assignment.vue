@@ -29,7 +29,6 @@
         {{ paramId }} 에 대한 문제를 생성해주세요
       </h2>
     </section>
-    <VocabularySheet></VocabularySheet>
   </div>
 </template>
 
@@ -37,14 +36,12 @@
 import { useRoute } from "vue-router";
 import { getQuestions } from "../apis/question";
 import { ref, onMounted } from "vue";
-import VocabularySheet from '../components/VocabularySheet/VocabularySheet.vue'
 import QuestionForm from "../components/form/QuestionForm.vue";
 import Question from "../components/Question.vue";
 export default {
   components: {
     QuestionForm,
-    Question,
-    VocabularySheet
+    Question
   },
   setup() {
     const route = useRoute()
@@ -111,7 +108,7 @@ p {
 .question-wrapper {
   margin:0px auto;
   width:75%; 
-  border:1px solid red;
+  background:#fff;
 }
 
 .question-header {

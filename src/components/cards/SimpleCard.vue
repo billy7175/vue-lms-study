@@ -1,6 +1,8 @@
 <template>
   <div class="simple-card" :class="[type, {'is-horizontal' : isHorizontal}]">
-    <p class="simple-card__title">{{ title }}</p>
+    <p class="simple-card__title">
+      <i class="pi pi-user" style="margin-right:10px;" />
+      {{ title }}</p>
     <div class="simple-card__contents">
       <span class="simple-card__contents-text" :class="[type]">{{
         contents
@@ -35,27 +37,34 @@ const props = defineProps({
 .simple-card {
   width: 300px;
   height: 180px;
-  box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
-    0 15px 40px rgba(166, 173, 201, 0.2);
+  /* box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+    0 15px 40px rgba(166, 173, 201, 0.2); */
   border-radius: 10px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background:#222223;
+  color:var(--dark--font--color);
+  font-weight: 700;
+  border:2px solid rgb(56, 54, 54);
+  background: #FFF27A;
+  color:#000;
+
+  /* background:var(--dark--background--color__hover);
+  color:#fff;
+  border:none; */
 }
 
 .simple-card.is-horizontal {
   height:70px;
   flex-direction: row;
   align-items: center;
-  /* border:1px solid red; */
-  border:1px solid #1f90a259
 }
 
 .simple-card__title {
   display: flex;
   align-items: center;
-  font-weight: 700;
 }
 
 .simple-card__contents {
@@ -68,8 +77,8 @@ const props = defineProps({
   position: relative;
   padding: 10px;
   border-radius: 30%;
-  color: #000;
   font-size:18px;
+  /* color:var(--dark--font--color); */
 }
 
 .simple-card.type-01 {

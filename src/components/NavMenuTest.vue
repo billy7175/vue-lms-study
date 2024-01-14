@@ -106,9 +106,6 @@ export default {
 </script>
 
 <style scoped>
-.nav-menu-second .p-menu {
-
-}
 
 .p-menuitem-separator {
   margin: 0px !important;
@@ -121,8 +118,16 @@ export default {
   padding: 20px;
   background:#fff;
   background:var(--dark--background--color);
-
 }
+
+.nav-menu-second .p-menuitem.p-focus {
+  background:var(--dark--background--color__hover);
+}
+
+.p-menuitem.p-focus .p-menuitem-icon {
+  color:#fff;
+}
+
 
 .nav-menu-second .p-menuitem-separator {
   margin: 0px;
@@ -132,19 +137,11 @@ export default {
   border-radius: 6px;
   margin:10px 0px;
 }
-.nav-menu-second .p-menuitem:hover {
-  /* background: red; */
-}
 
  .nav-menu-second .p-menuitem-link {
   font-weight: 500;
   color:#9d9191;
   color: var(--dark--font--color);
- }
-
- .nav-menu-second .p-menuitem-link:hover {
-  background:red;
-  background:transparent;
  }
 
 .nav-menu-second .p-submenu-header {
@@ -159,9 +156,14 @@ export default {
   display: none;
 }
 
+.nav-menu-second .p-menuitem-link {
+  border-radius: 6px;
+}
+
 .nav-menu-second .p-menuitem-link:hover {
-  color:var(--dark--font--color__hover);
   background:transparent;
+  color:#fff;
+  background:var(--dark--background--color__hover);
 }
 
 
@@ -170,8 +172,12 @@ export default {
 }
 
 
+
+
 .nav-menu-second .p-menuitem-link:hover .p-menuitem-icon {
-  color:var(--dark--font--color__hover);
+  color:#fff;
 }
+
+
 
 </style>

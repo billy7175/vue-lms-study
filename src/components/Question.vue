@@ -48,6 +48,7 @@
             </div>
           </div>
 
+
           <!-- 문제 풀기 전 -->
           <div v-else>
             <div

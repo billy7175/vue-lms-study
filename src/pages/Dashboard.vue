@@ -1,36 +1,32 @@
 <template>
   <div class="dashboard">
     <section>
-      <h2>Analysis</h2>
+      <h2 class="card__title">Analysis</h2>
       <div class="card__wrapper">
         <simple-card
-          title="학생 수"
+          title="Students"
           :contents="dashboard.studentCount"
-          type="type-01"
           is-horizontal
         ></simple-card>
         <simple-card
-          title="선생 수"
+          title="Teachers"
           :contents="dashboard.teacherCount"
-          type="type-02"
           is-horizontal
         ></simple-card>
         <simple-card
-          title="반"
+          title="Classes"
           :contents="dashboard.classCount"
-          type="type-03"
           is-horizontal
         ></simple-card>
         <simple-card
-          title="생성된 문제 수"
+          title="Questions"
           :contents="dashboard.questionCount"
-          type="type-04"
           is-horizontal
         ></simple-card>
       </div>
     </section>
     <section style="margin-top: 50px">
-      <h2>Popular Courses</h2>
+      <h2 class="card__title">Popular Courses</h2>
       <div class="card__wrapper">
         <simple-card
           title="English Grammmars In Use"
@@ -54,32 +50,11 @@
       </div>
     </section>
     <section style="margin-top: 50px">
-      <h2>Members</h2>
+      <h2 class="card__title">Members</h2>
       <DataTable
         stripedRows
         selectionMode="single"
         :value="[
-          {
-            date: '2023-12-12',
-            title: '파트 5문제 입니다~!',
-            description: 'No. 189, Grove St, Los Angeles',
-            rating: 3,
-            isPublic: 'success',
-          },
-          {
-            date: '2023-12-12',
-            title: '파트 5문제 입니다~!',
-            description: 'No. 189, Grove St, Los Angeles',
-            rating: 3,
-            isPublic: 'success',
-          },
-          {
-            date: '2023-12-12',
-            title: '파트 5문제 입니다~!(상)',
-            description: 'take your time and stay focused.',
-            rating: 5,
-            isPublic: 'success',
-          },
           {
             date: '2023-12-12',
             title: '파트 5문제 입니다~!(상)',
@@ -93,14 +68,7 @@
             description: 'take your time and stay focused.',
             rating: 1,
             isPublic: 'success',
-          },
-          {
-            date: '2023-12-12',
-            title: '파트 5문제 입니다~!(상)',
-            description: 'take your time and stay focused.',
-            rating: 0,
-            isPublic: 'success',
-          },
+          }
         ]"
         tableStyle="min-width: 50rem"
         size="Normal"
@@ -156,6 +124,16 @@ export default {
 </script>
 
 <style scoped>
+.dashboard {
+  /* background:var(--dark--background--color); */
+}
+
+
+.card__title {
+  color:#fff;
+  padding:10px;
+}
+
 .card__wrapper {
   display: flex;
   gap: 50px;
