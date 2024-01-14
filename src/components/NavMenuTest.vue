@@ -114,18 +114,16 @@ export default {
 </style>
 <style>
 .nav-menu-second .p-menu {
-  --color: 'red';
   padding: 20px;
-  background:#fff;
-  background:var(--dark--background--color);
+  background:var(--background--light--color);
 }
 
 .nav-menu-second .p-menuitem.p-focus {
-  background:var(--dark--background--color__hover);
+  background:var(--background--color__hover);
 }
 
 .p-menuitem.p-focus .p-menuitem-icon {
-  color:#fff;
+  color:#000;
 }
 
 
@@ -141,13 +139,12 @@ export default {
  .nav-menu-second .p-menuitem-link {
   font-weight: 500;
   color:#9d9191;
-  color: var(--dark--font--color);
+  color: var(--font--color);
  }
 
 .nav-menu-second .p-submenu-header {
   padding:20px;
-  color:var(--dark--font--color);
-  background: var(--dark--background--light--color);
+  color:var(--font--color);
   margin-top:10px;
   border-radius: 6px;
 }
@@ -162,8 +159,8 @@ export default {
 
 .nav-menu-second .p-menuitem-link:hover {
   background:transparent;
-  color:#fff;
-  background:var(--dark--background--color__hover);
+  color:var(--font--color__hover);
+  background:var(--background--color__hover);
 }
 
 
@@ -176,6 +173,7 @@ export default {
 
 .nav-menu-second .p-menuitem-link:hover .p-menuitem-icon {
   color:#fff;
+  color:var(--font--color__hover);
 }
 
 

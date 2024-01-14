@@ -4,6 +4,15 @@
   --dark--font--color :#C6CCDA; 
   --dark--font--color__hover: #4f63d2;
   --dark--background--color__hover : #4235AD;
+
+  --background--color: #fff;
+  /* --background--light--color : #FFF27A; */
+  --background--light--color:#FAFAFA;
+  --background--color__hover :#f1f1f1;
+  --font--color:#000;
+  --font--color__hover: #000;
+  /* background: #FFF27A; */
+  /* --background--color__hover: #4235AD; */
 }
 
 /* :root {

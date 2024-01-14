@@ -157,7 +157,7 @@ const items = [
   width: 100%;
   margin: 0 auto;
   height: 100vh;
-  background:var(--dark--background--color);
+  background:#F5F7FC;
 }
 .container__right {
   width: 100%;
@@ -173,8 +173,7 @@ const items = [
 
 .main__inner {
   width: 100%;
-  box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
-    0 15px 40px rgba(166, 173, 201, 0.2);
+  background:#F5F7FC;
   overflow-x: auto;
   padding: 20px;
   overflow-y: auto;

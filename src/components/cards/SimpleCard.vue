@@ -44,20 +44,14 @@ const props = defineProps({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background:#222223;
-  color:var(--dark--font--color);
   font-weight: 700;
-  border:2px solid rgb(56, 54, 54);
-  background: #FFF27A;
-  color:#000;
-
-  /* background:var(--dark--background--color__hover);
-  color:#fff;
-  border:none; */
+  background: #EDE6FF;
+  color:#333;
+  border:1px solid #f1f1f1;
 }
 
 .simple-card.is-horizontal {
-  height:70px;
+  height:100px;
   flex-direction: row;
   align-items: center;
 }
@@ -74,11 +68,11 @@ const props = defineProps({
 }
 
 .simple-card__contents-text {
-  position: relative;
-  padding: 10px;
-  border-radius: 30%;
+  padding:10px 20px;
+  border-radius: 6px;
   font-size:18px;
-  /* color:var(--dark--font--color); */
+  color:#fff;
+  background:#8A71D6;
 }
 
 .simple-card.type-01 {

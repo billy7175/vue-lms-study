@@ -36,7 +36,7 @@ const userName = computed(() => {
   justify-content: space-between;
   box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
     0 15px 40px rgba(166, 173, 201, 0.2);
-  background:var(--dark--background--light--color);
+  /* background:var(--background--light--color); */
   border-radius: 6px;
 }
 
@@ -55,7 +55,7 @@ const userName = computed(() => {
 }
 
 .text {
-  color:var(--dark--font--color);
+  color:var(--font--color);
   font-weight: 700;
 }
 </style>

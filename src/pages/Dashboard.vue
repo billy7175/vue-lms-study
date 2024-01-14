@@ -125,12 +125,11 @@ export default {
 
 <style scoped>
 .dashboard {
-  /* background:var(--dark--background--color); */
 }
 
 
 .card__title {
-  color:#fff;
+  /* color:#fff; */
   padding:10px;
 }
 
@@ -138,6 +137,8 @@ export default {
   display: flex;
   gap: 50px;
   flex-wrap: wrap;
+  background:#fff;
+  padding:50px 20px;
 }
 
 h2 {
