@@ -139,6 +139,7 @@ export default {
   flex-wrap: wrap;
   background:#fff;
   padding:50px 20px;
+  /* background:url('../assets/space.jpg'); */
 }
 
 h2 {

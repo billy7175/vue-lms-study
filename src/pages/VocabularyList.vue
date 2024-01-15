@@ -25,12 +25,14 @@
 <script>
 import axios from "axios";
 import { ref, onMounted, reactive } from "vue";
+import { useRouter } from "vue-router";
 import VocabularySheet from "../components/VocabularySheet/VocabularySheet.vue";
 export default {
   components: {
     VocabularySheet,
   },
   setup() {
+    const router = useRouter()
     const list = ref([]);
     const selectedRow = reactive({});
     const fetchVocabularySheets = async () => {
@@ -53,6 +55,12 @@ export default {
 
     const handleSelect = (data) => {
       selectedRow.value = data;
+      router.push({
+        name : 'vocabulary',
+        params: {
+          id: selectedRow.value._id
+        }
+      })
     };
 
     return {

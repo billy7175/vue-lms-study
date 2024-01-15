@@ -37,17 +37,16 @@ const props = defineProps({
 .simple-card {
   width: 300px;
   height: 180px;
-  /* box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
-    0 15px 40px rgba(166, 173, 201, 0.2); */
   border-radius: 10px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   font-weight: 700;
-  background: #EDE6FF;
-  color:#333;
   border:1px solid #f1f1f1;
+  backdrop-filter: sepia(90%);
+  backdrop-filter: blur(1px);
+  background-size: cover;
 }
 
 .simple-card.is-horizontal {
