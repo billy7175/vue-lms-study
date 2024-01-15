@@ -1,6 +1,14 @@
 <template>
   <div class="dashboard">
     <section>
+      <h2>WORKING ON</h2>
+      <div class="card__wrapper">
+        <performance-card></performance-card>
+        <performance-card></performance-card>
+        
+      </div>
+    </section>
+    <section>
       <h2 class="card__title">Analysis</h2>
       <div class="card__wrapper">
         <simple-card
@@ -98,10 +106,12 @@
 <script>
 import { onMounted, reactive, toRef } from "vue";
 import SimpleCard from "../components/cards/SimpleCard.vue";
+import PerformanceCard from "../components/cards/PerformanceCard.vue";
 import { getDashboard } from "../apis/dashboard";
 export default {
   components: {
     SimpleCard,
+    PerformanceCard
   },
   setup() {
     const dashboard = reactive({
