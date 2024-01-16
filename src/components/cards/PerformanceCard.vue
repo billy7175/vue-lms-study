@@ -56,6 +56,7 @@ export default {
   background: #0f1422;
   padding: 20px;
   color: #fff;
+  font-weight: 600;
   /* background: #DABEA9; */
   /* color:#000; */
 }

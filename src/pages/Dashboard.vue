@@ -5,7 +5,10 @@
       <div class="card__wrapper">
         <performance-card></performance-card>
         <performance-card></performance-card>
-        
+      </div>
+      <div>
+          
+        <engagement-card></engagement-card>
       </div>
     </section>
     <section>
@@ -107,11 +110,13 @@
 import { onMounted, reactive, toRef } from "vue";
 import SimpleCard from "../components/cards/SimpleCard.vue";
 import PerformanceCard from "../components/cards/PerformanceCard.vue";
+import EngagementCard from '../components/cards/EngagementCard.vue'
 import { getDashboard } from "../apis/dashboard";
 export default {
   components: {
     SimpleCard,
-    PerformanceCard
+    PerformanceCard,
+    EngagementCard
   },
   setup() {
     const dashboard = reactive({
