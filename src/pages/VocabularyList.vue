@@ -1,6 +1,9 @@
 <template>
   <div>
     <div>
+      <div style="display: flex; justify-content: flex-end; padding-bottom: 20px">
+      <Button label="Create" @click="handleCreate" />
+    </div>
       <div v-if="list && list.length">
         <DataTable
           :value="list"
@@ -10,8 +13,9 @@
           paginator
           :rows="5"
         >
+          <Column field="date" header="Date"></Column>
           <Column field="title" header="Title"> </Column>
-          <Column field="date" header="Date"> </Column>
+          
         </DataTable>
       </div>
     </div>
@@ -20,14 +24,17 @@
 
 <script>
 import axios from "axios";
+import dayjs from 'dayjs'
 import { ref, onMounted, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import VocabularySheet from "../components/VocabularySheet/VocabularySheet.vue";
 export default {
   components: {
     VocabularySheet,
   },
   setup() {
+    const isCreatePage = ref(false)
+    const route = useRoute()
     const router = useRouter()
     const list = ref([]);
     const selectedRow = reactive({});
@@ -36,17 +43,29 @@ export default {
         const { data } = await axios.get(
           "http://127.0.0.1:3000/api/vocabulary-sheets"
         );
-        list.value = data;
+        list.value = data.map((x) => {
+        return {
+          ...x,
+          date: dayjs(x.date).format("YYYY.MM.DD"),
+        };
+      });
       } catch (error) {
         alert("실패!!");
       }
     }
     onMounted(async () => {
+      const routeName = route.name
+      if(routeName === 'vocabulary-create') isCreatePage.value = true
+      console.log('#route', route)
+      console.log('#route', route.name)
       fetchVocabularySheets()
     });
 
     const handleCreate = () => {
-      fetchVocabularySheets()
+      // fetchVocabularySheets()
+      router.push({
+        name: 'vocabulary-create'
+      })
     };
 
     const handleSelect = (data) => {
@@ -58,6 +77,7 @@ export default {
         }
       })
     };
+
 
     return {
       list,

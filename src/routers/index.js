@@ -56,7 +56,11 @@ const routes = [
                 path: 'vocabulary/:id',
                 name: 'vocabulary',
                 component : Vocabulary,
-                // props:true
+            },
+            {
+                path:'vocabulary/create',
+                name: 'vocabulary-create',
+                component : Vocabulary,
             }
         ],
     },
