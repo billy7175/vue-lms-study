@@ -1,11 +1,7 @@
 <template>
   <div>
-    <strong style="font-size: 20px">
-      {{ id }}
-    </strong>
-    건에 대해서 보고 계셔유
     <div>
-      <vocabulary-sheet></vocabulary-sheet>
+      <vocabulary-sheet :data="vocaData"></vocabulary-sheet>
     </div>
   </div>
 </template>
@@ -13,7 +9,7 @@
 
 <script>
 import axios from 'axios'
-import { onMounted } from "vue";
+import { onMounted, reactive } from "vue";
 import { useRoute } from "vue-router";
 import VocabularySheet from "../components/VocabularySheet/VocabularySheet.vue";
 export default {
@@ -21,6 +17,7 @@ export default {
     VocabularySheet,
   },
   setup(props) {
+    const vocaData = reactive({})
     const router = useRoute();
     const id = router.params.id;
     const fetchVocabularySheetDetail = async (id) => {
@@ -29,7 +26,7 @@ export default {
         const { data } = await axios.get(
           `http://127.0.0.1:3000/api/vocabulary-sheets/${id}`
         );
-        console.log(data)
+        vocaData.value = data
       } catch (error) {
         alert("실패!!");
       }
@@ -43,6 +40,7 @@ export default {
     return {
       id,
       fetchVocabularySheetDetail,
+      vocaData
     };
   },
 };

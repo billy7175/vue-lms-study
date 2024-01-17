@@ -15,10 +15,6 @@
         </DataTable>
       </div>
     </div>
-    <vocabulary-sheet
-      @create="handleCreate"
-      :data="selectedRow"
-    ></vocabulary-sheet>
   </div>
 </template>
 

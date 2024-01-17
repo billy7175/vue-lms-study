@@ -1,19 +1,12 @@
 <template>
   <div class="vocabulary-sheet">
-    <h1
-      data-html2canvas-ignore="true"
-      v-if="data && data.value && data.value._id"
-    >
-      {{ data.value._id }}
-    </h1>
     <header
       data-html2canvas-ignore="true"
       style="
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         gap: 20px;
-        padding: 30px;
-        margin-top: 50px;
+        padding: 30px 0px;
       "
     >
       <input
@@ -64,7 +57,7 @@
           </span>
         </div>
         <!-- <h2>바로 읽는 배경지식 독해 LEVEL 1</h2> -->
-        <h2 v-if="!isEditing">
+        <h2 class="title" v-if="!isEditing">
           {{ title }}
         </h2>
         <div v-else style="margin: 10px 0px">
@@ -320,10 +313,13 @@ export default {
 </script>
 
 <style scoped>
+
+.title {
+  height:30px;
+}
 .vocabulary-sheet {
   width: 70%;
   margin: auto;
-  /* border: 1px solid red; */
   height: auto;
 }
 
