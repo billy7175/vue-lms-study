@@ -158,6 +158,7 @@ const items = [
   margin: 0 auto;
   height: 100vh;
   background:#F5F7FC;
+  /* background:#fff; */
 }
 .container__right {
   width: 100%;
@@ -174,6 +175,8 @@ const items = [
 .main__inner {
   width: 100%;
   background:#F5F7FC;
+  background:#fff;
+  border-radius: 10px;
   overflow-x: auto;
   padding: 20px;
   overflow-y: auto;

@@ -12,28 +12,28 @@
             <ul class="ul">
                 <li class="li">
                     <span class="icon-wrapper"><i class="pi pi-database"></i></span>
-                    <span>This Day</span>
-                    <strong>133 <i class="pi pi-arrow-up"></i></strong>
+                    <span>Students</span>
+                    <strong>6 <i class="pi pi-arrow-up"></i></strong>
                 </li>
                 <li class="li">
                     <span class="icon-wrapper"><i class="pi pi-apple"></i></span>
-                    <span>This Week</span>
-                    <strong>23 <i class="pi pi-arrow-up"></i></strong>
+                    <span>Teachers</span>
+                    <strong>1 <i class="pi pi-arrow-up"></i></strong>
                 </li>
                 <li class="li">
                     <span class="icon-wrapper"><i class="pi pi-box"></i></span>
-                    <span>This Month</span>
-                    <strong>17 <i class="pi pi-arrow-up"></i></strong>
+                    <span>Classes</span>
+                    <strong>3<i class="pi pi-arrow-up"></i></strong>
                 </li>
                 <li class="li">
                     <span class="icon-wrapper"><i class="pi pi-microsoft"></i></span>
-                    <span>This Pending</span>
-                    <strong>65 <i class="pi pi-arrow-up"></i></strong>
+                    <span>Questions</span>
+                    <strong>11<i class="pi pi-arrow-up"></i></strong>
                 </li>
                 <li class="li">
                     <span class="icon-wrapper"><i class="pi pi-moon"></i></span>
-                    <span>This Pending</span>
-                    <strong>65 <i class="pi pi-arrow-up"></i></strong>
+                    <span>_--_--_--_--</span>
+                    <strong> - ? -  <i class="pi pi-arrow-up"></i></strong>
                 </li>
             </ul>
         </div>

@@ -4,10 +4,9 @@
       <h2>WORKING ON</h2>
       <div class="card__wrapper">
         <performance-card></performance-card>
-        <performance-card></performance-card>
+        <graph-card></graph-card>
       </div>
       <div>
-          
         <engagement-card></engagement-card>
       </div>
     </section>
@@ -111,12 +110,16 @@ import { onMounted, reactive, toRef } from "vue";
 import SimpleCard from "../components/cards/SimpleCard.vue";
 import PerformanceCard from "../components/cards/PerformanceCard.vue";
 import EngagementCard from '../components/cards/EngagementCard.vue'
+import GraphCard from '../components/cards/GraphCard.vue'
 import { getDashboard } from "../apis/dashboard";
+import ChartCard from '../components/cards/ChartCard.vue'
 export default {
   components: {
     SimpleCard,
     PerformanceCard,
-    EngagementCard
+    EngagementCard,
+    ChartCard,
+    GraphCard
   },
   setup() {
     const dashboard = reactive({
