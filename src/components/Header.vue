@@ -5,7 +5,7 @@
       <li class="header__option" >  
         <el-avatar
           :size="30"
-          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+          src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_1280.png"
         />
         <span class="text">{{ userName }} 님</span>
       </li>

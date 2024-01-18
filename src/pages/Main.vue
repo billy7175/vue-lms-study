@@ -175,7 +175,7 @@ const items = [
 .main__inner {
   width: 100%;
   background:#F5F7FC;
-  background:#fff;
+  /* background:#fff; */
   border-radius: 10px;
   overflow-x: auto;
   padding: 20px;

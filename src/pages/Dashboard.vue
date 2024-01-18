@@ -1,5 +1,9 @@
 <template>
   <div class="dashboard">
+    <section style="padding:20px 0px; display:flex; gap:20px;">
+      <list-card title="Best Performance"></list-card>
+      <list-card title="Underperforming Students"></list-card>
+    </section>
     <section>
       <h2>WORKING ON</h2>
       <div class="card__wrapper">
@@ -113,13 +117,15 @@ import EngagementCard from '../components/cards/EngagementCard.vue'
 import GraphCard from '../components/cards/GraphCard.vue'
 import { getDashboard } from "../apis/dashboard";
 import ChartCard from '../components/cards/ChartCard.vue'
+import ListCard from '../components/cards/ListCard.vue'
 export default {
   components: {
     SimpleCard,
     PerformanceCard,
     EngagementCard,
     ChartCard,
-    GraphCard
+    GraphCard,
+    ListCard
   },
   setup() {
     const dashboard = reactive({
@@ -153,10 +159,11 @@ export default {
 
 .card__wrapper {
   display: flex;
-  gap: 50px;
+  gap: 20px;
   flex-wrap: wrap;
-  background:#fff;
-  padding:50px 20px;
+  /* background:#fff; */
+  padding:20px 0px;
+  border-radius: 20px;
   /* background:url('../assets/space.jpg'); */
 }
 
