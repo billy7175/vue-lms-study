@@ -6,6 +6,36 @@
         <header class="question-header">
           <p>{{ paramId }}</p>
         </header>
+        <section class="answer-table">
+          <header class="answer-table__header">
+            <div>문제</div>
+            <div>선택</div>
+            <div>정답</div>
+            <div>채점</div>
+          </header>
+          <div class="answer-table__body">
+            <ul class="answer-table__ul">
+              <li class="answer-table__li">
+                <div>1번</div>
+                <div>A</div>
+                <div>A</div>
+                <div class="correct-answer">O</div>
+              </li>
+              <li class="answer-table__li">
+                <div>2번</div>
+                <div>A</div>
+                <div>B</div>
+                <div class="incorrect-answer">X</div>
+              </li>
+              <li class="answer-table__li">
+                <div>3번</div>
+                <div>C</div>
+                <div>C</div>
+                <div class="correct-answer">O</div>
+              </li>
+            </ul>
+          </div>
+        </section>
         <div>
           <question
             v-for="(question, idx) in questionList"
@@ -143,4 +173,56 @@ label {
 .question {
   display: inline-block;
 }
+
+.answer-table  {
+  width:600px;
+  margin:50px auto;
+  padding:30px 15px;
+  background:#FAF5F3;
+  border:3px solid #DABEA9;
+  box-shadow: 0px 0px 4px 4px #DABEA9;
+  border-radius: 20px;
+}
+
+.answer-table__header {
+  display:flex;
+  font-weight: 700;
+}
+
+.answer-table__header div {
+  width:25%;
+  text-align: center;
+  padding:15px;
+  font-weight: 900;
+}
+
+.answer-table__li {
+  display:flex;
+}
+
+.answer-table__ul {
+  padding:0px;
+  margin:0px;
+}
+.answer-table__li div {
+  width:25%;
+  height:70px;
+  line-height: 70px;
+  text-align: center;
+  font-size:20px;
+  font-weight:500px;
+}
+
+.answer-table .correct-answer {
+  color:#57A3FC;
+  font-size:26px;
+  font-weight: 600;
+
+}
+.answer-table .incorrect-answer {
+  color: #FF0F4D;
+  font-size:26px;
+  font-weight: 600;
+}
+
 </style>
