@@ -7,7 +7,7 @@
           :size="30"
           src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_1280.png"
         />
-        <span class="text">{{ userName }} 님</span>
+        <span class="text">{{ userName }} 님 </span>
       </li>
     </ul>
   </header>
@@ -34,9 +34,6 @@ const userName = computed(() => {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  /* box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
-    0 15px 40px rgba(166, 173, 201, 0.2); */
-  /* background:var(--background--light--color); */
   border-radius: 6px;
   background: #fff;
 }

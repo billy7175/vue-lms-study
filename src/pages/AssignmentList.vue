@@ -31,12 +31,17 @@
           <Rating :modelValue="slotProps.data.rate" readonly :cancel="false" />
         </template>
       </Column>
-      <Column field="" header="Released">
+      <Column 
+        v-if="isTeahcer"
+        field="" header="Released">
         <template #body="slotProps">
           <InputSwitch v-model="slotProps.data.isReleased"/>
         </template>
       </Column>
-      <Column field="" header="비고">
+      <Column 
+        v-if="isTeahcer"
+        field="" 
+        header="비고">
         <template #body>
           <Button label="DELETE" severity="danger" rounded size="small" @click="handleDelete" />
         </template>
@@ -45,22 +50,20 @@
   </div>
 </template>
   
-  <script lang="ts">
+  <script>
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import dayjs from "dayjs";
 import { getQuestionBoards } from "../apis/question";
 import { useRouter } from "vue-router";
 import QuestionBoardForm from "../components/form/QuestionBoardForm.vue";
-
-interface Row {
-  // id? : any,
-  date?: any; // Make the 'date' property optional
-}
+import { useUserState } from "../stores/user";
 
 export default {
   components: { QuestionBoardForm },
   setup() {
+    const userState = useUserState()
+
     const isModalOpen = ref(false);
     const today = dayjs(new Date()).format("YYYY-MM-DD");
     const router = useRouter();
@@ -97,7 +100,7 @@ export default {
         };
       });
     };
-    const routeTo = (routeName, row: Row = {}) => {
+    const routeTo = (routeName, row = {}) => {
       const date = dayjs(row?.date).format("YYYY-MM-DD");
 
       router.push({
@@ -117,6 +120,11 @@ export default {
     onMounted(async () => {
       fetchQuestionBoards();
     });
+
+    const isTeahcer = computed(() => {
+      return userState.user?.user?.role === 'teacher'
+    }) 
+
     return {
       handleModalOpen,
       handleModalCancel,
@@ -126,6 +134,7 @@ export default {
       today,
       isModalOpen,
       handleCreateBoard,
+      isTeahcer
     };
   },
 };

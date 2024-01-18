@@ -139,7 +139,7 @@ const items = [
 <template>
   <div class="main-component">
     <PanelMenu :model="items" style="display: none" />
-    <NavMenuTest></NavMenuTest>
+    <NavMenuTest @logout="logout"></NavMenuTest>
     <div class="container__right">
       <Header></Header>
       <main class="main">

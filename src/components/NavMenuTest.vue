@@ -2,27 +2,6 @@
 <template>
   <div class="nav-menu-second card flex justify-content-center">
     <Menu :model="items" class="w-full md:w-15rem">
-      <!-- <template #submenuheader="{ item }">
-              <span class="text-primary font-bold">{{ item.label }}</span>
-          </template> -->
-      <!-- <template #item="{ item, props }">
-              <a v-ripple class="flex align-items-center" v-bind="props.action">
-                  <span :class="item.icon" />
-                  <span class="ml-2">{{ item.label }}</span>
-                  <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
-                  <span v-if="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
-              </a>
-          </template> -->
-
-      <!-- <template #end>
-              <button class="relative overflow-hidden w-full p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround">
-                  <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" class="mr-2" shape="circle" />
-                  <span class="inline-flex flex-column">
-                      <span class="font-bold">Amy Elsner</span>
-                      <span class="text-sm">Admin</span>
-                  </span>
-              </button>
-          </template> -->
       <template #item="{ item }">
         <a class="p-menuitem-link" @click="handleRoute(item)">
           <span class="p-menuitem-icon" :class="item.icon"> </span>
@@ -43,14 +22,12 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default {
-  setup() {
+  setup(props, context) {
     const router = useRouter()
 
     const handleRoute = (item) => {
-      console.log('#handleRoute',)
+      if(item.label === 'Logout') return context.emit('logout')
       const routeName = item.routeName
-      console.log('#routeName', routeName)
-      // alert('Set Route Path')
       router.push({ name: routeName})
     }
     const items = ref([
