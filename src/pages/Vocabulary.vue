@@ -45,7 +45,6 @@ export default {
     };
 
     const onEdit = () => {
-      alert('on-edit')
       isEditingMode.value = !isEditingMode.value
     }
 

@@ -1,6 +1,5 @@
 <template>
   <div class="vocabulary-sheet">
-    isEditingMode {{ isEditingMode }}
     <header
       data-html2canvas-ignore="true"
       style="
@@ -20,9 +19,12 @@
         ref="fileupload"
         style="display: none"
       />
-      <label 
+      <label
         v-if="isCreateMode"
-        for="file" class="p-button" style="font-weight: 700">
+        for="file"
+        class="p-button"
+        style="font-weight: 700"
+      >
         <i class="pi pi-upload" style="margin-right: 10px"></i>
         Excel Upload
       </label>
@@ -38,12 +40,30 @@
 
       <!-- accept="image/*"  -->
       <Button
+        v-if="!isEditingMode"
         @click="handleEditButton"
         label="Change To Edit Mode"
         icon="pi pi-external-link"
+        severity="secondary"
       />
-       
+
       <Button
+        v-if="isEditingMode"
+        @click="handleCancelButton"
+        label="Cancel Edit Mode"
+        icon="pi pi-external-link"
+        severity="danger"
+      />
+      <Button
+        v-if="isEditingMode"
+        @click="handleUpdateButton"
+        label="Update"
+        icon="pi pi-external-link"
+        severity="info"
+      />
+
+      <Button
+        v-if="!isEditingMode"
         @click="handleDownload"
         label="PDF Download"
         icon="pi pi-external-link"
@@ -51,6 +71,7 @@
       />
 
       <Button
+        v-if="isCreateMode"
         @click="handleSave"
         label="Save Data"
         icon="pi pi-save"
@@ -63,25 +84,27 @@
         <div class="sub-info">
           Date <Calendar v-model="date" dateFormat="yy-mm-dd" />
           <span style="margin-left: 10px; display: inline-block"
-            >Name : <InputText 
-                      class="input-name" 
-                      type="text" 
-                      v-model="userName"
-                      style="width:100px;" />
+            >Name :
+            <InputText
+              class="input-name"
+              type="text"
+              v-model="userName"
+              style="width: 100px"
+            />
           </span>
         </div>
         <!-- <h2>바로 읽는 배경지식 독해 LEVEL 1</h2> -->
         <h2 class="title" v-if="isEditingMode">
-          <InputText 
-            class="input-title" 
+          <InputText
+            class="input-title"
             type="text"
             v-model="title"
             placeholder="Enter Title"
           ></InputText>
         </h2>
-        <div v-else style="margin: 10px 0px">
+        <div v-else>
           <h2 class="title">
-            {{ title }}
+            {{ title }} 1
           </h2>
           <!-- <InputText
             type="text"
@@ -154,25 +177,25 @@ export default {
       type: Object,
       default: () => {},
     },
-    isCreateMode : {
+    isCreateMode: {
       type: Boolean,
-      default : true
+      default: true,
     },
     isEditingMode: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   setup(props, context) {
-    const date = ref(new Date())
+    const date = ref(new Date());
     const userStore = useUserState();
     const userId = userStore.user.user._id;
     const data = reactive(props.data);
 
     const title = ref("123");
-    const userName = ref('test-username');
+    const userName = ref("test-username");
     const modelValue = props.modelValue;
-    
+
     watch(
       data,
       (newVal) => {
@@ -206,9 +229,9 @@ export default {
         data: [...inputValuesSection1.value, ...inputValuesSection2.value],
       };
 
-      if(!title.value) return alert('제목을 입력해주세요.')
-      if(!userName.value) return alert('이름을 입력해주세요.')
-      if(!date.value) return alert('날짜를 입력해주세요.')
+      if (!title.value) return alert("제목을 입력해주세요.");
+      if (!userName.value) return alert("이름을 입력해주세요.");
+      if (!date.value) return alert("날짜를 입력해주세요.");
       console.log("#body", body);
       const res = await axios.post(
         "http://127.0.0.1:3000/api/vocabulary-sheet",
@@ -329,12 +352,36 @@ export default {
       }
     }
 
-
     const handleEditButton = () => {
-      console.log('#handleEditButton')
-      console.log(props.isEditingMode)
-      context.emit('edit')
-    }
+      context.emit("edit");
+    };
+
+    const handleCancelButton = () => {
+      context.emit("edit");
+    };
+
+    const handleUpdateButton = async () => {
+      console.log("#handleUpdateButton");
+      console.log("#data", data);
+      const body = {
+        title: title.value,
+        name: userName.value,
+        date: date.value,
+        register: userId,
+        data: [...inputValuesSection1.value, ...inputValuesSection2.value],
+      };
+
+      try {
+        const res = await axios.put(
+          `http://127.0.0.1:3000/api/vocabulary-sheet/${data.value._id}`,
+          body
+        );
+
+        await alert('Updated successfully');
+      } catch (error) {
+        console.log('#error', error)
+      }
+    };
 
     return {
       inputValuesSection1,
@@ -347,28 +394,27 @@ export default {
       makePDF,
       handleSave,
       handleEditButton,
+      handleCancelButton,
+      handleUpdateButton,
       data,
       modelValue,
       title,
       userName,
-      date
+      date,
     };
   },
 };
 </script>
 
 <style scoped>
-
 h2 {
-  margin:0px;
+  margin: 0px;
 }
 .title {
-  /* margin:0px; */
-  margin-bottom:30px;
-  width:500px;
-  height:30px;
-  border:1px solid red;
-  display:inline-block;
+  margin:20px 0px;
+  width: 500px;
+  height: 40px;
+  display: inline-block;
 }
 .vocabulary-sheet {
   width: 70%;
@@ -471,20 +517,19 @@ h2 {
 </style>
 
 <style>
-
 .vocabulary-sheet .p-calendar .p-inputtext {
-  border:none;
-  border-bottom:2px solid #000;
+  border: none;
+  border-bottom: 2px solid #000;
   border-radius: 0px;
 }
 
 .vocabulary-sheet .input-title {
-  width:350px;
+  width: 350px;
 }
 
 .vocabulary-sheet .input-name {
-  border:none;
-  border-bottom:2px solid #000;
+  border: none;
+  border-bottom: 2px solid #000;
 }
 </style>
 

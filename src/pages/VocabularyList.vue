@@ -11,9 +11,9 @@
           @rowSelect="(row) => handleSelect(row.data)"
           selectionMode="single"
           paginator
-          :rows="5"
+          :rows="10"
         >
-          <Column field="date" header="Date"></Column>
+          <Column field="date" header="Date" style="width:300px;"></Column>
           <Column field="title" header="Title"> </Column>
           
         </DataTable>
