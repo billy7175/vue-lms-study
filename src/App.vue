@@ -2,10 +2,21 @@
 </script>
 
 <template>
-  <div>
+  <div class="app">
+    <cube></cube>
     <router-view></router-view>
   </div>
 </template>
+
+
+<script>
+import Cube from './components/cube/Cube.vue'
+export default {
+  components : {
+    Cube
+  }
+}
+</script>
 
 <style scoped>
 
