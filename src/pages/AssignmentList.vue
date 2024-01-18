@@ -32,14 +32,14 @@
         </template>
       </Column>
       <Column 
-        v-if="isTeahcer"
+        v-if="isTeacher"
         field="" header="Released">
         <template #body="slotProps">
           <InputSwitch v-model="slotProps.data.isReleased"/>
         </template>
       </Column>
       <Column 
-        v-if="isTeahcer"
+        v-if="isTeacher"
         field="" 
         header="비고">
         <template #body>
@@ -121,7 +121,7 @@ export default {
       fetchQuestionBoards();
     });
 
-    const isTeahcer = computed(() => {
+    const isTeacher = computed(() => {
       return userState.user?.user?.role === 'teacher'
     }) 
 
@@ -134,7 +134,7 @@ export default {
       today,
       isModalOpen,
       handleCreateBoard,
-      isTeahcer
+      isTeacher
     };
   },
 };

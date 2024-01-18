@@ -1,31 +1,28 @@
 <template>
   <div>
-    <question-form 
-      @create="handleCreate"
-      
-      ></question-form>
-    <section v-if="(questionList && questionList.length)">
+    <question-form @create="handleCreate"></question-form>
+    <section v-if="questionList && questionList.length">
       <div class="question-wrapper">
         <header class="question-header">
-          <p> {{ paramId }} </p> 
+          <p>{{ paramId }}</p>
         </header>
         <div>
           <question
-          v-for="(question, idx) in questionList"
-          :key="idx"
-          :data="question"
-          v-model="question.userSelectedAnswer.value"
-          :number="(idx + 1)"
-          @delete="handleDelete"
-        ></question>
+            v-for="(question, idx) in questionList"
+            :key="idx"
+            :data="question"
+            v-model="question.userSelectedAnswer.value"
+            :number="idx + 1"
+            @delete="handleDelete"
+          ></question>
         </div>
       </div>
-      <div style="display: flex; justify-content: center; margin:25px 0px;">
+      <div style="display: flex; justify-content: center; margin: 25px 0px">
         <Button label="Submit" @click="handleSubmit" />
       </div>
     </section>
     <section v-else>
-      <h2 style="color:#777; text-align: center;">
+      <h2 style="color: #777; text-align: center">
         {{ paramId }} 에 대한 문제를 생성해주세요
       </h2>
     </section>
@@ -41,11 +38,11 @@ import Question from "../components/Question.vue";
 export default {
   components: {
     QuestionForm,
-    Question
+    Question,
   },
   setup() {
-    const route = useRoute()
-    const paramId = ref(route.params.id)
+    const route = useRoute();
+    const paramId = ref(route.params.id);
     const questionList = ref([]);
     const date = ref(new Date());
     const title = ref("");
@@ -54,25 +51,34 @@ export default {
     const status = ref("");
 
     const fetchQuestion = async () => {
-      const { data } = await getQuestions(paramId.value)
-      questionList.value = data
-    }
+      const { data } = await getQuestions(paramId.value);
+      questionList.value = data;
+    };
 
     onMounted(async () => {
-      fetchQuestion()
+      fetchQuestion();
     });
 
     const handleSubmit = () => {
       console.log("#questionList", questionList.value);
+      const isValidated = questionList.value.every((x) => {
+        console.log("#x", x.userSelectedAnswer, !!x.userSelectedAnswer.value);
+        return !!x.userSelectedAnswer.value;
+      });
+      if (!isValidated) return alert("Check all the answers.");
+      const isConfirm = confirm("Do you want to submit your answers?");
+      if (isConfirm) {
+        // API 발 사!!!
+      }
     };
 
     const handleCreate = () => {
-      fetchQuestion()
-    }
-    
+      fetchQuestion();
+    };
+
     const handleDelete = () => {
-      fetchQuestion()
-    }
+      fetchQuestion();
+    };
 
     return {
       date,
@@ -84,7 +90,7 @@ export default {
       handleSubmit,
       handleCreate,
       handleDelete,
-      paramId
+      paramId,
     };
   },
 };
@@ -106,21 +112,23 @@ p {
 }
 
 .question-wrapper {
-  margin:0px auto;
-  width:75%; 
-  background:#fff;
+  margin: 0px auto;
+  width: 75%;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .question-header {
-  padding:10px;
+  padding: 10px;
   text-align: center;
   background: #666;
-  color:#fff;
-  font-size:16px;
+  color: #fff;
+  font-size: 16px;
 }
 
 .question-header p {
-  font-size:26px;
+  font-size: 26px;
   font-weight: 700;
 }
 

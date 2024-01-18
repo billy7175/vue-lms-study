@@ -1,6 +1,7 @@
 <template>
   <article class="question" :class="[{ 'is-correct': true }]">
     <i 
+      v-if="isTeacher"
       @click="handleQuestionDelete(data)"
       class="icon-trash pi pi-trash"></i>
     <div style="display: none; position: absolute; top: -20%; left: -3%">
@@ -28,7 +29,7 @@
     <div style="display: flex; align-items: flex-start; padding: 40px">
       <span class="question-order">Q{{ number }}.</span>
       <div class="question-wrapper">
-        <p>{{ convertQuestion(data.question, data.answer.value) }}</p>
+        <p class="question-sentence">{{ convertQuestion(data.question, data.answer.value) }}</p>
         <div>
           <!-- 문제 풀기 후 -->
           <div v-if="data.isSubmited">
@@ -74,7 +75,8 @@
 
 <script>
 import axios from 'axios'
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
+import { useUserState } from '../stores/user';
 export default {
   components: {},
   props: {
@@ -94,6 +96,10 @@ export default {
     },
   },
   setup(props, context) {
+    const userState = useUserState()
+    const isTeacher = computed(() => {
+      return userState.user?.user?.role === 'teacher'
+    }) 
     var pathes = document.querySelectorAll("path");
     pathes.forEach(function (path) {
       var pathLength = path.getTotalLength();
@@ -152,7 +158,8 @@ export default {
       modelValue: modelValue,
       testValue: testValue,
       selectedAnswer: selectedAnswer,
-      handleQuestionDelete
+      handleQuestionDelete,
+      isTeacher
     };
   },
 };
@@ -204,8 +211,12 @@ p {
   margin: 0px;
   margin-top: 5px;
 }
+
+.question-sentence {
+  line-height:1.5
+}
 .field-radiobutton {
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 label {
