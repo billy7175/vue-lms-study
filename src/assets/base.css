@@ -6,15 +6,17 @@
   --dark--background--color__hover : #4235AD;
 
   --background--color: #fff;
-  /* --background--light--color : #FFF27A; */
   --background--light--color:#FAFAFA;
   --background--color__hover :#f1f1f1;
   --font--color:#000;
   --font--color__hover: #000;
   --background--color--blue : #95CFD8;
-  /* background: #FFF27A; */
-  /* --background--color__hover: #4235AD; */
 }
+
+body {
+  margin:0px;
+}
+
 
 /* :root {
   --vt-c-white: #ffffff;

@@ -1,12 +1,17 @@
 <template>
   <div>
-    <question-form @create="handleCreate"></question-form>
+    <question-form 
+      v-if="isTeacher"
+      @create="handleCreate"></question-form>
     <section v-if="questionList && questionList.length">
       <div class="question-wrapper">
         <header class="question-header">
           <p>{{ paramId }}</p>
         </header>
-        <section class="answer-table">
+        <section 
+          v-if="isSubmitted"
+          class="answer-table"
+        >
           <header class="answer-table__header">
             <div>문제</div>
             <div>선택</div>
@@ -14,24 +19,18 @@
             <div>채점</div>
           </header>
           <div class="answer-table__body">
-            <ul class="answer-table__ul">
-              <li class="answer-table__li">
-                <div>1번</div>
-                <div>A</div>
-                <div>A</div>
-                <div class="correct-answer">O</div>
-              </li>
-              <li class="answer-table__li">
-                <div>2번</div>
-                <div>A</div>
-                <div>B</div>
-                <div class="incorrect-answer">X</div>
-              </li>
-              <li class="answer-table__li">
-                <div>3번</div>
-                <div>C</div>
-                <div>C</div>
-                <div class="correct-answer">O</div>
+            <ul 
+            v-if="answerTable && answerTable.length"
+              class="answer-table__ul">
+              <li 
+                v-for="(answer, idx) in answerTable"
+                :key="idx"
+
+                class="answer-table__li">
+                <div>{{answer.number}}</div>
+                <div>{{answer.userAnswer}}</div>
+                <div>{{ answer.answer }}</div>
+                <div :class="{ 'correct-answer': answer.userAnswer === answer.answer, 'incorrect-answer': answer.userAnswer !== answer.answer }">{{ getAnswerLabel(answer) }}</div>
               </li>
             </ul>
           </div>
@@ -47,8 +46,19 @@
           ></question>
         </div>
       </div>
-      <div style="display: flex; justify-content: center; margin: 25px 0px">
-        <Button label="Submit" @click="handleSubmit" />
+      <div
+        
+        style="display: flex; justify-content: center; margin: 25px 0px">
+        <Button 
+        v-if="!isSubmitted"   
+        label="Submit" @click="handleSubmit" />
+        <Button 
+          v-else  
+          label="Complted Submittion"
+          disabled
+          style="opacity:.5"
+        />
+        
       </div>
     </section>
     <section v-else>
@@ -60,11 +70,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { computed } from 'vue';
 import { useRoute } from "vue-router";
 import { getQuestions } from "../apis/question";
-import { ref, onMounted } from "vue";
+import { getUserAnswers } from '../apis/answer'
+import { ref, onMounted, reactive } from "vue";
 import QuestionForm from "../components/form/QuestionForm.vue";
 import Question from "../components/Question.vue";
+import { useUserState } from "../stores/user";
 export default {
   components: {
     QuestionForm,
@@ -79,25 +93,87 @@ export default {
     const description = ref("");
     const rate = ref("");
     const status = ref("");
+    const userAnswer = reactive({})
+    const isSubmitted = ref(false)
+    const userState = useUserState()
+    const answerTable = ref([])
 
     const fetchQuestion = async () => {
       const { data } = await getQuestions(paramId.value);
       questionList.value = data;
     };
 
+    const fetchUserAnswers = async () => {
+      try {
+        const { data } = await getUserAnswers(paramId.value)
+        console.log('fetchUserAnswers', data)
+        userAnswer.value= data
+        isSubmitted.value = true
+
+        questionList.value.forEach((q, idx) => {
+          answerTable.value.push({
+            number : idx + 1,
+            userAnswer: data.answers[idx]?.label,
+            uesrValue : data.answers[idx]?.value,
+            // userValue : data.
+            answer : q.answer.label,
+
+          })
+        })
+
+
+
+        questionList.value.map((q, idx) => {
+          console.log(answerTable.value[idx])
+          q.userSelectedAnswer.value = answerTable.value[idx].uesrValue
+        })
+
+        console.log(112312321312)
+        console.log(questionList.value)
+
+      } catch(error) {
+        console.log(error)
+        console.log('what up due')
+      }
+    }
+
     onMounted(async () => {
-      fetchQuestion();
+      await fetchQuestion();
+      fetchUserAnswers()
     });
 
-    const handleSubmit = () => {
-      console.log("#questionList", questionList.value);
+    const handleSubmit = async () => {
       const isValidated = questionList.value.every((x) => {
-        console.log("#x", x.userSelectedAnswer, !!x.userSelectedAnswer.value);
         return !!x.userSelectedAnswer.value;
       });
       if (!isValidated) return alert("Check all the answers.");
       const isConfirm = confirm("Do you want to submit your answers?");
       if (isConfirm) {
+        const answers = []
+        questionList.value.forEach(x => {
+          answers.push({
+            label: x.options.find(option => option.value === x.userSelectedAnswer.value).label,
+            value: x.userSelectedAnswer.value,
+          })
+        })
+
+        const body = {
+          date: paramId.value,
+          answers : answers,
+          user: userState.user.user._id,
+        }
+
+
+      try {
+        const { data } = await axios.post("http://127.0.0.1:3000/api/answer", body);
+        console.log(6556565, data)
+      } catch (error){
+
+      }
+      
+
+        console.log('#body', body)
+        console.log('answers', answers)
         // API 발 사!!!
       }
     };
@@ -110,6 +186,14 @@ export default {
       fetchQuestion();
     };
 
+    const getAnswerLabel = ({userAnswer, answer}) => {
+      return userAnswer === answer ? 'O' : 'X'
+    }
+
+    const isTeacher = computed(() => {
+      return userState.user.user.role === 'teacher'
+    })
+
     return {
       date,
       title,
@@ -121,6 +205,10 @@ export default {
       handleCreate,
       handleDelete,
       paramId,
+      isSubmitted,
+      answerTable,
+      getAnswerLabel,
+      isTeacher
     };
   },
 };
@@ -175,12 +263,12 @@ label {
 }
 
 .answer-table  {
-  width:600px;
+  width:70%;
   margin:50px auto;
   padding:30px 15px;
   background:#FAF5F3;
-  border:3px solid #DABEA9;
-  box-shadow: 0px 0px 4px 4px #DABEA9;
+  /* border:3px solid #DABEA9; */
+  /* box-shadow: 0px 0px 4px 4px #DABEA9; */
   border-radius: 20px;
 }
 

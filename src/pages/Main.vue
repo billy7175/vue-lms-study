@@ -167,7 +167,7 @@ const items = [
 
 .main {
   box-sizing: border-box;
-  padding: 30px;
+  padding: 20px;
   width: 100%;
   height: calc(100% - 80px);
 }
@@ -175,9 +175,7 @@ const items = [
 .main__inner {
   width: 100%;
   background:#F5F7FC;
-  /* background:#fff; */
   border-radius: 10px;
-  overflow-x: auto;
   padding: 20px;
   overflow-y: auto;
   height: 100%;

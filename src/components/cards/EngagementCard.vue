@@ -2,33 +2,18 @@
     <div class="engagement-card">
         <aside class="aside">
             <strong>
-                Engagement
+                Figures
             </strong>
             <p>
-                General statistic of user <span>engagement</span> processes.
+                General statistic of <span>Figures</span>.
             </p>
         </aside>
         <div class="body">
             <ul class="ul">
-                <li class="li">
+                <li class="li" v-for="x in data" :key="x.label">
                     <span class="icon-wrapper"><i class="pi pi-database"></i></span>
-                    <span>Students</span>
-                    <strong>6 <i class="pi pi-arrow-up"></i></strong>
-                </li>
-                <li class="li">
-                    <span class="icon-wrapper"><i class="pi pi-apple"></i></span>
-                    <span>Teachers</span>
-                    <strong>1 <i class="pi pi-arrow-up"></i></strong>
-                </li>
-                <li class="li">
-                    <span class="icon-wrapper"><i class="pi pi-box"></i></span>
-                    <span>Classes</span>
-                    <strong>3<i class="pi pi-arrow-up"></i></strong>
-                </li>
-                <li class="li">
-                    <span class="icon-wrapper"><i class="pi pi-microsoft"></i></span>
-                    <span>Questions</span>
-                    <strong>11<i class="pi pi-arrow-up"></i></strong>
+                    <span>{{ x.label }} </span>
+                    <strong> {{ x.count}} <i class="pi pi-arrow-up"></i></strong>
                 </li>
                 <li class="li">
                     <span class="icon-wrapper"><i class="pi pi-moon"></i></span>
@@ -40,7 +25,19 @@
     </div>
 </template>
 
-<script></script>
+<script>
+export default {
+    props: {
+        data: {
+            type: Object,
+            default: () => {} 
+        }
+    },
+    setup (){
+
+    }
+}
+</script>
 
 <style scoped>
 .engagement-card {

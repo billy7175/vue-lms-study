@@ -32,11 +32,14 @@
         <p class="question-sentence">{{ convertQuestion(data.question, data.answer.value) }}</p>
         <div>
           <!-- 문제 풀기 후 -->
-          <div v-if="data.isSubmited">
+          <div v-if="isSubmited">
+            {{ modelValue}}
             <div
               v-for="(option, idx) in data.options"
               :key="idx"
               class="field-radiobutton"
+              :class="[{'is-matched': modelValue === option.value}]"
+              
             >
               <RadioButton
                 :id="option.value"
@@ -48,7 +51,6 @@
               <label for="city1">{{ option.label }}. {{ option.value }}</label>
             </div>
           </div>
-
 
           <!-- 문제 풀기 전 -->
           <div v-else>
@@ -96,6 +98,7 @@ export default {
     },
   },
   setup(props, context) {
+    const isSubmited = ref(true)
     const userState = useUserState()
     const isTeacher = computed(() => {
       return userState.user?.user?.role === 'teacher'
@@ -125,10 +128,6 @@ export default {
     const selectedAnswer = ref("");
 
     watch(selectedAnswer, (newVal, oldVal) => {
-      console.log("#props.data", props.data);
-      console.log("#sampleData", sampleData);
-      console.log("#sampleData", sampleData.userSelectedAnswer);
-      console.log(newVal);
       updateSelectedAnswer(sampleData, newVal);
     });
 
@@ -159,7 +158,8 @@ export default {
       testValue: testValue,
       selectedAnswer: selectedAnswer,
       handleQuestionDelete,
-      isTeacher
+      isTeacher,
+      isSubmited
     };
   },
 };
@@ -232,5 +232,13 @@ label {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+.is-matched {
+  font-size:20px;
+  padding:10px;
+  background: #57A3FC;
+  border-radius: 10px;
+  color:#fff;
 }
 </style>

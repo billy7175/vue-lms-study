@@ -220,14 +220,8 @@ export default {
     const handleCreate = async () => {
       const isValidate = validateInputFields();
       console.log("#isValidated", isValidate);
-      const result = {
-        type: "MULTIPLE_CHOICE",
-        question: questionText.value,
-        answer: {
-          positionIndex: positionIdx.value,
-          value : selectedLetter.value
-        },
-        options: [
+
+      const options = [
           {
             label: "A",
             value: first.value,
@@ -244,7 +238,16 @@ export default {
             label: "D",
             value: forth.value,
           },
-        ],
+        ]
+      const result = {
+        type: "MULTIPLE_CHOICE",
+        question: questionText.value,
+        answer: {
+          positionIndex: positionIdx.value,
+          value : selectedLetter.value,
+          label: options.find(x => x.value === selectedLetter.value).label
+        },
+        options: options,
         userSelectedAnswer: {
           value: null
         },

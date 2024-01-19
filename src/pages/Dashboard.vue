@@ -1,45 +1,23 @@
 <template>
   <div class="dashboard">
-    <section style="padding:20px 0px; display:flex; gap:20px;">
+    <div>
+        <engagement-card :data="dashboard"></engagement-card>
+      </div>
+    <section style="padding:20px 0px; display:flex; gap:40px;">
       <list-card title="Best Performance"></list-card>
-      <list-card title="Underperforming Students"></list-card>
+      <!-- <list-card title="Underperforming Students"></list-card> -->
+      <graph-card></graph-card>
     </section>
     <section>
       <h2>WORKING ON</h2>
       <div class="card__wrapper">
+        <list-card title="Underperforming Students"></list-card>
         <performance-card></performance-card>
-        <graph-card></graph-card>
+        
       </div>
-      <div>
-        <engagement-card></engagement-card>
-      </div>
+
     </section>
-    <section>
-      <h2 class="card__title">Analysis</h2>
-      <div class="card__wrapper">
-        <simple-card
-          title="Students"
-          :contents="dashboard.studentCount"
-          is-horizontal
-        ></simple-card>
-        <simple-card
-          title="Teachers"
-          :contents="dashboard.teacherCount"
-          is-horizontal
-        ></simple-card>
-        <simple-card
-          title="Classes"
-          :contents="dashboard.classCount"
-          is-horizontal
-        ></simple-card>
-        <simple-card
-          title="Questions"
-          :contents="dashboard.questionCount"
-          is-horizontal
-        ></simple-card>
-      </div>
-    </section>
-    <section style="margin-top: 50px">
+    <!-- <section style="margin-top: 50px">
       <h2 class="card__title">Popular Courses</h2>
       <div class="card__wrapper">
         <simple-card
@@ -62,7 +40,7 @@
           </iframe>
         </p>
       </div>
-    </section>
+    </section> -->
     <section style="margin-top: 50px">
       <h2 class="card__title">Members</h2>
       <DataTable
@@ -128,15 +106,23 @@ export default {
     ListCard
   },
   setup() {
+    // const dashboard = reactive({
+    //   studentCount: 0,
+    //   teacherCount: 0,
+    //   classCount: 0,
+    //   questionCount: 0,
+    // });
+
     const dashboard = reactive({
-      studentCount: 0,
-      teacherCount: 0,
-      classCount: 0,
-      questionCount: 0,
-    });
+      student: {
+        label: 'Student',
+        count : 0
+      }
+    })
 
     onMounted(async () => {
       const { data } = await getDashboard();
+      console.log(55555, data)
       Object.assign(dashboard, data); // #ChekcPoint
     });
 

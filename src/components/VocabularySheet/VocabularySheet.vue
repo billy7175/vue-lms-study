@@ -377,6 +377,7 @@ export default {
           body
         );
 
+        context.emit("edit");
         await alert('Updated successfully');
       } catch (error) {
         console.log('#error', error)

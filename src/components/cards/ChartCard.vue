@@ -1,7 +1,7 @@
 
 <template>
     <div class="card">
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-30rem" />
+        <Chart type="line" :data="chartData" :options="chartOptions" class="h-30rem" style="width:auto; height:400px;" />
     </div>
 </template>
 
@@ -34,6 +34,7 @@ const setChartData = () => {
                 label: 'Second Dataset',
                 data: [28, 48, 40, 19, 86, 27, 90],
                 fill: false,
+                backgroundColor: 'rgba(50, 115, 220, 0.1)',
                 borderColor: documentStyle.getPropertyValue('--pink-500'),
                 tension: 0.4
             }
