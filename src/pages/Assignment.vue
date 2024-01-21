@@ -139,7 +139,9 @@ export default {
 
     onMounted(async () => {
       await fetchQuestion();
-      fetchUserAnswers()
+      if(!isTeacher.value){
+        fetchUserAnswers()
+      }
     });
 
     const handleSubmit = async () => {

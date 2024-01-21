@@ -168,9 +168,11 @@ export default {
 
 <style scoped>
 .question {
+  width:100%;
+  width:750px;
+  border:1px solid red;
   display: inline-block;
   position: relative;
-  width:50%;
 }
 
 .icon-trash {
@@ -213,6 +215,8 @@ p {
 }
 
 .question-sentence {
+  /* letter-spacing: 1.5; */
+  border:1px solid red;
   line-height:1.5
 }
 .field-radiobutton {

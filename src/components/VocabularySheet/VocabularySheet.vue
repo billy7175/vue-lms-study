@@ -82,14 +82,14 @@
       <div class="header__inner">
         <div class="sub-title">Unit 02 BUSY BEES</div>
         <div class="sub-info">
-          Date <Calendar v-model="date" dateFormat="yy-mm-dd" />
+          Date <Calendar v-model="date" dateFormat="yy-mm-dd" style="width:150px;"/>
           <span style="margin-left: 10px; display: inline-block"
             >Name :
             <InputText
               class="input-name"
               type="text"
               v-model="userName"
-              style="width: 100px"
+              style="width: 130px"
             />
           </span>
         </div>
@@ -418,7 +418,7 @@ h2 {
   display: inline-block;
 }
 .vocabulary-sheet {
-  width: 70%;
+  width: 1200px;
   margin: auto;
   height: auto;
 }
@@ -531,6 +531,11 @@ h2 {
 .vocabulary-sheet .input-name {
   border: none;
   border-bottom: 2px solid #000;
+}
+
+.vocabulary-sheet .p-datepicker {
+  /* width:200px !important; */
+  /* border:5px solid red; */
 }
 </style>
 
