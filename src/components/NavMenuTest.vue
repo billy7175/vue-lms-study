@@ -53,6 +53,12 @@ export default {
             routeName: 'vocabulary-list',
             badge: 'Beta'
           },
+          {
+            label: "Students",
+            icon: "pi pi-users",
+            routeName: 'students',
+            badge: '5'
+          },
         ],
       },
       {

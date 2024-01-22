@@ -1,7 +1,6 @@
 <script setup>
 import { getTest } from "../apis/login";
 import { onMounted } from "vue";
-import NavMenu from "../components/NavMenu.vue";
 import NavMenuTest from '../components/NavMenuTest.vue'
 import { useUserState } from "../stores/user.js";
 import Header from "../components/Header.vue";

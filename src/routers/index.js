@@ -8,6 +8,9 @@ import Assignment from '../pages/Assignment.vue'
 import AssignmentList from '../pages/AssignmentList.vue'
 import VocabularyList from '../pages/VocabularyList.vue'
 import Vocabulary from '../pages/Vocabulary.vue'
+import Student from '../pages/student/Student.vue'
+import StudentDetail from '../pages/student/StudentDetail.vue'
+import StudentList from '../pages/student/StudentList.vue'
 import { useUserState } from "../stores/user.js";
 
 const routes = [
@@ -38,29 +41,49 @@ const routes = [
                 component: AssignmentList,
             },
             {
-                path:'assignments/create',
-                name : 'assignment-create',
-                component:  Assignment
+                path: 'assignments/create',
+                name: 'assignment-create',
+                component: Assignment
             },
             {
-                path:'assignments/:id',
-                name : 'assignment-update',
-                component:  Assignment
+                path: 'assignments/:id',
+                name: 'assignment-update',
+                component: Assignment
             },
             {
                 path: 'vocabulary-list',
-                name : 'vocabulary-list',
+                name: 'vocabulary-list',
                 component: VocabularyList
             },
             {
                 path: 'vocabulary/:id',
                 name: 'vocabulary',
-                component : Vocabulary,
+                component: Vocabulary,
             },
             {
-                path:'vocabulary/create',
+                path: 'vocabulary/create',
                 name: 'vocabulary-create',
-                component : Vocabulary,
+                component: Vocabulary,
+            },
+            {
+                path: 'students',
+                name: 'students',
+                component: Student,
+                redirect: {
+                    name: 'student-list'
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'student-list',
+                        component: StudentList
+                    },
+                    {
+                        path:'/:id',
+                        name: 'student-detail',
+                        component: StudentDetail
+                    }
+                ]
             }
         ],
     },
