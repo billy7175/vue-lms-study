@@ -40,7 +40,7 @@
               class="field-radiobutton"
               :class="[{'is-matched': modelValue === option.value}]"
               
-            >
+              >
               <RadioButton
                 :id="option.value"
                 :name="option.value"
@@ -58,6 +58,7 @@
               v-for="(option, idx) in data.options"
               :key="idx"
               class="field-radiobutton"
+              style="border:1px solid blue;"
             >
               <RadioButton
                 :id="option.value"
@@ -96,9 +97,15 @@ export default {
       type: Number,
       default: 0,
     },
+    isSubmitted: {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props, context) {
-    const isSubmited = ref(true)
+    const isSubmited = computed(() => {
+      return props.isSubmitted
+    })
     const userState = useUserState()
     const isTeacher = computed(() => {
       return userState.user?.user?.role === 'teacher'
@@ -169,8 +176,8 @@ export default {
 <style scoped>
 .question {
   width:100%;
-  width:750px;
-  border:1px solid red;
+  margin:auto;
+  border-bottom:1px solid #ccc;
   display: inline-block;
   position: relative;
 }
@@ -209,17 +216,19 @@ p {
 }
 
 .question-wrapper {
+  width:100%;
   padding-left: 10px;
   margin: 0px;
   margin-top: 5px;
 }
 
 .question-sentence {
-  /* letter-spacing: 1.5; */
-  border:1px solid red;
   line-height:1.5
 }
 .field-radiobutton {
+  padding:10px;
+  background: #f9f9f9;
+  border-radius: 6px;
   margin-top: 10px;
 }
 

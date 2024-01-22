@@ -13,10 +13,10 @@
           class="answer-table"
         >
           <header class="answer-table__header">
-            <div>문제</div>
-            <div>선택</div>
-            <div>정답</div>
-            <div>채점</div>
+            <div class="cell">문제</div>
+            <div class="cell">선택</div>
+            <div class="cell">정답</div>
+            <div class="cell">채점</div>
           </header>
           <div class="answer-table__body">
             <ul 
@@ -27,21 +27,27 @@
                 :key="idx"
 
                 class="answer-table__li">
-                <div>{{answer.number}}</div>
-                <div>{{answer.userAnswer}}</div>
-                <div>{{ answer.answer }}</div>
-                <div :class="{ 'correct-answer': answer.userAnswer === answer.answer, 'incorrect-answer': answer.userAnswer !== answer.answer }">{{ getAnswerLabel(answer) }}</div>
+                <div class="cell">{{answer.number}}</div>
+                <div class="cell">{{answer.userAnswer}}</div>
+                <div class="cell">{{ answer.answer }}</div>
+                <div class="cell" :class="{ 'correct-answer': answer.userAnswer === answer.answer, 'incorrect-answer': answer.userAnswer !== answer.answer }">{{ getAnswerLabel(answer) }}</div>
               </li>
             </ul>
           </div>
+          <footer style="display:flex; justify-content: flex-end;">
+            <h2 style="margin-top:50px; margin-right:50px; ">
+              맞은 개수 : 0 / 3
+            </h2>
+          </footer>
         </section>
-        <div>
+        <div style="display:flex; flex-direction: column;">
           <question
             v-for="(question, idx) in questionList"
             :key="idx"
             :data="question"
             v-model="question.userSelectedAnswer.value"
             :number="idx + 1"
+            :isSubmitted="isSubmitted"
             @delete="handleDelete"
           ></question>
         </div>
@@ -72,7 +78,7 @@
 <script>
 import axios from 'axios'
 import { computed } from 'vue';
-import { useRoute } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 import { getQuestions } from "../apis/question";
 import { getUserAnswers } from '../apis/answer'
 import { ref, onMounted, reactive } from "vue";
@@ -86,6 +92,7 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter()
     const paramId = ref(route.params.id);
     const questionList = ref([]);
     const date = ref(new Date());
@@ -169,6 +176,7 @@ export default {
       try {
         const { data } = await axios.post("http://127.0.0.1:3000/api/answer", body);
         console.log(6556565, data)
+        router.go()
       } catch (error){
 
       }
@@ -233,14 +241,14 @@ p {
 
 .question-wrapper {
   margin: 0px auto;
-  width: 75%;
+  width:850px;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
 }
 
 .question-header {
-  padding: 10px;
+  padding: 20px;
   text-align: center;
   background: #666;
   color: #fff;
@@ -315,4 +323,7 @@ label {
   font-weight: 600;
 }
 
+.cell {
+  /* border:1px solid rgb(63, 59, 59); */
+}
 </style>
