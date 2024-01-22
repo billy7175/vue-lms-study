@@ -3,21 +3,12 @@
 <script setup>
 import { ref } from "vue";
 import { getTest, loginPost } from "../apis/login";
-// import { defineComponent } from "vue";
-import ToggleButton from "primevue/togglebutton";
-
 import { useUserState } from "../stores/user.js";
-import { useRouter } from 'vue-router'
-import VueCookies from 'vue-cookies'
+import { useRouter } from "vue-router";
+import VueCookies from "vue-cookies";
 const userStore = useUserState();
-const router = useRouter()
+const router = useRouter();
 
-// const { isLoggedIn, test } = mapState(userStore, ["isLoggedIn", "test"]);
-// console.log("1#isLoggedIn", isLoggedIn);
-// console.log("1#test", test);
-
-const slideValue = ref(79);
-const checked = ref(false);
 const userEmail = ref("");
 const userPassword = ref("");
 
@@ -41,16 +32,17 @@ const validateForms = () => {
   return true;
 };
 
-const handleLogin = async () => { // TEMP TEST
+const handleLogin = async () => {
+  // TEMP TEST
   try {
-    console.log('#handleLogin')
+    console.log("#handleLogin");
     await getTest();
-    console.log('#router', router)
-    await router.push({ name : 'main'})
-  } catch(error){
+    console.log("#router", router);
+    await router.push({ name: "main" });
+  } catch (error) {
     // 1. invalid signature *토큰 정보가 다른 경우
     // 2. No authorization token was found // token 이 없는 경우
-    alert('error test when having no jwt token inside api request')
+    alert("error test when having no jwt token inside api request");
   }
 };
 
@@ -64,11 +56,10 @@ const handleLoginPost = async () => {
     const { data } = await loginPost(params);
     console.log("#res", data);
     userStore.loginUser(data);
-    const { user , token} = data
-    VueCookies.set('token', token)
-    VueCookies.set('user', user)
-    location.reload()
-    
+    const { user, token } = data;
+    VueCookies.set("token", token);
+    VueCookies.set("user", user);
+    location.reload();
   } catch (error) {
     const errorData = error.response?.data;
     if (errorData && errorData.code === "IAM001") {
@@ -76,101 +67,210 @@ const handleLoginPost = async () => {
     }
   }
 };
-
-// export default defineComponent({
-//   name: "Login",
-//   components: {
-//     Button
-//   },
-// });
 </script>
 
 <template>
-  <div class="login-page">
-    <pre style="width: 100px">
-      {{ userStore.user }}
-    </pre>
-    <div class="form">
-      <h1>
-        <ToggleButton v-model="checked" />
+  <div>
+    <section>
+      <div class="box">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
 
-        {{slideValue}}
-        <Slider v-model="slideValue" />
-      </h1>
-      <div class="register-form">
-        <input type="text" placeholder="Name" />
-        <input type="password" placeholder="Password" />
-        <input type="email" placeholder="Email" />
-        <button>Create</button>
-        <p class="message">Already registered? <a href="#">Sign In</a></p>
+        <div class="container-login">
+          <div class="form">
+            <h2>LOGIN</h2>
+            <form action="">
+              <div class="input-wrapper">
+                <input
+                  class="input-control useremail"
+                  v-model="userEmail"
+                  type="text"
+                  required="required"
+                  placeholder="Email"
+                />
+                <!-- <span>Login</span> -->
+              </div>
+              <div class="input-wrapper password">
+                <input
+                  class="input-control password"
+                  v-model="userPassword"
+                  id="password-input"
+                  type="password"
+                  name="password"
+                  required="required"
+                  placeholder="Password"
+                />
+                <i class="fas fa-key"></i>
+              </div>
+              <div class="input-wrapper">
+                <button @click="login">Login(POST)</button>
+              </div>
+            </form>
+            <p>Forgot password? <a href="#">Click Here</a></p>
+            <p>Don't have an account <a href="#">Sign up</a></p>
+          </div>
+        </div>
       </div>
-      <div class="login-form">
-        <input v-model="userEmail" type="email" placeholder="Email" />
-        <input v-model="userPassword" type="password" placeholder="Password" />
-        <button @click="login">Login(POST)</button>
-        <button @click="handleLogin">Login</button>
-        <p class="message">Not registered? <a href="#">Create an Account</a></p>
-      </div>
-    </div>
+    </section>
   </div>
 </template>
 
-<style scoped>
-.login-page {
+<style scoped lang="scss">
+section {
   display: flex;
-  padding: 10% 0 0;
-  margin: auto;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #426d98;
+}
+
+.box {
+  position: relative;
+
+  .square {
+    position: absolute;
+    background: rgba(219, 207, 207, 0.1);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    animation: square 10s linear infinite;
+  }
+
+  .square:nth-child(2) {
+    animation: square-rotate 5s linear infinite;
+  }
+
+  .square:nth-child(4) {
+    animation: square-rotate02 10s linear infinite;
+  }
+
+  // @keyframes square {
+  //   0%,
+  //   100% {
+  //     transform: translateY(-50px);
+  //   }
+
+  //   50% {
+  //     transform: translateY(20px);
+  //   }
+  // }
+
+  // @keyframes square-rotate {
+  //   0%,
+  //   100% {
+  //     transform: translateY(-50px) rotate(0deg);
+  //   }
+
+  //   50% {
+  //     transform: translateY(20px) rotate(90deg);
+  //   }
+  // }
+
+  // @keyframes square-rotate02 {
+  //   0%,
+  //   100% {
+  //     transform: translateY(-50px) rotate(0deg);
+  //   }
+
+  //   50% {
+  //     transform: translateY(220px) rotateY(45deg) rotateX(270deg);
+  //   }
+  // }
+
+
+  .square:nth-child(1) {
+    width: 120px;
+    height: 120px;
+    top: -25px;
+    right: -40px;
+  }
+
+  .square:nth-child(2) {
+    width: 160px;
+    height: 160px;
+    top: 65px;
+    left: -130px;
+    z-index: 2;
+  }
+
+
+  .square:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    bottom: -20px;
+    left: -65px;
+  }
+
+
+  .square:nth-child(4) {
+    width: 85px;
+    height: 85px;
+    bottom: 25px;
+    right: -50px;
+    z-index: 2;
+  }
+}
+
+.container-login {
+  position: relative;
+  padding: 50px;
+  width: 300px;
+  box-sizing: content-box;
+  min-height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
 }
 
 .form {
   position: relative;
-  z-index: 1;
-  background: #ffffff;
-  max-width: 400px;
-  margin: 0 auto 100px;
-  padding: 40px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1), 0 5px 5px 0 rgba(0, 0, 0, 0.2);
-}
-.form input {
-  outline: 0;
-  background: var(--input-bgcolor);
-  background: #f2f2f2;
   width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 1rem;
-  font-size: 0.9rem;
+  height: 100%;
+
+  h2 {
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+  }
+
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+
+    .input-control {
+      width: 100%;
+      outline: none;
+      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+      padding: 12px 16px;
+      border-radius: 15px;
+      color: #fff;
+      font-size: 16px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    input::placeholder {
+      color: #fff;
+    }
+  }
+
+  p {
+    color: #fff;
+    font-size: 15px;
+    margin-top: 5px;
+
+    a {
+      color: #fff;
+    }
+  }
 }
-.form button {
-  text-transform: uppercase;
-  outline: 0;
-  background: var(--fourth-color);
-  background: #113f67;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #ffffff;
-  font-size: 1rem;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-.form button:hover,
-.form button:active,
-.form button:focus {
-  background: var(--third-color);
-}
-.form .message {
-  margin: 15px 0 0;
-  color: var(--second-color);
-  font-size: 0.8rem;
-}
-.form .message a {
-  color: var(--third-color);
-  text-decoration: none;
-}
-.form .register-form {
-  display: none;
-}
+
 </style>
