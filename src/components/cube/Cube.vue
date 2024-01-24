@@ -31,7 +31,8 @@ export default {
   --cube--translate--z:calc(var(--cube--width) / 2);
   position: absolute;
   right: 50px;
-  top: 35px;
+  bottom: 35px;
+  z-index:1;
   width:var(--cube--width);
   height:var(--cube--height);
   box-sizing: border-box;

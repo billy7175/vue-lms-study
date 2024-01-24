@@ -1,9 +1,5 @@
 <template>
   <article class="question" :class="[{ 'is-correct': true }]">
-    <i 
-      v-if="isTeacher"
-      @click="handleQuestionDelete(data)"
-      class="icon-trash pi pi-trash"></i>
     <div style="display: none; position: absolute; top: -20%; left: -3%">
       <svg
         class="uitLogo_path"
@@ -27,20 +23,28 @@
       </svg>
     </div>
     <div style="display: flex; align-items: flex-start; padding: 40px">
-      <span class="question-order">Q{{ number }}.</span>
+      <span class="question-order">
+        Q{{ number }}.
+        <i
+          v-if="isTeacher"
+          @click="handleQuestionDelete(data)"
+          class="icon-trash pi pi-trash"
+        ></i>
+      </span>
       <div class="question-wrapper">
-        <p class="question-sentence">{{ convertQuestion(data.question, data.answer.value) }}</p>
+        <p class="question-sentence">
+          {{ convertQuestion(data.question, data.answer.value) }}
+        </p>
         <div>
           <!-- 문제 풀기 후 -->
           <div v-if="isSubmited">
-            {{ modelValue}}
+            {{ modelValue }}
             <div
               v-for="(option, idx) in data.options"
               :key="idx"
               class="field-radiobutton"
-              :class="[{'is-matched': modelValue === option.value}]"
-              
-              >
+              :class="[{ 'is-matched': modelValue === option.value }]"
+            >
               <RadioButton
                 :id="option.value"
                 :name="option.value"
@@ -58,7 +62,7 @@
               v-for="(option, idx) in data.options"
               :key="idx"
               class="field-radiobutton"
-              style="border:1px solid blue;"
+              style="border: 1px solid blue"
             >
               <RadioButton
                 :id="option.value"
@@ -77,9 +81,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 import { ref, watch, computed } from "vue";
-import { useUserState } from '../stores/user';
+import { useUserState } from "../stores/user";
 export default {
   components: {},
   props: {
@@ -99,17 +103,17 @@ export default {
     },
     isSubmitted: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   setup(props, context) {
     const isSubmited = computed(() => {
-      return props.isSubmitted
-    })
-    const userState = useUserState()
+      return props.isSubmitted;
+    });
+    const userState = useUserState();
     const isTeacher = computed(() => {
-      return userState.user?.user?.role === 'teacher'
-    }) 
+      return userState.user?.user?.role === "teacher";
+    });
     var pathes = document.querySelectorAll("path");
     pathes.forEach(function (path) {
       var pathLength = path.getTotalLength();
@@ -139,23 +143,24 @@ export default {
     });
 
     const convertQuestion = (question, answerValue) => {
-      return question.replace(answerValue, '______')
-    }
+      return question.replace(answerValue, "______");
+    };
 
     const handleQuestionDelete = async (data) => {
-      const id = data._id
-      const isConfirmed = confirm('Do you really want to delete it?')
-      if(isConfirmed) {
+      const id = data._id;
+      const isConfirmed = confirm("Do you really want to delete it?");
+      if (isConfirmed) {
         try {
-          const response = await axios.delete(`http://127.0.0.1:3000/api/question/${id}`);
-          console.log('#handleQuestionDelete', response)
-          context.emit('delete')
-        } catch (error){
-          console.log('#error', error)
+          const response = await axios.delete(
+            `http://127.0.0.1:3000/api/question/${id}`
+          );
+          console.log("#handleQuestionDelete", response);
+          context.emit("delete");
+        } catch (error) {
+          console.log("#error", error);
         }
-
       }
-    }
+    };
 
     return {
       convertQuestion,
@@ -166,7 +171,7 @@ export default {
       selectedAnswer: selectedAnswer,
       handleQuestionDelete,
       isTeacher,
-      isSubmited
+      isSubmited,
     };
   },
 };
@@ -175,23 +180,25 @@ export default {
 
 <style scoped>
 .question {
-  width:100%;
-  margin:auto;
-  border-bottom:1px solid #ccc;
+  width: 100%;
+  margin: auto;
+  border-bottom: 1px solid #ccc;
   display: inline-block;
   position: relative;
 }
 
 .icon-trash {
-  display:none;
-  position:absolute;
-  bottom:20px;
-  right:50px;
-  font-size:20px;
+  display: none;
+  /* width:0px; */
+  position: absolute;
+  top: 50px;
+  left: 5px;
+  font-size: 20px;
+  transition: 1s;
 }
 
-.question:hover .icon-trash{
-  display:block;
+.question:hover .icon-trash {
+  display: block;
 }
 
 .question.is-correct::before {
@@ -205,6 +212,7 @@ export default {
   border-radius: 50%;
 }
 .question-order {
+  position:relative;
   padding: 4px 6px;
   box-sizing: border-box;
   background: #c4eed0;
@@ -216,17 +224,17 @@ p {
 }
 
 .question-wrapper {
-  width:100%;
+  width: 100%;
   padding-left: 10px;
   margin: 0px;
   margin-top: 5px;
 }
 
 .question-sentence {
-  line-height:1.5
+  line-height: 1.5;
 }
 .field-radiobutton {
-  padding:10px;
+  padding: 10px;
   background: #f9f9f9;
   border-radius: 6px;
   margin-top: 10px;
@@ -241,6 +249,7 @@ label {
   animation-direction: alternate-reverse;
   animation-iteration-count: infinite;
 }
+
 @keyframes uitLineMove {
   to {
     stroke-dashoffset: 0;
@@ -248,10 +257,10 @@ label {
 }
 
 .is-matched {
-  font-size:20px;
-  padding:10px;
-  background: #57A3FC;
+  font-size: 20px;
+  padding: 10px;
+  background: #57a3fc;
   border-radius: 10px;
-  color:#fff;
+  color: #fff;
 }
 </style>
