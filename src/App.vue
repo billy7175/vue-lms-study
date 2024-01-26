@@ -10,12 +10,44 @@
 
 
 <script>
-import Cube from './components/cube/Cube.vue'
+import { io } from "socket.io-client";
+import { onMounted } from "vue";
+import Cube from "./components/cube/Cube.vue";
+import { useUserState } from "./stores/user";
 export default {
-  components : {
-    Cube
-  }
-}
+  components: {
+    Cube,
+  },
+  setup() {
+    const userState = useUserState();
+
+    onMounted(() => {
+      const socket = io("http://127.0.0.1:3000", {
+        transports: ["websocket"],
+      });
+
+      socket.on("connect", (res) => {
+        console.log(res);
+        console.log("Connected to server12312312");
+      });
+
+      const loggedInUser = userState.user.user;
+      socket.emit("join", loggedInUser, console.log, (error) => {
+        console.log("#error", error);
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Disconnected from server");
+        socket.emit("disconnect", loggedInUser);
+      });
+
+      socket.on("message", (message) => {
+        console.log(message);
+      });
+    });
+    return {};
+  },
+};
 </script>
 
 <style scoped>
