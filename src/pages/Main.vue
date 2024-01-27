@@ -1,5 +1,4 @@
 <script setup>
-import { getTest } from "../apis/login";
 import { onMounted } from "vue";
 import NavMenuTest from '../components/NavMenuTest.vue'
 import { useUserState } from "../stores/user.js";
@@ -14,7 +13,6 @@ const logout = () => {
 
 onMounted(async () => {
   console.log("#main.vue");
-  await getTest();
 });
 
 const items = [

@@ -1,71 +1,13 @@
 <template>
   <div>
+    <pre>
+      {{ data }}
+    </pre>
     <DataTable
       selectionMode="single"
       @rowSelect="(row) => routeTo('student-detail', row.data)"
       filterDisplay="menu"
-      :value="[
-        {
-          id: 342423423234,
-          name: 'King',
-          class: 'MW1719',
-          isActive: true,
-          email: 'test@test.com',
-          isPaid: true,
-          isLocked: true,
-          isPremium: true,
-          isTeacher: true,
-          date: '2024-01-22',
-        },
-        {
-          id: 4328790423784,
-          name: 'Sherlock Homles',
-          class: 'MW1719',
-          isActive: true,
-          email: 'test@test.com',
-          isPaid: true,
-          isLocked: true,
-          isPremium: true,
-          isTeacher: true,
-          date: '2024-01-22',
-        },
-        {
-          id: 8989853424,
-          name: 'Thomas Shelby',
-          class: 'MW1719',
-          isActive: false,
-          email: 'test@test.com',
-          isPaid: true,
-          isLocked: true,
-          isPremium: true,
-          isTeacher: true,
-          date: '2024-01-22',
-        },
-        {
-          id: 37857203,
-          name: 'Thomas Shelby',
-          class: 'MW1719',
-          isActive: true,
-          email: 'test@test.com',
-          isPaid: true,
-          isLocked: true,
-          isPremium: true,
-          isTeacher: true,
-          date: '2024-01-22',
-        },
-        {
-          id: 91027463,
-          name: 'Author Shelby',
-          class: 'TT1719',
-          isActive: false,
-          email: 'test@test.com',
-          isPaid: false,
-          isLocked: false,
-          isPremium: false,
-          isTeacher: true,
-          date: '2024-01-22',
-        },
-      ]"
+      :value="data"
       tableStyle="min-width: 50rem"
       size="Normal"
     >
@@ -117,8 +59,16 @@
           </div>
         </template>
       </Column>
-      <Column field="isTeacher" header="Auth"></Column>
-      <Column field="class" header="Class"></Column>
+      <Column field="isTeacher" header="Role">
+        <template #body="slotProps">
+          {{ slotProps.data.role === 'teacher' ? 'Teacher' : 'Student'}}
+        </template>
+      </Column>
+      <Column field="class" header="Class">
+        <template #body="slotProps">
+          {{slotProps.data.class.label}}
+        </template>
+      </Column>
       <Column field="email" header="Email"></Column>
       <Column field="isPaid" header="Premium"></Column>
       <Column field="isPaid" header="Paid">
@@ -154,6 +104,12 @@
 <script>
 import { useRouter } from "vue-router";
 export default {
+  props: {
+    data : {
+      type: Array,
+      default: () => []
+    }
+  },
   setup() {
     const router = useRouter();
     const routeTo = (routerName, row) => {

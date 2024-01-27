@@ -2,7 +2,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { getTest, loginPost } from "../apis/login";
+import { loginPost } from "../apis/login";
 import { useUserState } from "../stores/user.js";
 import { useRouter } from "vue-router";
 import VueCookies from "vue-cookies";
@@ -35,8 +35,6 @@ const validateForms = () => {
 const handleLogin = async () => {
   // TEMP TEST
   try {
-    console.log("#handleLogin");
-    await getTest();
     console.log("#router", router);
     await router.push({ name: "main" });
   } catch (error) {

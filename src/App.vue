@@ -31,7 +31,7 @@ export default {
         console.log("Connected to server12312312");
       });
 
-      const loggedInUser = userState.user.user;
+      const loggedInUser = userState.user?.user;
       socket.emit("join", loggedInUser, console.log, (error) => {
         console.log("#error", error);
       });
