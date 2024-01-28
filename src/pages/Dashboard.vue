@@ -1,21 +1,19 @@
 <template>
   <div class="dashboard">
     <div>
-        <engagement-card :data="dashboard"></engagement-card>
-      </div>
-    <section style="padding:20px 0px; display:flex; gap:40px;">
-      <list-card title="Best Performance"></list-card>
+      <engagement-card :data="dashboard"></engagement-card>
+    </div>
+    <section style="padding: 20px 0px; display: flex; gap: 40px">
+      <list-card title="Best Score"></list-card>
+      <list-card title="Loggined-In Users"></list-card>
       <!-- <list-card title="Underperforming Students"></list-card> -->
-      <graph-card></graph-card>
     </section>
     <section>
       <h2>WORKING ON</h2>
       <div class="card__wrapper">
-        <list-card title="Underperforming Students"></list-card>
         <performance-card></performance-card>
-        
+        <graph-card></graph-card>
       </div>
-
     </section>
     <!-- <section style="margin-top: 50px">
       <h2 class="card__title">Popular Courses</h2>
@@ -60,7 +58,7 @@
             description: 'take your time and stay focused.',
             rating: 1,
             isPublic: 'success',
-          }
+          },
         ]"
         tableStyle="min-width: 50rem"
         size="Normal"
@@ -91,11 +89,11 @@
 import { onMounted, reactive, toRef } from "vue";
 import SimpleCard from "../components/cards/SimpleCard.vue";
 import PerformanceCard from "../components/cards/PerformanceCard.vue";
-import EngagementCard from '../components/cards/EngagementCard.vue'
-import GraphCard from '../components/cards/GraphCard.vue'
+import EngagementCard from "../components/cards/EngagementCard.vue";
+import GraphCard from "../components/cards/GraphCard.vue";
 import { getDashboard } from "../apis/dashboard";
-import ChartCard from '../components/cards/ChartCard.vue'
-import ListCard from '../components/cards/ListCard.vue'
+import ChartCard from "../components/cards/ChartCard.vue";
+import ListCard from "../components/cards/ListCard.vue";
 export default {
   components: {
     SimpleCard,
@@ -103,7 +101,7 @@ export default {
     EngagementCard,
     ChartCard,
     GraphCard,
-    ListCard
+    ListCard,
   },
   setup() {
     // const dashboard = reactive({
@@ -115,14 +113,14 @@ export default {
 
     const dashboard = reactive({
       student: {
-        label: 'Student',
-        count : 0
-      }
-    })
+        label: "Student",
+        count: 0,
+      },
+    });
 
     onMounted(async () => {
       const { data } = await getDashboard();
-      console.log(55555, data)
+      console.log(55555, data);
       Object.assign(dashboard, data); // #ChekcPoint
     });
 
@@ -137,10 +135,9 @@ export default {
 .dashboard {
 }
 
-
 .card__title {
   /* color:#fff; */
-  padding:10px;
+  padding: 10px;
 }
 
 .card__wrapper {
@@ -148,7 +145,7 @@ export default {
   gap: 20px;
   flex-wrap: wrap;
   /* background:#fff; */
-  padding:20px 0px;
+  padding: 20px 0px;
   border-radius: 20px;
   /* background:url('../assets/space.jpg'); */
 }

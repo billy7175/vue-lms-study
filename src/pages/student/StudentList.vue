@@ -50,7 +50,7 @@ export default {
         userList.value = userList.value.map(x => {
           return {
             ...x,
-            isActive: res.find(r => r.name === x.name)
+            isActive: !!res.find(r => r.name === x.name)
           }
         })
       });
