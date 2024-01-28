@@ -1,12 +1,12 @@
 <template>
   <div class="parent" @click="handleClickCube">
     <div class="cube">
-      <div class="cube-face cube-face-front"></div>
-      <div class="cube-face cube-face-back"></div>
-      <div class="cube-face cube-face-right"></div>
-      <div class="cube-face cube-face-left"></div>
-      <div class="cube-face cube-face-top"></div>
-      <div class="cube-face cube-face-bottom"></div>
+      <div class="cube-face cube-face-front">L</div>
+      <div class="cube-face cube-face-back">L</div>
+      <div class="cube-face cube-face-right">E</div>
+      <div class="cube-face cube-face-left">E</div>
+      <div class="cube-face cube-face-top">S</div>
+      <div class="cube-face cube-face-bottom">S</div>
     </div>
   </div>
 </template>
@@ -63,7 +63,11 @@ export default {
   height: 100%;
   box-sizing: border-box;
   border: 3px solid white;
-  box-shadow: 0px 0px 40px 5px yellow;
+  box-shadow: 0px 0px 40px 5px rgb(213, 243, 132);
+  filter: invert(100%);
+  text-align: center;
+  color:transparent;
+  color:#fff;
 }
 
 .cube-face-front {
