@@ -66,7 +66,9 @@
       </Column>
       <Column field="class" header="Class">
         <template #body="slotProps">
-          {{slotProps.data.class.label}}
+          <div v-if="slotProps.data.class && slotProps.data.class.label">
+            {{slotProps.data.class.label}}
+          </div>
         </template>
       </Column>
       <Column field="email" header="Email"></Column>
@@ -137,8 +139,7 @@ export default {
     const router = useRouter();
     const routeTo = (routerName, row) => {
       console.log("#routeName", routerName);
-      console.log(row.id);
-      const userId = row.id
+      const userId = row._id
       
       router.push({
         name: routerName,
