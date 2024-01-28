@@ -50,11 +50,11 @@
           <div style="display: flex">
             <span class="tag-wrapper is-active" v-if="slotProps.data.isActive">
               <span class="tag is-active"></span>
-              <span class="tag-text">IS-ACTIVE</span>
+              <span class="tag-text">Active</span>
             </span>
-            <span v-else class="tag-wrapper is-unactive">
+            <span v-else class="tag-wrapper is-inactive">
               <span class="tag is-not-active"></span>
-              <span class="tag-text">IS-UNACTIVE</span>
+              <span class="tag-text">In-Active</span>
             </span>
           </div>
         </template>
@@ -70,7 +70,23 @@
         </template>
       </Column>
       <Column field="email" header="Email"></Column>
-      <Column field="isPaid" header="Premium"></Column>
+      <Column field="isPremium" header="Premium">
+        <template #body="slotProps">
+          <div> 
+            <i
+              v-if="slotProps.data.isPremium"
+              class="pi pi-check-circle"
+              style="color: #4daa57; font-weight: 900; font-size: 20px"
+            ></i>
+            <i
+              v-else
+              class="pi pi-ban"
+              style="color: #777; font-weight: 900; font-size: 20px"
+            ></i>
+          </div>
+        </template>
+      
+      </Column>
       <Column field="isPaid" header="Paid">
         <template #body="slotProps">
           <div>
@@ -95,13 +111,20 @@
           </div>
         </template>
       </Column>
-      <Column field="date" header="Registered Date"></Column>
+      <Column field="date" header="Registered Date">
+        <template #body="slotProps">
+          <div v-if="slotProps.data.createdAt">
+            {{ dayjs(slotProps.data.createdAt).format('YYYY-MM-DD')}}
+          </div>
+        </template>
+      </Column>
     </DataTable>
   </div>
 </template>
 
 
 <script>
+import dayjs from 'dayjs'
 import { useRouter } from "vue-router";
 export default {
   props: {
@@ -133,6 +156,7 @@ export default {
     return {
       routeTo,
       handleRowSelect,
+      dayjs
     };
   },
 };
@@ -149,10 +173,10 @@ export default {
   border-radius: 10px;
 }
 
-.tag-wrapper.is-unactive {
+.tag-wrapper.is-inactive {
   background: #f6b3b3;
 }
-.tag-wrapper.is-unactive .tag-text {
+.tag-wrapper.is-inactive .tag-text {
   color: #dc504f;
 }
 .tag.is-active {
