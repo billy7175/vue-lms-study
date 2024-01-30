@@ -25,6 +25,7 @@ export default {
       const socket = io("http://127.0.0.1:3000", {
         transports: ["websocket"],
       });
+      console.log('#app', socket.id)
 
       socket.on("connect", (res) => {
         console.log(res);
@@ -32,7 +33,10 @@ export default {
       });
 
       const loggedInUser = userState.user?.user;
-      socket.emit("join", loggedInUser, console.log, (error) => {
+      socket.emit("join", {
+          ...loggedInUser,
+          isActive: true
+        }, console.log, (error) => {
         console.log("#error", error);
       });
 
@@ -44,6 +48,38 @@ export default {
       socket.on("message", (message) => {
         console.log(message);
       });
+
+      // Check if the Page Visibility API is supported by the browser
+      if ('hidden' in document) {
+        var visibilityState = document.hidden ? 'hidden' : 'visible';
+        console.log('Initial visibility state: ' + visibilityState);
+
+        // Add event listener for visibility changes
+        document.addEventListener('visibilitychange', function () {
+          visibilityState = document.hidden ? 'hidden' : 'visible';
+          console.log('Visibility state changed to: ' + visibilityState);
+
+          // You can perform actions based on visibility state here
+          if (visibilityState === 'visible') {
+            // User is looking at the tab
+            console.log('User is looking at the tab.');
+            console.log('User is looking at the tab.');
+            socket.emit('online', true)
+
+          } else {
+            // User is not looking at the tab
+            console.log('User is not looking at the tab.');
+            socket.emit('offline', false)
+          }
+        });
+      } else {
+        console.log('Page Visibility API not supported by the browser.');
+      }
+
+      socket.on('userlist', (res) => {
+        console.log('나 보여 ????? from app', res)
+      })
+
     });
     return {};
   },
@@ -51,7 +87,6 @@ export default {
 </script>
 
 <style scoped>
-
 header {
   line-height: 1.5;
 }

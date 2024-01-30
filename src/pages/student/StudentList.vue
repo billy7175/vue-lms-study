@@ -16,45 +16,72 @@ export default {
     Table,
   },
   setup() {
+    const socket = io("http://127.0.0.1:3000", {
+      transports: ["websocket"],
+    });
+
+
+    console.log('#student list app',  socket)
     const userList = ref([]);
-    onMounted(async () => {
-      const { data } = await getUsers();
-      const setUsers = (list = []) => {
-        if (!list.length) return [];
-        return list?.map((x) => {
-          return {
-            ...x,
-            isActive: false,
-          };
-        });
-      };
-      userList.value = setUsers(data);
 
-      const socket = io("http://127.0.0.1:3000", {
-        transports: ["websocket"],
+
+    const setUsers = (list = []) => {
+      if (!list.length) return [];
+      return list?.map((x) => {
+        return {
+          ...x,
+          isActive: false,
+        };
       });
+    };
 
+    const fetchUsers = async () => {
+      const { data } = await getUsers();
+      userList.value = setUsers(data);
+    }
+
+    const updateUsers = async (res) => {
+      console.log(1231312, res);
+      userList.value = userList.value.map((x) => {
+        return {
+          ...x,
+          isActive: !!res.find((r) => r.name === x.name),
+        };
+      });
+    }
+
+    onMounted(async () => {
+      await fetchUsers()
       socket.emit(
         "userlist",
-        [123123123],
+        'test value',
         () => {
           console.log(44);
         },
         (res) => {
-          console.log(55555, res);
+          console.log(423423423, res)
+          updateUsers(res)
         }
       );
 
+
       socket.on("userlist", (res) => {
+        console.log('socket on studentlist')
         console.log(1231312, res);
-        userList.value = userList.value.map(x => {
-          return {
-            ...x,
-            isActive: !!res.find(r => r.name === x.name)
-          }
-        })
+        updateUsers(res)
       });
+
+
     });
+
+
+    // socket.on('userlist', () => {
+    //     console.log('나 보여 ????? student-list')
+    //   })
+
+
+
+
     return {
       userList: userList,
     };
