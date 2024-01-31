@@ -1,10 +1,7 @@
 
 <template>
   <div class="nav-menu-second card flex justify-content-center">
-    <Menu
-      :model="items"
-      class="w-full md:w-15rem"
-    >
+    <Menu :model="items" class="w-full md:w-15rem">
       <template #start>
         <h1 class="logo">
           <a>LES School</a>
@@ -16,12 +13,7 @@
           <span>
             {{ item.label }}
           </span>
-          <Badge
-            v-if="item.badge"
-            class="ml-auto"
-            :value="item.badge"
-            style="margin-left: 10px"
-          />
+          <Badge v-if="item.badge" class="ml-auto" :value="item.badge" style="margin-left: 10px" />
         </a>
       </template>
     </Menu>
@@ -103,26 +95,29 @@ export default {
 
 <style scoped>
 .logo {
-  color:#308d2d;
+  color: #308d2d;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 6px;
   display: inline-block;
   position: relative;
-  font-size:22px;
-  -webkit-mask-image: linear-gradient(
-    -75deg,
-    rgba(30, 128, 39, 0.6) 30%,
-    #ac48a3 50%,
-    rgba(211, 7, 163, 0.6) 70%
-  );
+  font-size: 22px;
+  -webkit-mask-image: linear-gradient(-75deg,
+      rgba(30, 128, 39, 0.6) 30%,
+      #ac48a3 50%,
+      rgba(211, 7, 163, 0.6) 70%);
   -webkit-mask-size: 200%;
   animation: shine 2s linear infinite;
 }
 
 @keyframes shine {
-  from { -webkit-mask-position: 150%; }
-  to { -webkit-mask-position: -50%; }
+  from {
+    -webkit-mask-position: 150%;
+  }
+
+  to {
+    -webkit-mask-position: -50%;
+  }
 }
 
 .p-menuitem-separator {

@@ -3,26 +3,13 @@
     <div style="display: flex; justify-content: flex-end; padding-bottom: 20px">
       <Button label="Create" @click="handleModalOpen" />
     </div>
-    <Dialog
-      header="Basic Assignment Infomation"
-      :visible="isModalOpen"
-      style="width: 900px; padding: 20px; background: #fff"
-    >
-      <question-board-form
-        @create="handleCreateBoard"
-        @cancel="handleModalCancel"
-
-        
-      ></question-board-form>
+    <Dialog header="Basic Assignment Infomation" :visible="isModalOpen"
+      style="width: 900px; padding: 20px; background: #fff">
+      <question-board-form @create="handleCreateBoard" @cancel="handleModalCancel"></question-board-form>
     </Dialog>
 
-    <DataTable
-      selectionMode="single"
-      @rowSelect="(row) => routeTo('assignment-update', row.data)"
-      :value="questions"
-      tableStyle="min-width: 50rem"
-      size="Normal"
-    >
+    <DataTable selectionMode="single" @rowSelect="(row) => routeTo('assignment-update', row.data)" :value="questions"
+      tableStyle="min-width: 50rem" size="Normal">
       <Column field="date" header="Date"></Column>
       <Column field="title" header="Title"></Column>
       <Column field="description" header="Description"></Column>
@@ -31,17 +18,12 @@
           <Rating :modelValue="slotProps.data.rate" readonly :cancel="false" />
         </template>
       </Column>
-      <Column 
-        v-if="isTeacher"
-        field="" header="Released">
+      <Column v-if="isTeacher" field="" header="Released">
         <template #body="slotProps">
-          <InputSwitch v-model="slotProps.data.isReleased"/>
+          <InputSwitch v-model="slotProps.data.isReleased" />
         </template>
       </Column>
-      <Column 
-        v-if="isTeacher"
-        field="" 
-        header="비고">
+      <Column v-if="isTeacher" field="" header="비고">
         <template #body>
           <Button label="DELETE" severity="danger" rounded size="small" @click="handleDelete" />
         </template>
@@ -50,7 +32,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import axios from "axios";
 import { onMounted, ref, computed } from "vue";
 import dayjs from "dayjs";
@@ -110,10 +92,10 @@ export default {
         name: `${routeName}`,
       });
     };
-    
+
     const handleDelete = () => {
-        const isConfirmed = confirm('handleDelete')
-        alert(isConfirmed)
+      const isConfirmed = confirm('handleDelete')
+      alert(isConfirmed)
     }
 
     let questions = ref([]);
@@ -123,7 +105,7 @@ export default {
 
     const isTeacher = computed(() => {
       return userState.user?.user?.role === 'teacher'
-    }) 
+    })
 
     return {
       handleModalOpen,
@@ -150,20 +132,21 @@ export default {
 .assignment-list .p-datatable-wrapper {
   border-radius: 10px;
 }
-.assignment-list .p-datatable-wrapper tr, td, th {
+
+.assignment-list .p-datatable-wrapper tr,
+td,
+th {
   font-weight: 700;
   text-indent: 10px;
-  padding:20px;
+  padding: 10px;
 }
 
-.assignment-list .p-datatable-wrapper th, td {
+.assignment-list .p-datatable-wrapper th,
+td {
   /* border-bottom:2px solid rgb(56, 54, 54); */
 }
 
 .assignment-list .p-datatable-wrapper .p-rating-item path {
   /* color: #FFF27A; */
 }
-
-
-
 </style>
