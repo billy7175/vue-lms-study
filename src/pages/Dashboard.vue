@@ -5,7 +5,7 @@
     </div>
     <section style="padding: 20px 0px; display: flex; gap: 40px">
       <list-card title="Best Score"></list-card>
-      <list-card title="Loggined-In Users"></list-card>
+      <list-card title="Loggined-In Users" type="status"></list-card>
       <!-- <list-card title="Underperforming Students"></list-card> -->
     </section>
     <section>
@@ -41,38 +41,28 @@
     </section> -->
     <section style="margin-top: 50px">
       <h2 class="card__title">Members</h2>
-      <DataTable
-        stripedRows
-        selectionMode="single"
-        :value="[
-          {
-            date: '2023-12-12',
-            title: '파트 5문제 입니다~!(상)',
-            description: 'take your time and stay focused.',
-            rating: 5,
-            isPublic: 'success',
-          },
-          {
-            date: '2023-12-12',
-            title: '파트 5문제 입니다~!(상)',
-            description: 'take your time and stay focused.',
-            rating: 1,
-            isPublic: 'success',
-          },
-        ]"
-        tableStyle="min-width: 50rem"
-        size="Normal"
-      >
+      <DataTable stripedRows selectionMode="single" :value="[
+        {
+          date: '2023-12-12',
+          title: '파트 5문제 입니다~!(상)',
+          description: 'take your time and stay focused.',
+          rating: 5,
+          isPublic: 'success',
+        },
+        {
+          date: '2023-12-12',
+          title: '파트 5문제 입니다~!(상)',
+          description: 'take your time and stay focused.',
+          rating: 1,
+          isPublic: 'success',
+        },
+      ]" tableStyle="min-width: 50rem" size="Normal">
         <Column field="date" header="Date"></Column>
         <Column field="title" header="Title"></Column>
         <Column field="description" header="Description"></Column>
         <Column field="rating" header="Reviews">
           <template #body="slotProps">
-            <Rating
-              :modelValue="slotProps.data.rating"
-              readonly
-              :cancel="false"
-            />
+            <Rating :modelValue="slotProps.data.rating" readonly :cancel="false" />
           </template>
         </Column>
         <Column field="isPublic" header="Status">
@@ -132,8 +122,7 @@ export default {
 </script>
 
 <style scoped>
-.dashboard {
-}
+.dashboard {}
 
 .card__title {
   /* color:#fff; */
