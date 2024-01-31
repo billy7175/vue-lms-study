@@ -26,7 +26,6 @@ export default {
     onMounted(() => {
 
       socket.on("connect", (res) => {
-        console.log(res);
         console.log("Connected to server12312312");
       });
 
@@ -50,11 +49,12 @@ export default {
 
 
       socket.emit('userlist', () => {
-        socket.on('userlist', (res) => {
-          console.log('#FROM APP', res)
-          const users = [...res]
-          socketState.setUsers(users)
-        })
+      })
+
+      socket.on('userlist', (res) => {
+        console.log('#FROM APP', res)
+        const users = [...res]
+        socketState.setUsers(users)
       })
 
 

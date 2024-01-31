@@ -1,31 +1,17 @@
 <template>
   <div>
-    <pre>
+    <!-- <pre>
       {{ data }}
-    </pre>
-    <DataTable
-      selectionMode="single"
-      @rowSelect="(row) => routeTo('student-detail', row.data)"
-      filterDisplay="menu"
-      :value="data"
-      tableStyle="min-width: 50rem"
-      size="Normal"
-    >
+    </pre> -->
+    <DataTable selectionMode="single" @rowSelect="(row) => routeTo('student-detail', row.data)" filterDisplay="menu"
+      :value="data" tableStyle="min-width: 50rem" size="Normal">
       <template #header>
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             padding: 10px 20px;
-          "
-        >
-          <Button
-            type="button"
-            icon="pi pi-filter-slash"
-            label="Clear"
-            outlined
-            @click="clearFilter()"
-          />
+          ">
+          <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
           <span class="p-input-icon-left">
             <i class="pi pi-search" />
             <InputText placeholder="Keyword Search" />
@@ -35,12 +21,8 @@
       <Column field="name" header="name" style="width: 250px">
         <template #body="slotProps">
           <div style="display: flex; align-items: center">
-            <Avatar
-              image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
-              class="flex align-items-center justify-content-center mr-2"
-              size="large"
-              shape="circle"
-            />
+            <Avatar image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
+              class="flex align-items-center justify-content-center mr-2" size="large" shape="circle" />
             <span>{{ slotProps.data.name }}</span>
           </div>
         </template>
@@ -61,47 +43,33 @@
       </Column>
       <Column field="isTeacher" header="Role">
         <template #body="slotProps">
-          {{ slotProps.data.role === 'teacher' ? 'Teacher' : 'Student'}}
+          {{ slotProps.data.role === 'teacher' ? 'Teacher' : 'Student' }}
         </template>
       </Column>
       <Column field="class" header="Class">
         <template #body="slotProps">
           <div v-if="slotProps.data.class && slotProps.data.class.label">
-            {{slotProps.data.class.label}}
+            {{ slotProps.data.class.label }}
           </div>
         </template>
       </Column>
       <Column field="email" header="Email"></Column>
       <Column field="isPremium" header="Premium">
         <template #body="slotProps">
-          <div> 
-            <i
-              v-if="slotProps.data.isPremium"
-              class="pi pi-check-circle"
-              style="color: #4daa57; font-weight: 900; font-size: 20px"
-            ></i>
-            <i
-              v-else
-              class="pi pi-ban"
-              style="color: #777; font-weight: 900; font-size: 20px"
-            ></i>
+          <div>
+            <i v-if="slotProps.data.isPremium" class="pi pi-check-circle"
+              style="color: #4daa57; font-weight: 900; font-size: 20px"></i>
+            <i v-else class="pi pi-ban" style="color: #777; font-weight: 900; font-size: 20px"></i>
           </div>
         </template>
-      
+
       </Column>
       <Column field="isPaid" header="Paid">
         <template #body="slotProps">
           <div>
-            <i
-              v-if="slotProps.data.isPaid"
-              class="pi pi-check-circle"
-              style="color: #4daa57; font-weight: 900; font-size: 20px"
-            ></i>
-            <i
-              v-else
-              class="pi pi-ban"
-              style="color: #777; font-weight: 900; font-size: 20px"
-            ></i>
+            <i v-if="slotProps.data.isPaid" class="pi pi-check-circle"
+              style="color: #4daa57; font-weight: 900; font-size: 20px"></i>
+            <i v-else class="pi pi-ban" style="color: #777; font-weight: 900; font-size: 20px"></i>
           </div>
         </template>
       </Column>
@@ -116,7 +84,7 @@
       <Column field="date" header="Registered Date">
         <template #body="slotProps">
           <div v-if="slotProps.data.createdAt">
-            {{ dayjs(slotProps.data.createdAt).format('YYYY-MM-DD')}}
+            {{ dayjs(slotProps.data.createdAt).format('YYYY-MM-DD') }}
           </div>
         </template>
       </Column>
@@ -130,7 +98,7 @@ import dayjs from 'dayjs'
 import { useRouter } from "vue-router";
 export default {
   props: {
-    data : {
+    data: {
       type: Array,
       default: () => []
     }
@@ -140,13 +108,13 @@ export default {
     const routeTo = (routerName, row) => {
       console.log("#routeName", routerName);
       const userId = row._id
-      
+
       router.push({
         name: routerName,
         params: {
-            id: userId
+          id: userId
         }
-        
+
       });
     };
 
@@ -177,9 +145,11 @@ export default {
 .tag-wrapper.is-inactive {
   background: #f6b3b3;
 }
+
 .tag-wrapper.is-inactive .tag-text {
   color: #dc504f;
 }
+
 .tag.is-active {
   display: inline-block;
   width: 15px;
