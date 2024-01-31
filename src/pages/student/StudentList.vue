@@ -6,22 +6,21 @@
 
 
 <script>
-import { io } from "socket.io-client";
 import Table from "../../components/table/Table.vue";
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
+import { storeToRefs } from "pinia";
 import { getUsers } from "../../apis/user";
 import { ref } from "vue";
+import { useSocketState } from '../../stores/socket.js'
 export default {
   components: {
     Table,
   },
   setup() {
-    const socket = io("http://127.0.0.1:3000", {
-      transports: ["websocket"],
-    });
+    const socketState = useSocketState()
+    const { gUsers } = storeToRefs(socketState)
 
 
-    console.log('#student list app',  socket)
     const userList = ref([]);
 
 
@@ -52,38 +51,15 @@ export default {
 
     onMounted(async () => {
       await fetchUsers()
-      socket.emit(
-        "userlist",
-        'test value',
-        () => {
-          console.log(44);
-        },
-        (res) => {
-          console.log(423423423, res)
-          updateUsers(res)
-        }
-      );
-
-
-      socket.on("userlist", (res) => {
-        console.log('socket on studentlist')
-        console.log(1231312, res);
-        updateUsers(res)
-      });
-
-
     });
 
-
-    // socket.on('userlist', () => {
-    //     console.log('나 보여 ????? student-list')
-    //   })
-
-
-
+    const cUsers = computed(() => {
+      updateUsers(gUsers.value)
+      return userList.value
+    })
 
     return {
-      userList: userList,
+      userList: cUsers,
     };
   },
 };

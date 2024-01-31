@@ -10,22 +10,20 @@
 
 
 <script>
-import { io } from "socket.io-client";
 import { onMounted } from "vue";
 import Cube from "./components/cube/Cube.vue";
 import { useUserState } from "./stores/user";
+import { useSocketState } from "./stores/socket";
+import useSocketIO from '../src/socket/index'
 export default {
   components: {
     Cube,
   },
   setup() {
+    const { socket } = useSocketIO()
     const userState = useUserState();
-
+    const socketState = useSocketState()
     onMounted(() => {
-      const socket = io("http://127.0.0.1:3000", {
-        transports: ["websocket"],
-      });
-      console.log('#app', socket.id)
 
       socket.on("connect", (res) => {
         console.log(res);
@@ -34,9 +32,9 @@ export default {
 
       const loggedInUser = userState.user?.user;
       socket.emit("join", {
-          ...loggedInUser,
-          isActive: true
-        }, console.log, (error) => {
+        ...loggedInUser,
+        isActive: true
+      }, console.log, (error) => {
         console.log("#error", error);
       });
 
@@ -48,6 +46,19 @@ export default {
       socket.on("message", (message) => {
         console.log(message);
       });
+
+
+
+      socket.emit('userlist', () => {
+        socket.on('userlist', (res) => {
+          console.log('#FROM APP', res)
+          const users = [...res]
+          socketState.setUsers(users)
+        })
+      })
+
+
+
 
       // Check if the Page Visibility API is supported by the browser
       if ('hidden' in document) {
@@ -63,7 +74,6 @@ export default {
           if (visibilityState === 'visible') {
             // User is looking at the tab
             console.log('User is looking at the tab.');
-            console.log('User is looking at the tab.');
             socket.emit('online', true)
 
           } else {
@@ -76,9 +86,6 @@ export default {
         console.log('Page Visibility API not supported by the browser.');
       }
 
-      socket.on('userlist', (res) => {
-        console.log('나 보여 ????? from app', res)
-      })
 
     });
     return {};
