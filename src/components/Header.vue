@@ -1,59 +1,100 @@
 <template>
   <header class="header">
-    <h1></h1>
-    <ul class="header__options">
-      <li class="header__option" >  
-        <el-avatar
-          :size="30"
-          src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_1280.png"
-        />
+    <Breadcrumb :home="home" :model="items">
+      <template #item="item">
+        <a class="breadcrumb-item" @click="handleClick(item)" :href="item.url">
+          <span :class="item.icon">{{ item.label }}</span>
+        </a>
+      </template>
+      <template #separator> > </template>
+    </Breadcrumb>
+    <ul class=" header__options">
+      <li class="header__option">
+        <el-avatar :size="30" src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_1280.png" />
         <span class="text">{{ userName }} 님 </span>
       </li>
     </ul>
   </header>
 </template>
 
-<script setup>
+<script>
+import { useRoute, useRouter } from 'vue-router';
 import { computed } from 'vue'
 import { useUserState } from '../stores/user';
-const userState = useUserState()
 
-const userName = computed(() => {
-  return userState.user.user?.name
-}) 
+
+
+export default {
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+
+    const breadcrumbs = computed(() => {
+      return route.meta?.breadcrumbs || []
+    })
+    const userState = useUserState()
+    const userName = computed(() => {
+      return userState.user.user?.name
+    })
+
+    const handleClick = (item) => {
+      return router.push({ name: item.item.name })
+    }
+
+
+
+
+
+    return {
+      handleClick,
+      userName,
+      userState,
+      items: breadcrumbs
+    }
+  }
+}
 
 
 </script>
 
 <style scoped>
 .header {
-  height: 80px;
+  height: auto;
   display: flex;
-  padding: 30px;
-  padding-right: 100px;
   align-items: center;
-  display: flex;
   justify-content: space-between;
+  padding: 0px 40px;
+  display: flex;
   border-radius: 6px;
   background: #fff;
 }
 
-
 .header__options {
-  display:flex;
+  display: flex;
   align-items: center;
-  gap:10px;
+  gap: 10px;
 }
 
 .header__option {
-  display:flex;
+
+  border: 1px solid red;
+  display: flex;
+  margin-left: auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .text {
-  color:var(--font--color);
+  color: var(--font--color);
+  font-weight: 700;
+}
+
+.breadcrumb-item {
+  cursor: pointer;
+  color: #009;
+  color: #6b7280;
+  font-size: 14px;
   font-weight: 700;
 }
 </style>
