@@ -55,11 +55,10 @@ const routes = [
         path: "assignments/:id",
         name: "assignment-update",
         component: Assignment,
-        component: AssignmentList,
         meta: {
           breadcrumbs: [
             { label: "Assignment", name: "assignments" },
-            { label: "Assignment", name: "assignments" },
+            { label: "Assignment-Detail", name: "assignment-update" },
           ],
         },
       },
