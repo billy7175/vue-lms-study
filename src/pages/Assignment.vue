@@ -1,17 +1,12 @@
 <template>
   <div>
-    <question-form 
-      v-if="isTeacher"
-      @create="handleCreate"></question-form>
+    <question-form v-if="isTeacher" @create="handleCreate"></question-form>
     <section v-if="questionList && questionList.length">
       <div class="question-wrapper">
         <header class="question-header">
           <p>{{ paramId }}</p>
         </header>
-        <section 
-          v-if="isSubmitted"
-          class="answer-table"
-        >
+        <section v-if="isSubmitted" class="answer-table">
           <header class="answer-table__header">
             <div class="cell">문제</div>
             <div class="cell">선택</div>
@@ -19,18 +14,14 @@
             <div class="cell">채점</div>
           </header>
           <div class="answer-table__body">
-            <ul 
-            v-if="answerTable && answerTable.length"
-              class="answer-table__ul">
-              <li 
-                v-for="(answer, idx) in answerTable"
-                :key="idx"
-
-                class="answer-table__li">
-                <div class="cell">{{answer.number}}</div>
-                <div class="cell">{{answer.userAnswer}}</div>
+            <ul v-if="answerTable && answerTable.length" class="answer-table__ul">
+              <li v-for="(answer, idx) in answerTable" :key="idx" class="answer-table__li">
+                <div class="cell">{{ answer.number }}</div>
+                <div class="cell">{{ answer.userAnswer }}</div>
                 <div class="cell">{{ answer.answer }}</div>
-                <div class="cell" :class="{ 'correct-answer': answer.userAnswer === answer.answer, 'incorrect-answer': answer.userAnswer !== answer.answer }">{{ getAnswerLabel(answer) }}</div>
+                <div class="cell"
+                  :class="{ 'correct-answer': answer.userAnswer === answer.answer, 'incorrect-answer': answer.userAnswer !== answer.answer }">
+                  {{ getAnswerLabel(answer) }}</div>
               </li>
             </ul>
           </div>
@@ -41,30 +32,15 @@
           </footer>
         </section>
         <div style="display:flex; flex-direction: column;">
-          <question
-            v-for="(question, idx) in questionList"
-            :key="idx"
-            :data="question"
-            v-model="question.userSelectedAnswer.value"
-            :number="idx + 1"
-            :isSubmitted="isSubmitted"
-            @delete="handleDelete"
-          ></question>
+          <question v-for="(question, idx) in questionList" :key="idx" :data="question"
+            v-model="question.userSelectedAnswer.value" :number="idx + 1" :isSubmitted="isSubmitted"
+            @delete="handleDelete"></question>
         </div>
       </div>
-      <div
-        
-        style="display: flex; justify-content: center; margin: 25px 0px">
-        <Button 
-        v-if="!isSubmitted"   
-        label="Submit" @click="handleSubmit" />
-        <Button 
-          v-else  
-          label="Complted Submittion"
-          disabled
-          style="opacity:.5"
-        />
-        
+      <div style="display: flex; justify-content: center; margin: 25px 0px">
+        <Button v-if="!isSubmitted" label="Submit" @click="handleSubmit" />
+        <Button v-else label="Complted Submittion" disabled style="opacity:.5" />
+
       </div>
     </section>
     <section v-else>
@@ -78,7 +54,7 @@
 <script>
 import axios from 'axios'
 import { computed } from 'vue';
-import { useRouter,useRoute } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { getQuestions } from "../apis/question";
 import { getUserAnswers } from '../apis/answer'
 import { ref, onMounted, reactive } from "vue";
@@ -106,6 +82,7 @@ export default {
     const answerTable = ref([])
 
     const fetchQuestion = async () => {
+      questionList.value = []
       const { data } = await getQuestions(paramId.value);
       questionList.value = data;
     };
@@ -114,16 +91,16 @@ export default {
       try {
         const { data } = await getUserAnswers(paramId.value)
         console.log('fetchUserAnswers', data)
-        userAnswer.value= data
+        userAnswer.value = data
         isSubmitted.value = true
 
         questionList.value.forEach((q, idx) => {
           answerTable.value.push({
-            number : idx + 1,
+            number: idx + 1,
             userAnswer: data.answers[idx]?.label,
-            uesrValue : data.answers[idx]?.value,
+            uesrValue: data.answers[idx]?.value,
             // userValue : data.
-            answer : q.answer.label,
+            answer: q.answer.label,
 
           })
         })
@@ -138,7 +115,7 @@ export default {
         console.log(112312321312)
         console.log(questionList.value)
 
-      } catch(error) {
+      } catch (error) {
         console.log(error)
         console.log('what up due')
       }
@@ -146,7 +123,7 @@ export default {
 
     onMounted(async () => {
       await fetchQuestion();
-      if(!isTeacher.value){
+      if (!isTeacher.value) {
         fetchUserAnswers()
       }
     });
@@ -168,19 +145,19 @@ export default {
 
         const body = {
           date: paramId.value,
-          answers : answers,
+          answers: answers,
           user: userState.user.user._id,
         }
 
 
-      try {
-        const { data } = await axios.post("http://127.0.0.1:3000/api/answer", body);
-        console.log(6556565, data)
-        router.go()
-      } catch (error){
+        try {
+          const { data } = await axios.post("http://127.0.0.1:3000/api/answer", body);
+          console.log(6556565, data)
+          router.go()
+        } catch (error) {
 
-      }
-      
+        }
+
 
         console.log('#body', body)
         console.log('answers', answers)
@@ -196,7 +173,7 @@ export default {
       fetchQuestion();
     };
 
-    const getAnswerLabel = ({userAnswer, answer}) => {
+    const getAnswerLabel = ({ userAnswer, answer }) => {
       return userAnswer === answer ? 'O' : 'X'
     }
 
@@ -225,8 +202,8 @@ export default {
 </script>
 
 <style scoped>
-* {
-}
+* {}
+
 .question-order {
   padding: 4px 6px;
   box-sizing: border-box;
@@ -241,7 +218,7 @@ p {
 
 .question-wrapper {
   margin: 0px auto;
-  width:850px;
+  width: 850px;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -272,54 +249,56 @@ label {
   display: inline-block;
 }
 
-.answer-table  {
-  width:70%;
-  margin:50px auto;
-  padding:30px 15px;
-  background:#FAF5F3;
+.answer-table {
+  width: 70%;
+  margin: 50px auto;
+  padding: 30px 15px;
+  background: #FAF5F3;
   /* border:3px solid #DABEA9; */
   /* box-shadow: 0px 0px 4px 4px #DABEA9; */
   border-radius: 20px;
 }
 
 .answer-table__header {
-  display:flex;
+  display: flex;
   font-weight: 700;
 }
 
 .answer-table__header div {
-  width:25%;
+  width: 25%;
   text-align: center;
-  padding:15px;
+  padding: 15px;
   font-weight: 900;
 }
 
 .answer-table__li {
-  display:flex;
+  display: flex;
 }
 
 .answer-table__ul {
-  padding:0px;
-  margin:0px;
+  padding: 0px;
+  margin: 0px;
 }
+
 .answer-table__li div {
-  width:25%;
-  height:70px;
+  width: 25%;
+  height: 70px;
   line-height: 70px;
   text-align: center;
-  font-size:20px;
-  font-weight:500px;
+  font-size: 20px;
+  font-weight: 500px;
 }
 
 .answer-table .correct-answer {
-  color:#57A3FC;
-  font-size:26px;
+  color: #57A3FC;
+  font-size: 26px;
   font-weight: 600;
 
 }
+
 .answer-table .incorrect-answer {
   color: #FF0F4D;
-  font-size:26px;
+  font-size: 26px;
   font-weight: 600;
 }
 
