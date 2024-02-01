@@ -55,15 +55,6 @@
 <script>
 import { ProductService } from '../../service/ProductService'
 export default {
-  methods: {
-    setStatusLabel(value) {
-      return {
-        complete: '완료',
-        incomplete: '미납',
-        default: ''
-      }[value] ?? 'default'
-    }
-  },
   data() {
     return {
       statusLabel: {
@@ -106,7 +97,8 @@ export default {
       }
     },
     formatCurrency(value) {
-      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+      // return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+      return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'krw' }).format(value);
     }
   }
 };
