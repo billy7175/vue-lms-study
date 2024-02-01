@@ -1,30 +1,14 @@
 <template>
   <div class="vocabulary-sheet">
-    <header
-      data-html2canvas-ignore="true"
-      style="
+    <header data-html2canvas-ignore="true" style="
         display: flex;
         justify-content: flex-end;
         gap: 20px;
         padding: 30px 0px;
-      "
-    >
-      <input
-        v-if="isCreateMode"
-        id="file"
-        accept=".xlsx, .numbers"
-        class="form-control form-control-sm p-button"
-        type="file"
-        @change="parseData"
-        ref="fileupload"
-        style="display: none"
-      />
-      <label
-        v-if="isCreateMode"
-        for="file"
-        class="p-button"
-        style="font-weight: 700"
-      >
+      ">
+      <input v-if="isCreateMode" id="file" accept=".xlsx, .numbers" class="form-control form-control-sm p-button"
+        type="file" @change="parseData" ref="fileupload" style="display: none" />
+      <label v-if="isCreateMode" for="file" class="p-button" style="font-weight: 700">
         <i class="pi pi-upload" style="margin-right: 10px"></i>
         Excel Upload
       </label>
@@ -39,68 +23,32 @@
       /> -->
 
       <!-- accept="image/*"  -->
-      <Button
-        v-if="!isEditingMode"
-        @click="handleEditButton"
-        label="Change To Edit Mode"
-        icon="pi pi-external-link"
-        severity="secondary"
-      />
+      <Button v-if="!isEditingMode" @click="handleEditButton" label="Change To Edit Mode" icon="pi pi-external-link"
+        severity="secondary" />
 
-      <Button
-        v-if="isEditingMode"
-        @click="handleCancelButton"
-        label="Cancel Edit Mode"
-        icon="pi pi-external-link"
-        severity="danger"
-      />
-      <Button
-        v-if="isEditingMode"
-        @click="handleUpdateButton"
-        label="Update"
-        icon="pi pi-external-link"
-        severity="info"
-      />
+      <Button v-if="isEditingMode" @click="handleCancelButton" label="Cancel Edit Mode" icon="pi pi-external-link"
+        severity="danger" />
+      <Button v-if="isEditingMode" @click="handleUpdateButton" label="Update" icon="pi pi-external-link"
+        severity="info" />
 
-      <Button
-        v-if="!isEditingMode"
-        @click="handleDownload"
-        label="PDF Download"
-        icon="pi pi-external-link"
-        severity="danger"
-      />
+      <Button v-if="!isEditingMode" @click="handleDownload" label="PDF Download" icon="pi pi-external-link"
+        severity="danger" />
 
-      <Button
-        v-if="isCreateMode"
-        @click="handleSave"
-        label="Save Data"
-        icon="pi pi-save"
-        severity="info"
-      />
+      <Button v-if="isCreateMode" @click="handleSave" label="Save Data" icon="pi pi-save" severity="info" />
     </header>
     <header class="header">
       <div class="header__inner">
         <div class="sub-title">Unit 02 BUSY BEES</div>
         <div class="sub-info">
-          Date <Calendar v-model="date" dateFormat="yy-mm-dd" style="width:150px;"/>
-          <span style="margin-left: 10px; display: inline-block"
-            >Name :
-            <InputText
-              class="input-name"
-              type="text"
-              v-model="userName"
-              style="width: 130px"
-            />
+          Date
+          <Calendar v-model="date" dateFormat="yy-mm-dd" style="width:150px;" />
+          <span style="margin-left: 10px; display: inline-block">Name :
+            <InputText class="input-name" type="text" v-model="userName" style="width: 130px" />
           </span>
         </div>
         <!-- <h2>바로 읽는 배경지식 독해 LEVEL 1</h2> -->
         <h2 class="title" v-if="isEditingMode">
-          <InputText
-            class="input-title"
-            type="text"
-            v-model="title"
-            placeholder="Enter Title"
-          ></InputText>
+          <InputText class="input-title" type="text" v-model="title" placeholder="Enter Title"></InputText>
         </h2>
         <div v-else>
           <h2 class="title">
@@ -125,37 +73,16 @@
     </header>
     <div class="vocabulary-sheet__body">
       <section class="section -left">
-        <div
-          v-for="(x, idx) in inputValuesSection1"
-          class="item -left"
-          :key="x"
-        >
+        <div v-for="(x, idx) in inputValuesSection1" class="item -left" :key="x">
           <span class="number">0{{ idx + 1 }}</span>
-          <InputText
-            class="eng"
-            type="text"
-            v-model="inputValuesSection1[idx].eng"
-            size="small"
-          />
-          <InputText
-            type="text"
-            v-model="inputValuesSection1[idx].kor"
-            size="small"
-          />
+          <InputText class="eng" type="text" v-model="inputValuesSection1[idx].eng" size="small" />
+          <InputText type="text" v-model="inputValuesSection1[idx].kor" size="small" />
         </div>
       </section>
       <section class="section -right">
-        <div
-          v-for="(x, idx) in inputValuesSection2"
-          class="item -righ"
-          :key="x"
-        >
+        <div v-for="(x, idx) in inputValuesSection2" class="item -righ" :key="x">
           <span class="number">0{{ idx + 1 + 25 }}</span>
-          <InputText
-            class="eng"
-            type="text"
-            v-model="inputValuesSection2[idx].eng"
-          />
+          <InputText class="eng" type="text" v-model="inputValuesSection2[idx].eng" />
           <InputText type="text" v-model="inputValuesSection2[idx].kor" />
         </div>
       </section>
@@ -175,7 +102,7 @@ export default {
   props: {
     data: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     isCreateMode: {
       type: Boolean,
@@ -321,7 +248,7 @@ export default {
       console.log(inputValuesSection2.value);
     };
 
-    onMounted(() => {});
+    onMounted(() => { });
 
     async function fileToJson(e) {
       const file = e.target.files[0];
@@ -411,12 +338,14 @@ export default {
 h2 {
   margin: 0px;
 }
+
 .title {
-  margin:20px 0px;
+  margin: 20px 0px;
   width: 500px;
   height: 40px;
   display: inline-block;
 }
+
 .vocabulary-sheet {
   width: 1200px;
   margin: auto;

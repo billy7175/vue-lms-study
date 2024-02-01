@@ -53,8 +53,12 @@ th, td {
   /* border:1px solid red; */
 }
 
+.p-tag {
+  padding:5px 10px;
+}
 .p-tag-value {
-  padding:4px 6px;
+  text-align: center;
+  padding-right:10px;
   font-size:16px;
 }
 

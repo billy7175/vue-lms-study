@@ -13,9 +13,9 @@
           <span>MW1618</span>
         </div>
         <div>
-          <Tag v-if="type === 'text'" type="text">3300 점</Tag>
-          <Tag v-else type="status" :isActive="true">
-          </Tag>
+          <basic-tag v-if="type === 'text'" type="text">3300 점</basic-tag>
+          <basic-tag v-else type="status" :isActive="true">
+          </basic-tag>
         </div>
       </li>
       <li class="li">
@@ -29,9 +29,9 @@
           <span>MW1618</span>
         </div>
         <div>
-          <Tag v-if="type === 'text'" type="text">3000 점</Tag>
-          <Tag v-else type="status" :isActive="true">
-          </Tag>
+          <basic-tag v-if="type === 'text'" type="text">3000 점</basic-tag>
+          <basic-tag v-else type="status" :isActive="true">
+          </basic-tag>
         </div>
       </li>
       <li class="li">
@@ -45,9 +45,9 @@
           <span>MW1618</span>
         </div>
         <div>
-          <Tag v-if="type === 'text'" type="text">2200 점</Tag>
-          <Tag v-else type="status" :isActive="false">
-          </Tag>
+          <basic-tag v-if="type === 'text'" type="text">2200 점</basic-tag>
+          <basic-tag v-else type="status" :isActive="false">
+          </basic-tag>
         </div>
       </li>
       <li class="li">
@@ -61,9 +61,9 @@
           <span>MW1618</span>
         </div>
         <div>
-          <Tag v-if="type === 'text'" type="text">1000 점</Tag>
-          <Tag v-else type="status" :isActive="false">
-          </Tag>
+          <basic-tag v-if="type === 'text'" type="text">1000 점</basic-tag>
+          <basic-tag v-else type="status" :isActive="false">
+          </basic-tag>
         </div>
       </li>
       <li class="li">
@@ -77,9 +77,9 @@
           <span>MW1618</span>
         </div>
         <div>
-          <Tag v-if="type === 'text'" type="text">0 점</Tag>
-          <Tag v-else type="status" :isActive="false">
-          </Tag>
+          <basic-tag v-if="type === 'text'" type="text">0 점</basic-tag>
+          <basic-tag v-else type="status" :isActive="false">
+          </basic-tag>
         </div>
       </li>
     </ul>
@@ -88,10 +88,10 @@
 
 
 <script>
-import Tag from '../tag/Tag.vue'
+import BasicTag from '../tag/BasicTag.vue'
 export default {
   components: {
-    Tag
+    'basic-tag': BasicTag
   },
   props: {
     title: {

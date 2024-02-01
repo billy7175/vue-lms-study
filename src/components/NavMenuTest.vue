@@ -40,7 +40,7 @@ export default {
         separator: true,
       },
       {
-        label: "--__---__--__--__--",
+        label: "APP",
         items: [
           {
             label: "Dashboard",

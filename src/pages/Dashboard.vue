@@ -1,13 +1,14 @@
 <template>
   <div class="dashboard">
-    <div>
-      <engagement-card :data="dashboard"></engagement-card>
-    </div>
+
     <section style="padding: 20px 0px; display: flex; gap: 40px">
       <list-card title="Best Score"></list-card>
       <list-card title="Loggined-In Users" type="status"></list-card>
       <!-- <list-card title="Underperforming Students"></list-card> -->
     </section>
+    <div>
+      <engagement-card :data="dashboard"></engagement-card>
+    </div>
     <section>
       <h2>WORKING ON</h2>
       <div class="card__wrapper">
