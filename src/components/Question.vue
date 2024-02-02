@@ -1,16 +1,5 @@
 <template>
   <article class="question" :class="[{ 'is-correct': true }]">
-    <div style="display: none; position: absolute; top: -20%; left: -3%">
-      <svg class="uitLogo_path" xmlns="http://www.w3.org/2000/svg" width="250" height="150" viewBox="0 0 397.25 198"
-        id="uitLogo">
-        <g>
-          <!-- d="M602.1, 332.64c-12.25, 9.75-27.5,14.5-45.25,14.5-17.25,0-32.25-4.75-45-14.5-16.75-12.75-22.19-47.12-22.19-47.12a153.78, 153.78,0,0,1-1.56-19.88V167.89c0-5.5.28-10.84.62-11.87s6.88-1.88,12.38-1.88h2.25c5.5,0,10.67.34,11.5.75s1.5,7,1.5,12.5v98.25a80,80,0,0,0,2.95,19.56s10.8,34.94,37.55,34.94c27.25,0,37.84-34.93,37.84-34.93a81,81,0,0,0,2.91-19.57V167.39c0-5.5.28-10.73.62-11.62s6.88-1.63,12.38-1.63h2.25c5.5,0,10.67.45,11.5,1s1.5,7.25,1.5,12.75v97.75a139,139,0,0,1-1.73,19.85S618.1,319.89,602.1,332.64Z" -->
-          <path
-            d="M602.1, 332.64c-12.25, 9.75-27.5,14.5-45.25,14.5-17.25,0-32.25-4.75-45-14.5-16.75-12.75-22.19-47.12-22.19-47.12a153.78, 153.78,0,0,1-1.56-19.88V167.89c0-5.5.28-10.84.62-11.87s6.88-1.88,12.38-1.88h2.25c5.5,0,10.67.34,11.5.75s1.5,7,1.5,12.5v98.25a80,80,0,0,0,2.95,19.56s10.8,34.94,37.55,34.94c27.25,0,37.84-34.93,37.84-34.93a81,81,0,0,0,2.91-19.57V167.39c0-5.5.28-10.73.62-11.62s6.88-1.63,12.38-1.63h2.25c5.5,0,10.67.45,11.5,1s1.5,7.25,1.5,12.75v97.75a139,139,0,0,1-1.73,19.85S618.1,319.89,602.1,332.64Z"
-            transform="translate(-485.6 -151.64)" fill="red" stroke="#000" stroke-miterlimit="10" stroke-width="5" />
-        </g>
-      </svg>
-    </div>
     <div style="display: flex; align-items: flex-start; padding: 40px">
       <span class="question-order">
         Q{{ number }}.
@@ -23,19 +12,23 @@
         <div>
           <!-- 문제 풀기 후 -->
           <div v-if="isSubmited">
-            {{ modelValue }}
             <div v-for="(option, idx) in data.options" :key="idx" class="field-radiobutton"
-              :class="[{ 'is-matched': modelValue === option.value }]">
+              :class="[{ 'is-matched': modelValue === option.value }, { 'is-question-answer': option.value === data.answer.value }]">
               <RadioButton :id="option.value" :name="option.value" :value="option.value" v-model="modelValue" disabled />
-              <label for="city1">{{ option.label }}. {{ option.value }}</label>
+              <label class="field-label" for="city1">{{ option.label }}. {{ option.value }}</label>
             </div>
           </div>
 
           <!-- 문제 풀기 전 -->
           <div v-else>
-            <div v-for="(option, idx) in data.options" :key="idx" class="field-radiobutton">
-              <RadioButton :id="option.value" :name="option.value" :value="option.value" v-model="selectedAnswer" />
-              <label for="city1">{{ option.label }}. {{ option.value }}</label>
+            <div v-for="(option) in data.options" :key="option.value" class="field-radiobutton"
+              :class="[{ 'is-selected': option.value === selectedAnswer }]">
+              <RadioButton v-show="false" :inputId="option.value" :name="option.value" :value="option.value"
+                v-model="selectedAnswer" />
+
+              <label class="field-label" :for="option.value" style="display:inline-block; width:90%;">
+                {{ option.label }}. {{ option.value }}
+              </label>
             </div>
           </div>
           <!-- 문제 풀기 전 -->
@@ -144,6 +137,18 @@ export default {
 
 
 <style scoped>
+.is-selected {
+  border: 1px solid #479dfe;
+  color: #1c83f9;
+  background: #fff;
+}
+
+.is-question-answer {
+  border: 1px solid #1d84fb;
+  background: #1d84fb !important;
+  color: #fff;
+}
+
 .question {
   width: 100%;
   margin: auto;
@@ -202,10 +207,19 @@ p {
 }
 
 .field-radiobutton {
-  padding: 10px;
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
   background: #f9f9f9;
   border-radius: 6px;
   margin-top: 10px;
+}
+
+.field-label {
+  padding: 15px 0px;
+  width: 100%;
+  flex-grow: 1;
+  /* border: 1px solid red; */
 }
 
 label {

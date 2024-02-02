@@ -27,7 +27,7 @@
           </div>
           <footer style="display:flex; justify-content: flex-end;">
             <h2 style="margin-top:50px; margin-right:50px; ">
-              맞은 개수 : 0 / 3
+              맞은 개수 : {{ totalCorrectAnswer }} / {{ answerTable.length }}
             </h2>
           </footer>
         </section>
@@ -80,12 +80,26 @@ export default {
     const isSubmitted = ref(false)
     const userState = useUserState()
     const answerTable = ref([])
+    const totalCorrectAnswer = ref(0)
 
     const fetchQuestion = async () => {
       questionList.value = []
       const { data } = await getQuestions(paramId.value);
       questionList.value = data;
     };
+
+    const setTotalCount = () => {
+      answerTable.value.forEach(x => {
+        if (x.userAnswer === x.answer) totalCorrectAnswer.value += 1
+      })
+    }
+
+    // const setUserAnswerValue = () => {
+    //   questionList.value.map((q, idx) => {
+    //     console.log(answerTable.value[idx])
+    //     q.userSelectedAnswer.value = answerTable.value[idx].uesrValue
+    //   })
+    // }
 
     const fetchUserAnswers = async () => {
       try {
@@ -99,7 +113,6 @@ export default {
             number: idx + 1,
             userAnswer: data.answers[idx]?.label,
             uesrValue: data.answers[idx]?.value,
-            // userValue : data.
             answer: q.answer.label,
 
           })
@@ -107,17 +120,11 @@ export default {
 
 
 
-        questionList.value.map((q, idx) => {
-          console.log(answerTable.value[idx])
-          q.userSelectedAnswer.value = answerTable.value[idx].uesrValue
-        })
-
-        console.log(112312321312)
-        console.log(questionList.value)
+        // setUserAnswerValue()
+        setTotalCount() // setTotalCount
 
       } catch (error) {
         console.log(error)
-        console.log('what up due')
       }
     }
 
@@ -152,16 +159,11 @@ export default {
 
         try {
           const { data } = await axios.post("http://127.0.0.1:3000/api/answer", body);
-          console.log(6556565, data)
           router.go()
         } catch (error) {
-
+          console.log(error)
         }
 
-
-        console.log('#body', body)
-        console.log('answers', answers)
-        // API 발 사!!!
       }
     };
 
@@ -195,7 +197,8 @@ export default {
       isSubmitted,
       answerTable,
       getAnswerLabel,
-      isTeacher
+      isTeacher,
+      totalCorrectAnswer
     };
   },
 };
