@@ -1,12 +1,8 @@
 <template>
   <div>
     <div>
-      <vocabulary-sheet 
-        :data="vocaData"
-        @edit="onEdit"
-        :isCreateMode="isCreateMode"
-        :isEditingMode="isEditingMode"
-      ></vocabulary-sheet>
+      <vocabulary-sheet :data="vocaData" @edit="onEdit" :isCreateMode="isCreateMode"
+        :isEditingMode="isEditingMode"></vocabulary-sheet>
     </div>
   </div>
 </template>
@@ -33,14 +29,14 @@ export default {
         const { data } = await axios.get(
           `http://127.0.0.1:3000/api/vocabulary-sheets/${id}`
         );
-        if(!data) return alert("id 정보가 없더열");
+        if (!data) return alert("id 정보가 없더열");
         vocaData.value = data
       } catch (error) {
         alert("실패!!");
         router.push({
-          name : 'vocabulary-list'
+          name: 'vocabulary-detail'
         })
-        
+
       }
     };
 
@@ -50,13 +46,13 @@ export default {
 
     onMounted(() => {
       const routeName = route.name
-      if(routeName === 'vocabulary-create') isCreateMode.value = true
-      
-      if(!isCreateMode.value) {
-        isEditingMode.value = false 
+      if (routeName === 'vocabulary-create') isCreateMode.value = true
+
+      if (!isCreateMode.value) {
+        isEditingMode.value = false
         fetchVocabularySheetDetail(id);
       }
-      
+
     });
 
     return {

@@ -95,7 +95,7 @@ export default {
   width: 800px;
   width: 50%;
   position: relative;
-  border: 1px solid #9259F0;
+  // border: 10px solid #9259F0;
   background: #fff;
   border-radius: 30px;
   overflow: hidden;

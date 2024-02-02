@@ -6,21 +6,6 @@
         <TabView>
           <TabPanel header="납부현황">
             <PayTable></PayTable>
-            <p class="">
-              2024년 2월 납부 현황은
-              <Tag value="Primary">완료</Tag> 상태입니다
-              <Tag severity="info" value="Primary">카드</Tag>
-            </p>
-            <p>
-              2023년 12월 납부현황은
-              <Tag value="Primary">완료</Tag> 상태입니다
-              <Tag severity="info" value="Primary">현금</Tag>
-            </p>
-            <p>2023년 11월 납부현황은
-              <Tag severity="danger" value="Warning">미납</Tag>
-
-              상태입니다
-            </p>
           </TabPanel>
           <TabPanel header="Following">
             <p class="m-0">

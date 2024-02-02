@@ -136,9 +136,9 @@ export default {
 .assignment-list .p-datatable-wrapper tr,
 td,
 th {
-  font-weight: 700;
   text-indent: 10px;
   padding: 10px;
+  font-weight: 600;
 }
 
 .assignment-list .p-datatable-wrapper th,

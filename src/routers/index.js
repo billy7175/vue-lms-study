@@ -63,8 +63,8 @@ const routes = [
         },
       },
       {
-        path: "vocabulary-list",
-        name: "vocabulary-list",
+        path: "vocabulary",
+        name: "vocabulary",
         component: VocabularyList,
         meta: {
           breadcrumbs: [{ label: "Vocabulary", name: "vocabulary-list" }],
@@ -72,12 +72,12 @@ const routes = [
       },
       {
         path: "vocabulary/:id",
-        name: "vocabulary",
+        name: "vocabulary-detail",
         component: Vocabulary,
         meta: {
           breadcrumbs: [
-            { label: "Vocabulary", name: "vocabulary-list" },
-            { label: "Vocabulary-Detail", name: "vocabulary" },
+            { label: "Vocabulary", name: "vocabulary" },
+            { label: "Vocabulary-Detail", name: "vocabulary-detail" },
           ],
         },
       },
