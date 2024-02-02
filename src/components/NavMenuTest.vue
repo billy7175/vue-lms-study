@@ -68,6 +68,11 @@ export default {
             routeName: "students",
             badge: "5",
           },
+          {
+            label: "Payment",
+            icon: "pi pi-money-bill",
+            routeName: "pay-management",
+          },
         ],
       },
       {
@@ -113,53 +118,62 @@ export default {
   font-family: 'Courier New', Courier, monospace;
 }
 
-
 .g-menu {
-  &::v-deep {
-    .p-menu {
-      padding: 15px;
-      background: var(--background--light--color);
-    }
+  ::v-deep(.p-menu) {
+    padding: 15px;
+    background: var(--background--light--color);
+  }
 
-    .p-menuitem {
-      border-radius: 6px;
-      margin: 10px 0px;
-    }
+  ::v-deep(.p-menuitem) {
+    border-radius: 6px;
+    margin: 10px 0px;
+  }
 
-    .p-menuitem-link {
-      font-weight: 500;
-      color: #9d9191;
-      color: var(--font--color);
-    }
 
-    .p-submenu-header {
-      padding: 20px;
-      color: var(--font--color);
-      margin-top: 10px;
-      border-radius: 6px;
-      color: #444;
-      font-weight: 400;
-      color: var(--font--color__hover);
-      background: var(--background--color__hover);
-    }
+  ::v-deep(.p-menuitem-link) {
+    font-weight: 500;
+    color: #9d9191;
+    color: var(--font--color);
+  }
 
-    .p-menuitem-separator {
-      display: none;
-    }
+  ::v-deep(.p-submenu-header) {
+    padding: 20px;
+    color: var(--font--color);
+    margin-top: 10px;
+    border-radius: 6px;
+    color: #444;
+    font-weight: 400;
+    color: var(--font--color__hover);
+    background: var(--background--color__hover);
+  }
 
-    .p-menuitem-link {
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 400;
-    }
+  ::v-deep(.p-submenu-header) {
+    padding: 20px;
+    color: var(--font--color);
+    margin-top: 10px;
+    border-radius: 6px;
+    color: #444;
+    font-weight: 400;
+    color: var(--font--color__hover);
+    background: var(--background--color__hover);
+  }
 
-    .p-menuitem-link:hover {
+  ::v-deep(.p-menuitem-separator) {
+    display: none;
+  }
+
+  ::v-deep(.p-menuitem-link) {
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 400;
+
+    &:hover {
       background: transparent;
       color: var(--font--color__hover);
       background: var(--background--color__hover);
     }
 
-    .p-menuitem-link:hover .p-menuitem-icon {
+    &:hover .p-menuitem-icon {
       color: var(--font--color__hover);
     }
   }
