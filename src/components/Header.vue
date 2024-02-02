@@ -72,8 +72,6 @@ export default {
 }
 
 .header__option {
-
-  border: 1px solid red;
   display: flex;
   margin-left: auto;
   flex-direction: column;

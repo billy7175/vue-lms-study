@@ -11,6 +11,7 @@ import Vocabulary from "../pages/Vocabulary.vue";
 import Student from "../pages/student/Student.vue";
 import StudentDetail from "../pages/student/StudentDetail.vue";
 import StudentList from "../pages/student/StudentList.vue";
+import PayManagement from "../pages/PayManagement/PayManagement.vue";
 import { useUserState } from "../stores/user.js";
 
 const routes = [
@@ -114,6 +115,14 @@ const routes = [
             },
           },
         ],
+      },
+      {
+        path: "pay-management",
+        name: "pay-management",
+        component: PayManagement,
+        meta: {
+          breadcrumbs: [{ label: "Payment", name: "pay-management" }],
+        },
       },
     ],
   },

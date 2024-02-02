@@ -145,7 +145,7 @@ export default {
 
 .is-question-answer {
   border: 1px solid #1d84fb;
-  background: #1d84fb !important;
+  background: #1a7def !important;
   color: #fff;
 }
 
