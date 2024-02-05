@@ -1,6 +1,6 @@
 <template>
   <div class="list-card">
-    <h2>{{ title }}</h2>
+    <h2 class="title">{{ title }}</h2>
     <ul class="ul">
       <li class="li">
         <span class="number">
@@ -110,17 +110,27 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../../src/assets/styles/mixins.scss';
+
 .list-card {
   display: inline-block;
   min-width: 360px;
   min-height: 300px;
-  ;
   width: 360px;
   height: auto;
   padding: 30px;
-  background: #fff;
   border-radius: 20px;
+  @include glassmorphism(5px)
+}
+
+.title {
+  // padding: 10px;
+  padding: 10px;
+  // color: red;
+  // color: #FE4D26;
+  color: #504d4d;
+  @include glassmorphism(1px);
 }
 
 h2,
@@ -146,14 +156,8 @@ h2 {
   align-items: center;
   gap: 20px;
   border-radius: 10px;
-  box-shadow: 1px 1px 1px #ccc;
   transition: .3s;
-  /* background:#FFF0E1; */
-  /* background: #FBAB5D; */
-  /* background: #E9E3FF; */
-  /* background: #8A70D6; */
-  /* background: #E5F3FF; */
-  /* background: #579BE3; */
+  @include glassmorphism(1px);
 }
 
 .li .number {

@@ -1,9 +1,9 @@
 <template>
   <div class="dashboard">
-
     <section style="padding: 20px 0px; display: flex; gap: 40px">
       <list-card title="Best Score"></list-card>
       <list-card title="Loggined-In Users" type="status"></list-card>
+      <div class="test"></div>
       <!-- <list-card title="Underperforming Students"></list-card> -->
     </section>
     <div>
@@ -122,7 +122,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../src/assets/styles/mixins.scss';
+
+.test {
+  width: 80%;
+  border: 2px solid red;
+  @include glassmorphism(2px);
+}
+
 .dashboard {}
 
 .card__title {

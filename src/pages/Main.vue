@@ -135,7 +135,6 @@ const items = [
 
 <template>
   <div class="main-component">
-    <PanelMenu :model="items" style="display: none" />
     <NavMenuTest @logout="logout"></NavMenuTest>
     <div class="container__right">
       <Header></Header>
@@ -154,9 +153,9 @@ const items = [
   width: 100%;
   margin: 0 auto;
   height: 100vh;
-  background:#F5F7FC;
-  /* background:#fff; */
+  gap: 10px;
 }
+
 .container__right {
   width: 100%;
   width: cal(100% - 250px);
@@ -171,7 +170,6 @@ const items = [
 
 .main__inner {
   width: 100%;
-  background:#F5F7FC;
   border-radius: 10px;
   padding: 20px;
   overflow-y: auto;

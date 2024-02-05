@@ -121,14 +121,9 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import '../../src/assets/styles/mixins.scss';
 
-<style scoped>
-.custom-class {
-  border: 1px solid red;
-}
-</style>
-
-<style>
 .assignment-list .p-datatable-wrapper {
   border-radius: 10px;
 }
@@ -142,11 +137,48 @@ th {
 }
 
 .assignment-list .p-datatable-wrapper th,
-td {
-  /* border-bottom:2px solid rgb(56, 54, 54); */
-}
+td {}
 
 .assignment-list .p-datatable-wrapper .p-rating-item path {
   /* color: #FFF27A; */
+}
+
+.p-paginator {
+  @include glassmorphism(2px);
+  margin-top: 10px;
+}
+
+.p-datatable .p-datatable-header {
+  @include glassmorphism(2px);
+  margin-bottom: 20px;
+}
+
+.p-datatable .p-datatable-thead {
+  @include glassmorphism(2px);
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+  background: none;
+  border: none;
+}
+
+.p-datatable .p-datatable-thead>tr>th>td {
+  background: none;
+}
+
+.p-datatable .p-datatable-tbody {
+  @include glassmorphism(10px);
+}
+
+.p-datatable .p-datatable-tbody>tr {
+  background: none;
+}
+
+.p-datatable .p-datatable-tbody>tr>td {
+  background: transparent;
+  border: none;
+  box-shadow: 0 2px 0px 0 rgba(31, 38, 135, 0.37);
+  color: #201e1e;
+  font-weight: 700;
 }
 </style>

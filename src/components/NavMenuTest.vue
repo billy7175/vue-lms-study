@@ -105,6 +105,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../src/assets/styles/mixins.scss';
+
 .logo {
   display: flex;
   justify-content: center;
@@ -118,15 +120,29 @@ export default {
   font-family: 'Courier New', Courier, monospace;
 }
 
+.is-matched {
+  @include glassmorphism(5px);
+}
+
 .g-menu {
   ::v-deep(.p-menu) {
     padding: 15px;
-    background: var(--background--light--color);
+    @include glassmorphism(5px);
   }
 
   ::v-deep(.p-menuitem) {
     border-radius: 6px;
     margin: 10px 0px;
+
+    &.p-focus {
+      .p-menuitem-content {
+        background: none;
+      }
+    }
+  }
+
+  ::v-deep(.p-menuitem.p-focus) {
+    color: red;
   }
 
 
@@ -144,18 +160,8 @@ export default {
     color: #444;
     font-weight: 400;
     color: var(--font--color__hover);
-    background: var(--background--color__hover);
-  }
-
-  ::v-deep(.p-submenu-header) {
-    padding: 20px;
-    color: var(--font--color);
-    margin-top: 10px;
-    border-radius: 6px;
-    color: #444;
-    font-weight: 400;
-    color: var(--font--color__hover);
-    background: var(--background--color__hover);
+    background: none;
+    backdrop-filter: blur(8px);
   }
 
   ::v-deep(.p-menuitem-separator) {
@@ -170,11 +176,16 @@ export default {
     &:hover {
       background: transparent;
       color: var(--font--color__hover);
-      background: var(--background--color__hover);
     }
 
     &:hover .p-menuitem-icon {
       color: var(--font--color__hover);
+    }
+  }
+
+  ::v-deep(.p-menuitem-content) {
+    &:hover {
+      @include glassmorphism(1px);
     }
   }
 }
@@ -187,11 +198,5 @@ export default {
   to {
     -webkit-mask-position: -50%;
   }
-}
-</style>
-<style>
-.is-matched {
-  color: var(--font--color__hover);
-  background: var(--background--color__hover);
 }
 </style>

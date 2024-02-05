@@ -1,0 +1,9 @@
+@mixin glassmorphism ($blurValue: 5px){
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  // backdrop-filter: blur($blurValue); // rendering issue occurs
+  -webkit-backdrop-filter: blur($blurValue);
+  border-radius: 6px;
+  outline: 1px solid rgba(255, 255, 255, 0.18);
+}
+

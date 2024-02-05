@@ -57,7 +57,7 @@ const handleLoginPost = async () => {
     const { user, token } = data;
     VueCookies.set("token", token);
     VueCookies.set("user", user);
-    location.reload();
+
   } catch (error) {
     const errorData = error.response?.data;
     if (errorData && errorData.code === "IAM001") {
@@ -81,25 +81,13 @@ const handleLoginPost = async () => {
             <h2>LOGIN</h2>
             <form action="">
               <div class="input-wrapper">
-                <input
-                  class="input-control useremail"
-                  v-model="userEmail"
-                  type="text"
-                  required="required"
-                  placeholder="Email"
-                />
+                <input class="input-control useremail" v-model="userEmail" type="text" required="required"
+                  placeholder="Email" />
                 <!-- <span>Login</span> -->
               </div>
               <div class="input-wrapper password">
-                <input
-                  class="input-control password"
-                  v-model="userPassword"
-                  id="password-input"
-                  type="password"
-                  name="password"
-                  required="required"
-                  placeholder="Password"
-                />
+                <input class="input-control password" v-model="userPassword" id="password-input" type="password"
+                  name="password" required="required" placeholder="Password" />
                 <i class="fas fa-key"></i>
               </div>
               <div class="input-wrapper">
@@ -270,5 +258,4 @@ section {
     }
   }
 }
-
 </style>

@@ -39,14 +39,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../../src/assets/styles/mixins.scss';
+
 .engagement-card {
-    background: #DABEA9;
     background: #fce3cf;
     display: flex;
     gap: 50px;
     padding: 40px;
     border-radius: 20px;
+    @include glassmorphism(1px);
 }
 
 .aside {
@@ -99,6 +101,7 @@ export default {
     position: relative;
     padding-left: 20px;
     gap: 10px;
+    @include glassmorphism(1px);
 }
 
 .li span {
