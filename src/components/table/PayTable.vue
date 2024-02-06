@@ -47,7 +47,8 @@
           <InputNumber v-model="data[field]" mode="currency" currency="USD" locale="en-US" />
         </template>
       </Column>
-      <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
+      <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center">
+      </Column>
     </DataTable>
   </div>
 </template>
@@ -103,3 +104,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../../../src/assets/styles/mixins.scss';
+
+::v-deep(.p-tag) {}
+</style>

@@ -93,7 +93,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../src/assets/styles/mixins.scss';
+
 header {
   line-height: 1.5;
 }
@@ -120,4 +122,8 @@ header {
     flex-wrap: wrap;
   }
 } */
+
+::v-deep(.p-breadcrumb) {
+  @include glassmorphism(1px);
+}
 </style>

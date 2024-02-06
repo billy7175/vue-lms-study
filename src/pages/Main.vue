@@ -154,6 +154,7 @@ const items = [
   margin: 0 auto;
   height: 100vh;
   gap: 10px;
+  padding: 10px;
 }
 
 .container__right {

@@ -136,7 +136,9 @@ export default {
 </script>
 
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../src/assets/styles/mixins.scss';
+
 .is-selected {
   border: 1px solid #479dfe;
   color: #1c83f9;
@@ -210,9 +212,10 @@ p {
   padding: 0px 10px;
   display: flex;
   align-items: center;
-  background: #f9f9f9;
+  /* background: #f9f9f9; */
   border-radius: 6px;
   margin-top: 10px;
+  @include glassmorphism(1px);
 }
 
 .field-label {

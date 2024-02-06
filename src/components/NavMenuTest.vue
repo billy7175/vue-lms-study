@@ -110,7 +110,7 @@ export default {
 .logo {
   display: flex;
   justify-content: center;
-  color: #7fb9e6;
+  color: #1f8ee2;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 6px;
@@ -118,6 +118,9 @@ export default {
   font-size: 36px;
   font-weight: 900;
   font-family: 'Courier New', Courier, monospace;
+  @include glassmorphism(1px);
+  padding: 10px;
+  padding-top: 15px;
 }
 
 .is-matched {

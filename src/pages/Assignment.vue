@@ -31,7 +31,7 @@
             </h2>
           </footer>
         </section>
-        <div style="display:flex; flex-direction: column;">
+        <div class="question-wrapper" style="display:flex; flex-direction: column;">
           <question v-for="(question, idx) in questionList" :key="idx" :data="question"
             v-model="question.userSelectedAnswer.value" :number="idx + 1" :isSubmitted="isSubmitted"
             @delete="handleDelete"></question>
@@ -204,8 +204,8 @@ export default {
 };
 </script>
 
-<style scoped>
-* {}
+<style lang="scss" scoped>
+@import '../../src/assets/styles/mixins.scss';
 
 .question-order {
   padding: 4px 6px;
@@ -222,7 +222,7 @@ p {
 .question-wrapper {
   margin: 0px auto;
   width: 850px;
-  background: #fff;
+  // background: #fff;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -230,14 +230,19 @@ p {
 .question-header {
   padding: 20px;
   text-align: center;
-  background: #666;
-  color: #fff;
   font-size: 16px;
+  @include glassmorphism(1px);
+  margin-bottom: 30px;
+
 }
 
 .question-header p {
   font-size: 26px;
   font-weight: 700;
+}
+
+.question-wrapper {
+  @include glassmorphism(1px);
 }
 
 .field-radiobutton {
@@ -256,10 +261,9 @@ label {
   width: 70%;
   margin: 50px auto;
   padding: 30px 15px;
-  background: #FAF5F3;
-  /* border:3px solid #DABEA9; */
-  /* box-shadow: 0px 0px 4px 4px #DABEA9; */
+  // background: #FAF5F3;
   border-radius: 20px;
+  @include glassmorphism(1px);
 }
 
 .answer-table__header {

@@ -3,7 +3,9 @@
     <section style="padding: 20px 0px; display: flex; gap: 40px">
       <list-card title="Best Score"></list-card>
       <list-card title="Loggined-In Users" type="status"></list-card>
-      <div class="test"></div>
+      <div class="test">
+        <p>This section is in development</p>
+      </div>
       <!-- <list-card title="Underperforming Students"></list-card> -->
     </section>
     <div>
@@ -129,6 +131,12 @@ export default {
   width: 80%;
   border: 2px solid red;
   @include glassmorphism(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
 }
 
 .dashboard {}

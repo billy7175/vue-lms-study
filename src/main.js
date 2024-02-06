@@ -24,7 +24,17 @@ app.use(routers);
 app.use(pinia);
 app.use(VueCookies, { expire: "7d" });
 const userState = useUserState();
+// import from './assets/styles/mixins.scss'
 app.use(PrimeVue, {
+  pt: {
+    global: {
+      // color:red;
+      css: `
+        .p-button-danger {
+        }
+      `,
+    },
+  },
   ripple: true,
 });
 const token = VueCookies.get("token");
