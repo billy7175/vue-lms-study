@@ -20,16 +20,15 @@ export default {
 
 
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../../src/assets/styles/mixins.scss';
+
 .grapth-card {
   width: 75%;
   border-radius: 20px;
   padding: 40px;
   opacity: 1;
-  /* background-color: #e5e5f7; */
-  /* background-image: radial-gradient(#444cf7 0.5px, transparent 0.5px),
-    radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px); */
-    background:#fff;
+  @include glassmorphism(4px, 0.1);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
 }

@@ -48,21 +48,24 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import '../../../src/assets/styles/mixins.scss';
+
 .performance-card {
   width: 330px;
   height: auto;
   border-radius: 20px;
-  background: #0f1422;
   padding: 20px;
-  color: #fff;
+  // color: #fff;
   font-weight: 600;
+  @include glassmorphism(1px);
   /* background: #DABEA9; */
   /* color:#000; */
 }
+
 .performnace-card__title {
   margin: 0px;
-  padding:0px 10px;
+  padding: 0px 10px;
 }
 
 .performance-card__body {

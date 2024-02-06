@@ -57,6 +57,7 @@ const handleLoginPost = async () => {
     const { user, token } = data;
     VueCookies.set("token", token);
     VueCookies.set("user", user);
+    router.push({ name: "main" });
 
   } catch (error) {
     const errorData = error.response?.data;
@@ -79,7 +80,7 @@ const handleLoginPost = async () => {
         <div class="container-login">
           <div class="form">
             <h2>LOGIN</h2>
-            <form action="">
+            <div action="">
               <div class="input-wrapper">
                 <input class="input-control useremail" v-model="userEmail" type="text" required="required"
                   placeholder="Email" />
@@ -93,7 +94,7 @@ const handleLoginPost = async () => {
               <div class="input-wrapper">
                 <button @click="login">Login(POST)</button>
               </div>
-            </form>
+            </div>
             <p>Forgot password? <a href="#">Click Here</a></p>
             <p>Don't have an account <a href="#">Sign up</a></p>
           </div>
