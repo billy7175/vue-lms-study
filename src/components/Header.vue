@@ -61,7 +61,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 40px;
+  padding: 10px 20px;
   display: flex;
   border-radius: 6px;
   // margin: 10px;

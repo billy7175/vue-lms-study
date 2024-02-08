@@ -3,6 +3,7 @@
 
 <template>
   <div class="app">
+    <test></test>
     <cube></cube>
     <router-view></router-view>
   </div>
@@ -10,6 +11,7 @@
 
 
 <script>
+import Test from './components/Test.vue'
 import { onMounted } from "vue";
 import Cube from "./components/cube/Cube.vue";
 import { useUserState } from "./stores/user";
@@ -18,8 +20,9 @@ import useSocketIO from '../src/socket/index'
 export default {
   components: {
     Cube,
+    Test
   },
-  setup() {
+  setup(props, context, test) {
     const { socket } = useSocketIO()
     const userState = useUserState();
     const socketState = useSocketState()
@@ -125,5 +128,6 @@ header {
 
 ::v-deep(.p-breadcrumb) {
   @include glassmorphism(1px);
+  padding: 10px;
 }
 </style>
