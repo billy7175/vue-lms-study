@@ -52,6 +52,11 @@ export default {
             routeName: "dashboard",
           },
           {
+            label: "Casual Talk",
+            icon: "pi pi-chart-bar",
+            routeName: "casualtalk",
+          },
+          {
             label: "Assignment",
             icon: "pi pi-briefcase",
             routeName: "assignments",

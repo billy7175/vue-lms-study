@@ -12,6 +12,7 @@ import Student from "../pages/student/Student.vue";
 import StudentDetail from "../pages/student/StudentDetail.vue";
 import StudentList from "../pages/student/StudentList.vue";
 import PayManagement from "../pages/PayManagement/PayManagement.vue";
+import CasualTalk from '../pages/CasualTalk.vue'
 import { useUserState } from "../stores/user.js";
 
 const routes = [
@@ -38,6 +39,22 @@ const routes = [
         meta: {
           breadcrumbs: [{ label: "Dashboard", name: "dashboard" }],
         },
+      },
+      {
+        path: "casualtalk",
+        name: "casualtalk",
+        component: CasualTalk,
+        meta: {
+          breadcrumbs: [{ label: "Dashboard", name: "dashboard" }],
+        },
+      },
+      {
+        path: "play",
+        name: "",
+        component :Dashboard,
+        meta: {
+          breadcrumbs: [{ label: "Dashboard", name: "dashboard" }],
+        }
       },
       {
         path: "assignments",
