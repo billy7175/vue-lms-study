@@ -2,11 +2,15 @@
   <div class="comment-box">
     <h2 class="title">Casual Talk</h2>
     <section>
-      <div>
-        <textarea class="input-field" placeholder="Write comment"></textarea>
+      <div class="input-wrapper" style="position: relative">
+        <textarea
+          v-model="comment"
+          class="input-field"
+          placeholder="Write comment"
+        ></textarea>
+        <i @click="handleCreate" class="pi pi-send"></i>
       </div>
       <div v-if="commentList && commentList.length">
-        
         <div v-for="(comment, idx) in commentList" :key="idx">
           <comment :data="comment"></comment>
         </div>
@@ -16,14 +20,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import Comment from './Comment.vue'
 export default {
   components: {
     Comment
   },
-  setup(){
-    return {
-      commentList : [
+  setup(props, { emit }){
+    const comment = ref('')
+    const commentList = ref([
       {   
           name:'Alexander Koghuashvili',
           imageUrl: "https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_1280.png",
@@ -63,7 +68,26 @@ export default {
             }
           ]
         }
-      ]
+      ])
+
+    const handleCreate = (event) => {
+      console.log('#value',  comment.value)
+      emit('create', comment.value)
+      const newCommnet = {
+        name:'Test User',
+        comment: comment.value,
+        createdDate: new Date(),
+
+      }
+      commentList.value.unshift(newCommnet)
+
+
+    }
+
+    return {
+      handleCreate,
+      comment,
+      commentList : commentList
     }
   }
 }
@@ -74,30 +98,53 @@ export default {
   border-radius: 10px;
   width: 500px;
   color: #fff;
-  background:#000;
-  background:#fff;
-  color:#191818;
+  background: #000;
+  background: #fff;
+  color: #191818;
   padding: 20px;
-  border:5px solid rgb(226, 221, 226);
+  border: 5px solid rgb(226, 221, 226);
 }
 
 .title {
   padding: 0px;
   margin: 0px;
-  margin-bottom:5px;
+  margin-bottom: 5px;
 }
 
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(192, 188, 188);
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px 0px;
+}
+
+.pi-send {
+  font-size: 20px;
+  margin: 10px;
+}
+
+.pi-send:hover {
+  color: #999;
+  color: #6ca055;
+}
+
+.pi-send:active {
+  color: red;
+}
+
+textarea:focus {
+  outline: none;
+}
 .input-field {
   width: 100%;
   background: #191818;
+  border: none;
   color: #8d8989;
-  padding: 20px;
-  margin: 0px;
   border-radius: 10px;
   font-weight: 700;
-  border:1px solid #b4adad56;
-  margin:20px 0px;
   background: none;
-  color:#000;
+  color: #000;
 }
 </style>

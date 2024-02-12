@@ -33,32 +33,39 @@
       </div>
     </section>
     <section v-if="data.subComments && data.subComments">
-      <div  class="sub-comment" v-for="(subComment, idx) in data.subComments" :key="idx">
-        <div class="comment__row">
-          <Avatar
-            :image="subComment.imageUrl"
-            class="flex align-items-center justify-content-center mr-2"
-            size="small"
-            shape="circle"
-          />
-          <span>{{ subComment.name}}</span>
-          <span class="sub-color">1 hour ago</span>
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              margin-left: auto;
-              color: #a09999;
-            "
-          >
-            <i class="pi pi-ellipsis-v"></i>
+      <div
+        class="sub-comment"
+        v-for="(subComment, idx) in data.subComments"
+        :key="idx"
+      >
+        <i class="pi pi-reply"></i>
+        <section style="width:100%; padding-right:20px;">
+          <div class="comment__row">
+            <Avatar
+              :image="subComment.imageUrl"
+              class="flex align-items-center justify-content-center mr-2"
+              size="small"
+              shape="circle"
+            />
+            <span>{{ subComment.name }}</span>
+            <span class="sub-color">1 hour ago</span>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                margin-left: auto;
+                color: #a09999;
+              "
+            >
+              <i class="pi pi-ellipsis-v"></i>
+            </div>
           </div>
-        </div>
-        <div>
-          <p>
-            {{ subComment.comment}}
-          </p>
-        </div>
+          <div>
+            <p>
+              {{ subComment.comment }}
+            </p>
+          </div>
+        </section>
       </div>
     </section>
   </div>
@@ -81,7 +88,9 @@ export default {
 .comment {
   position: relative;
   width: 100%;
+  padding:10px 0px;
   margin-bottom: 20px;
+  border-bottom:2px solid rgb(216, 209, 209);
 
   &__body {
     // border-left:5px solid rgb(70, 69, 69);
@@ -94,12 +103,22 @@ export default {
   }
 }
 
+.pi-reply {
+  margin-top:10px;
+  transform: rotateX(180deg);
+  color:rgb(168, 157, 157);
+}
+
+p {
+  margin:0px;
+  padding:10px 0px;
+}
 .sub-comment {
-  // border: 1px solid blue;
-  margin: 10px;
+  display:flex;
+  align-items: flex-start;
+  gap:10px;
+  margin-top:15px;
   padding-left: 10px;
-  border-left: 5px solid rgb(70, 69, 69);
-  border-left: 5px solid rgb(150, 147, 147);
 }
 
 .sub-color {
