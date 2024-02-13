@@ -175,6 +175,6 @@ const items = [
   padding: 20px;
   overflow-y: auto;
   height: 100%;
-  background:#fcf9f9;
+  background: #fcf9f9;
 }
 </style>

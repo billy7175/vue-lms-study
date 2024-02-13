@@ -3,16 +3,12 @@
     <h2 class="title">Casual Talk</h2>
     <section>
       <div class="input-wrapper" style="position: relative">
-        <textarea
-          v-model="comment"
-          class="input-field"
-          placeholder="Write comment"
-        ></textarea>
+        <textarea v-model="comment" class="input-field" placeholder="Write comment"></textarea>
         <i @click="handleCreate" class="pi pi-send"></i>
       </div>
       <div v-if="commentList && commentList.length">
         <div v-for="(comment, idx) in commentList" :key="idx">
-          <comment :data="comment"></comment>
+          <comment :data="comment" @reload="fetchComments"></comment>
         </div>
       </div>
     </section>
@@ -20,74 +16,140 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import Comment from './Comment.vue'
+import axios from 'axios'
+import { useUserState } from '../../stores/user'
 export default {
   components: {
     Comment
   },
-  setup(props, { emit }){
-    const comment = ref('')
-    const commentList = ref([
-      {   
-          name:'Alexander Koghuashvili',
-          imageUrl: "https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_1280.png",
-          createdDate: new Date(),
-          comment: 'Wonderful work and create presentation. I\'ll be very happy if you also see my projects.',
-          subComments : [
-            {
-              name: 'Thomas Shelby',
-              imageUrl: 'https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png',
-              createdDate: new Date(),
-              comment: 'I don\'t think, that is the problem!'
-            }
-          ]
-        },
-        { 
-          name:'Thomas Shelby',
-          imageUrl: "https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_1280.png",
-          createdDate: new Date(),
-          comment: 'There is time, when my emotioanal minds conflict each other.',
-          subComments : [
-            {
-              name: 'Thomas Shelby',
-              imageUrl :'https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png',
-              createdDate: new Date(),
-              comment: 'Serously, what are you talking about ????'
-            },
-            {
-              name: 'Sherlock Homles',
-              createdDate: new Date(),
-              comment: 'what are you guys fighting for ?? lol'
-            },
-            {
-              name: 'Nobody',
-              imageUrl: 'https://cdn.pixabay.com/photo/2020/06/04/12/55/emoji-5258611_640.png',
-              createdDate: new Date(),
-              comment: 'just let them fight lololololololololololololololololololololololol'
-            }
-          ]
+  setup(props, { emit }) {
+    const userState = useUserState();
+    const page = ref(0)
+    console.log(userState)
+    console.log(userState.user.user._id)
+    const fetchComments = async (isFirstCall = true) => {
+      try {
+
+        page.value += 1
+        const body = {
+          page: page.value
         }
-      ])
+        console.log('#body', body)
+        const { data } = await axios.get(`http://127.0.0.1:3000/api/casualtalks?page=${page.value}`, body);
+        commentList.value = [...commentList.value, ...data];
 
-    const handleCreate = (event) => {
-      console.log('#value',  comment.value)
-      emit('create', comment.value)
-      const newCommnet = {
-        name:'Test User',
-        comment: comment.value,
-        createdDate: new Date(),
-
+      } catch (error) {
+        console.log(error)
       }
-      commentList.value.unshift(newCommnet)
+    }
+
+    onMounted(() => {
+      const mainInnerElement = document.querySelector('.main__inner');
+      const scrollThreshold = 0.8; // Adjust the threshold as needed
+      let isScrolled = false;
+
+      const handleScroll = () => {
+        const scrollPosition = mainInnerElement.scrollTop;
+        const isScrollingDown = scrollPosition > (mainInnerElement._lastScrollTop || 0);
+
+        if (isScrollingDown && !isScrolled && scrollPosition / (mainInnerElement.scrollHeight - mainInnerElement.clientHeight) > scrollThreshold) {
+          fetchComments()
+          console.log('Reached the bottom of the scrollable element');
+          // Fetch more data or perform any action
+          // fetchMoreData();
+
+          // Set the flag to true to indicate that the function has been executed
+          isScrolled = true;
+        } else if (!isScrollingDown) {
+          // Reset the flag when scrolling up
+          isScrolled = false;
+        }
+
+        // Store the last scroll position
+        mainInnerElement._lastScrollTop = scrollPosition;
+      };
+
+      if (mainInnerElement) {
+        mainInnerElement.addEventListener('scroll', handleScroll);
+      }
+
+      // Cleanup the event listener when the component is unmounted
+      onUnmounted(() => {
+        console.log('#onUnmounted')
+        if (mainInnerElement) {
+          mainInnerElement.removeEventListener('scroll', handleScroll);
+        }
+      });
+
+      // Fetch initial data
+      fetchComments();
+    });
+    // import { onMounted, onUnmounted, ref } from 'vue';
+
+    // onMounted(async () => {
+    //   const mainInnerElement = document.querySelector('.main__inner');
+    //   const scrollThreshold = 0.8; // Adjust the threshold as needed
+    //   let isFetchingData = false;
+
+    //   if (mainInnerElement) {
+    //     const handleScroll = () => {
+    //       const scrollPosition = mainInnerElement.scrollTop / (mainInnerElement.scrollHeight - mainInnerElement.clientHeight);
+
+    //       if (scrollPosition > scrollThreshold && !isFetchingData) {
+    //         console.log('Reached the bottom of the scrollable element');
+    //         isFetchingData = true;
+    //         // Fetch more data or perform any action
+    //         // fetchMoreData();
+
+    //         // Cleanup the event listener after fetching data
+    //         mainInnerElement.removeEventListener('scroll', handleScroll);
+    //       }
+    //     };
+
+    //     mainInnerElement.addEventListener('scroll', handleScroll);
+
+    //     // Cleanup the event listener when the component is unmounted
+    //     onUnmounted(() => {
+    //       mainInnerElement.removeEventListener('scroll', handleScroll);
+    //     });
+    //   }
+
+    //   // Fetch initial data
+    //   fetchComments();
+    // });
+
+    const comment = ref('')
+    const commentList = ref([])
+
+    const handleCreate = async (event) => {
+      console.log('#value', comment.value)
+      emit('create', comment.value)
 
 
+
+      const userId = userState.user.user._id
+      const body = {
+        user: userId,
+        comment: comment.value
+      }
+      const { data } = await axios.post('http://127.0.0.1:3000/api/casualtalks', body);
+      commentList.value.unshift(data)
+      comment.value = ''
+      fetchComments()
+    }
+
+    const test = () => {
+      console.log('123 123123123')
     }
 
     return {
+      test,
+      fetchComments,
       handleCreate,
       comment,
-      commentList : commentList
+      commentList: commentList
     }
   }
 }
@@ -96,13 +158,16 @@ export default {
 <style scoped>
 .comment-box {
   border-radius: 10px;
-  width: 500px;
+  width: 600px;
   color: #fff;
   background: #000;
   background: #fff;
   color: #191818;
   padding: 20px;
   border: 5px solid rgb(226, 221, 226);
+  /* height: 500px; */
+  /* height: 100%; */
+  overflow-y: auto;
 }
 
 .title {
@@ -137,6 +202,7 @@ export default {
 textarea:focus {
   outline: none;
 }
+
 .input-field {
   width: 100%;
   background: #191818;
