@@ -120,16 +120,14 @@ export default {
   text-transform: uppercase;
   letter-spacing: 6px;
   position: relative;
-  font-size: 36px;
+  font-size: 72px;
   font-weight: 900;
   font-family: 'Courier New', Courier, monospace;
-  // @include glassmorphism(1px);
-  padding: 10px;
-  padding-top: 15px;
-}
-
-.is-matched {
-  // @include glassmorphism(5px);
+  margin: 0px;
+  // background: red;
+  // backdrop-filter: blur(8px);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .g-menu {
@@ -143,14 +141,23 @@ export default {
     margin: 10px 0px;
 
     &.p-focus {
+      color: #4b5563;
+      background: #f3f4f6;
+      transition: all .5;
+
       .p-menuitem-content {
         background: none;
+
+        // &:hover {
+        //   background: none;
+        //   background: blue;
+        // }
       }
     }
   }
 
   ::v-deep(.p-menuitem.p-focus) {
-    color: red;
+    // color: red;
   }
 
 
@@ -181,6 +188,18 @@ export default {
     font-size: 12px;
     font-weight: 500;
 
+    &.is-matched {
+      color: #4b5563;
+      background: #f3f4f6;
+      transition: all .5;
+
+      .p-menuitem-icon {
+        color: var(--font--color__hover);
+      }
+
+    }
+
+
     &:hover {
       background: transparent;
       color: var(--font--color__hover);
@@ -192,9 +211,7 @@ export default {
   }
 
   ::v-deep(.p-menuitem-content) {
-    &:hover {
-      @include glassmorphism(1px);
-    }
+    &:hover {}
   }
 }
 

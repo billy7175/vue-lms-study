@@ -121,7 +121,9 @@ export default {
   height: auto;
   padding: 30px;
   border-radius: 20px;
+
   // @include glassmorphism(5px)
+  background: #faeee4;
 }
 
 .title {

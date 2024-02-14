@@ -175,31 +175,31 @@ export default {
 <style scoped>
 .comment-box {
   border-radius: 10px;
-  width: 600px;
+  width: 800px;
   color: #fff;
-  background: #000;
-  background: #fff;
   color: #191818;
   padding: 20px;
-  border: 5px solid rgb(226, 221, 226);
-  /* height: 500px; */
-  /* height: 100%; */
   overflow-y: auto;
+  /* background: #fafaf6; */
+  border-radius: 10px;
+
 }
 
 .title {
   padding: 0px;
   margin: 0px;
   margin-bottom: 5px;
+  color: #a09898;
 }
 
 .input-wrapper {
   display: flex;
   align-items: center;
-  border: 1px solid rgb(192, 188, 188);
+  background: #fff;
   border-radius: 10px;
-  padding: 5px;
+  padding: 20px;
   margin: 10px 0px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
 .pi-send {
@@ -222,12 +222,12 @@ textarea:focus {
 
 .input-field {
   width: 100%;
-  background: #191818;
-  border: none;
+
   color: #8d8989;
   border-radius: 10px;
   font-weight: 700;
-  background: none;
   color: #000;
+  border: none;
+  background: none;
 }
 </style>

@@ -17,8 +17,7 @@
         </div>
       </div>
       <div>
-        <textarea v-model="data.comment" disabled
-          style="border:none; height:auto; min-height: 80px; width:100%; background:none; padding:15px 0px;" />
+        <Textarea class="comment-textarea" v-model="data.comment" disabled />
       </div>
       <div style="display: flex; gap: 10px; justify-items: center; padding:10px 0px;">
         <i style="color: red" class="pi pi-heart-fill"></i>
@@ -175,9 +174,25 @@ export default {
 .comment {
   position: relative;
   width: 100%;
-  padding: 10px 0px;
+  padding: 20px;
   margin-bottom: 20px;
-  border-bottom: 2px solid rgb(216, 209, 209);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  margin: 20px 0px;
+  background: #fff;
+  border-radius: 10px;
+
+  ::v-deep(.comment-textarea) {
+    display: inline-block;
+    border: none;
+    height: auto;
+    width: 100%;
+    background: none;
+    font-size: 16px;
+    color: #000;
+    font-weight: 700;
+    min-height: 120px;
+    margin: 10px 0px;
+  }
 
   &__body {
     // border-left:5px solid rgb(70, 69, 69);

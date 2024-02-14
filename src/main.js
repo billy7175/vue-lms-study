@@ -1,8 +1,3 @@
-// import ElementPlus from 'element-plus'
-import "element-plus/dist/index.css";
-import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import "./assets/main.scss";
-
 import { createApp } from "vue";
 import App from "./App.vue";
 import routers from "./routers/index.js";
@@ -10,11 +5,11 @@ import PrimeVue from "primevue/config";
 import { createPinia } from "pinia";
 import axios from "./apis/index.js";
 import "primevue/resources/themes/lara-light-green/theme.css";
+import "element-plus/dist/index.css";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import "./assets/main.scss";
 import BillyUI from "billy-ui";
 console.log(BillyUI);
-// import 'primevue/resources/themes/saga-blue/theme.css'; // Choose your preferred theme
-// import 'primevue/resources/primevue.min.css';
-// import 'primeicons/primeicons.css';
 const pinia = createPinia();
 
 const app = createApp(App);
@@ -22,7 +17,6 @@ const app = createApp(App);
 import { useUserState } from "./stores/user";
 import VueCookies from "vue-cookies";
 app.provide("$alert", "hello globally");
-// app.use(BillyUI);
 app.use(axios);
 app.use(routers);
 app.use(pinia);

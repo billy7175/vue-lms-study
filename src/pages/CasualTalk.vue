@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; justify-content: center">
+  <div class="casual-talk" style="display: flex; justify-content: center">
     <comment-box @create="handleCreate"></comment-box>
   </div>
 </template>
@@ -22,3 +22,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.casual-talk {
+  /* background: rgb(239, 238, 238); */
+}
+</style>

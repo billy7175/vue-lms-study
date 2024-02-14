@@ -3,9 +3,9 @@
 
 <template>
   <div class="app">
-    <!-- <button @click="open">add</button>
-    <button @click="close">close</button>
-    <test></test> -->
+    <!-- <button @click="open">add</button> -->
+    <!-- <button @click="close">close</button> -->
+    <test></test>
     <cube></cube>
     <router-view></router-view>
   </div>
