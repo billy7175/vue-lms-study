@@ -7,8 +7,11 @@
         <i @click="handleCreate" class="pi pi-send"></i>
       </div>
       <div v-if="commentList && commentList.length">
+        <div v-if="isCommentLoading" style="display:flex; justify-content: center;">
+          <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+        </div>
         <div v-for="(comment, idx) in commentList" :key="idx">
-          <comment :data="comment" @reload="fetchComments"></comment>
+          <comment :data="comment" @reload="fetchComments" @delete="onDelete"></comment>
         </div>
       </div>
     </section>
@@ -27,11 +30,18 @@ export default {
   setup(props, { emit }) {
     const userState = useUserState();
     const page = ref(0)
-    console.log(userState)
-    console.log(userState.user.user._id)
+
+    const onDelete = async (id = 'test id') => {
+      try {
+        const { data } = await axios.delete(`http://127.0.0.1:3000/api/casualtalks/${id}`);
+        commentList.value = commentList.value.filter(x => x._id !== id)
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
     const fetchComments = async (isFirstCall = true) => {
       try {
-
         page.value += 1
         const body = {
           page: page.value
@@ -121,31 +131,38 @@ export default {
     // });
 
     const comment = ref('')
+    const isCommentLoading = ref(false)
     const commentList = ref([])
 
     const handleCreate = async (event) => {
-      console.log('#value', comment.value)
-      emit('create', comment.value)
+      try {
+        isCommentLoading.value = true
+        emit('create', comment.value)
+        const userId = userState.user.user._id
+        const body = {
+          user: userId,
+          comment: comment.value
+        }
 
+        setTimeout(async () => {
+          const { data } = await axios.post('http://127.0.0.1:3000/api/casualtalks', body);
+          commentList.value.unshift(data)
+          comment.value = ''
+        }, 900)
 
-
-      const userId = userState.user.user._id
-      const body = {
-        user: userId,
-        comment: comment.value
+      } catch (error) {
+        console.log(error)
+      } finally {
+        console.log('#finally')
+        setTimeout(() => {
+          isCommentLoading.value = false
+        }, 1000)
       }
-      const { data } = await axios.post('http://127.0.0.1:3000/api/casualtalks', body);
-      commentList.value.unshift(data)
-      comment.value = ''
-      fetchComments()
-    }
-
-    const test = () => {
-      console.log('123 123123123')
-    }
+    };
 
     return {
-      test,
+      onDelete,
+      isCommentLoading,
       fetchComments,
       handleCreate,
       comment,

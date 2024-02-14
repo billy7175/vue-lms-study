@@ -121,7 +121,7 @@ export default {
   height: auto;
   padding: 30px;
   border-radius: 20px;
-  @include glassmorphism(5px)
+  // @include glassmorphism(5px)
 }
 
 .title {
@@ -130,7 +130,7 @@ export default {
   // color: red;
   // color: #FE4D26;
   color: #504d4d;
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
 }
 
 h2,
@@ -157,7 +157,7 @@ h2 {
   gap: 20px;
   border-radius: 10px;
   transition: .3s;
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
 }
 
 .li .number {

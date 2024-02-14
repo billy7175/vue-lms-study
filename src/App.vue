@@ -3,7 +3,9 @@
 
 <template>
   <div class="app">
-    <test></test>
+    <!-- <button @click="open">add</button>
+    <button @click="close">close</button>
+    <test></test> -->
     <cube></cube>
     <router-view></router-view>
   </div>
@@ -12,7 +14,7 @@
 
 <script>
 import Test from './components/Test.vue'
-import { onMounted } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import Cube from "./components/cube/Cube.vue";
 import { useUserState } from "./stores/user";
 import { useSocketState } from "./stores/socket";
@@ -26,7 +28,41 @@ export default {
     const { socket } = useSocketIO()
     const userState = useUserState();
     const socketState = useSocketState()
+    const testBrowser = reactive({})
+    // const myWindow = ref(null);
+    // const open = () => {
+    //   myWindow.value = window.open("http://www.naver.com", "_blank");
+    // };
+    // const close = () => {
+    //   setTimeout(() => {
+    //     myWindow.value.close();
+    //   }, 3000);
+    // };
+
+    let myWindow;
+    const open = () => {
+      myWindow = window.open("http://www.naver.com", "_blank");
+    };
+    const close = () => {
+      setTimeout(() => {
+        myWindow.close();
+      }, 1000);
+    };
+
+    const openAndClose = () => {
+      const googleWindow = window.open("https://www.google.com", "_blank");
+
+      setTimeout(() => {
+        console.log(googleWindow)
+        if (googleWindow && !googleWindow.closed) {
+          googleWindow.close();
+        }
+      }, 3000);
+    };
+
+
     onMounted(() => {
+      // open()
 
       socket.on("connect", (res) => {
         console.log("Connected to server12312312");
@@ -91,7 +127,11 @@ export default {
 
 
     });
-    return {};
+    return {
+      open,
+      close,
+      openAndClose
+    };
   },
 };
 </script>
@@ -127,7 +167,7 @@ header {
 } */
 
 ::v-deep(.p-breadcrumb) {
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
   padding: 10px;
 }
 </style>

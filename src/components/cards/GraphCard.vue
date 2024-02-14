@@ -28,7 +28,7 @@ export default {
   border-radius: 20px;
   padding: 40px;
   opacity: 1;
-  @include glassmorphism(4px, 0.1);
+  // @include glassmorphism(4px, 0.1);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
 }

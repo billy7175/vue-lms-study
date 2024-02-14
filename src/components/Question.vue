@@ -215,7 +215,7 @@ p {
   /* background: #f9f9f9; */
   border-radius: 6px;
   margin-top: 10px;
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
 }
 
 .field-label {

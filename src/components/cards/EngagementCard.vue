@@ -48,7 +48,7 @@ export default {
     gap: 50px;
     padding: 40px;
     border-radius: 20px;
-    @include glassmorphism(1px);
+    // @include glassmorphism(1px);
 }
 
 .aside {
@@ -101,7 +101,7 @@ export default {
     position: relative;
     padding-left: 20px;
     gap: 10px;
-    @include glassmorphism(1px);
+    // @include glassmorphism(1px);
 }
 
 .li span {

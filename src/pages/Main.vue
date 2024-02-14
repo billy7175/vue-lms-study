@@ -137,7 +137,7 @@ const items = [
   <div class="main-component">
     <NavMenuTest @logout="logout"></NavMenuTest>
     <div class="container__right">
-      <Header></Header>
+      <!-- <Header></Header> -->
       <main class="main">
         <div class="main__inner">
           <router-view></router-view>
@@ -154,7 +154,6 @@ const items = [
   margin: 0 auto;
   height: 100vh;
   gap: 10px;
-  padding: 10px;
 }
 
 .container__right {

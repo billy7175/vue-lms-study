@@ -231,7 +231,7 @@ p {
   padding: 20px;
   text-align: center;
   font-size: 16px;
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
   margin-bottom: 30px;
 
 }
@@ -242,7 +242,7 @@ p {
 }
 
 .question-wrapper {
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
 }
 
 .field-radiobutton {
@@ -263,7 +263,7 @@ label {
   padding: 30px 15px;
   // background: #FAF5F3;
   border-radius: 20px;
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
 }
 
 .answer-table__header {

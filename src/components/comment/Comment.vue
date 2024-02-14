@@ -4,7 +4,7 @@
       <div class="comment__row">
         <Avatar :image="data.imageUrl" class="flex align-items-center justify-content-center mr-2" size="small"
           shape="circle" />
-        <span>{{ data.user.email }} </span>
+        <span>{{ data.user.name }} </span>
         <span class="sub-color">{{ elapsedTime(data.createdAt) }}</span>
         <div style="
             display: flex;
@@ -12,7 +12,8 @@
             margin-left: auto;
             color: #a09999;
           ">
-          <i class="pi pi-ellipsis-v"></i>
+          <!-- <i class="pi pi-ellipsis-v"></i> -->
+          <i @click="handleDeleteComment(data)" class="pi pi-trash"></i>
         </div>
       </div>
       <div>
@@ -29,32 +30,37 @@
         <textarea placeholder="댓글 추가..." v-model="subComment" style="width:80%;">
         </textarea>
         <i @click="handleCreateSubComment" class="pi pi-send"></i>
+
       </div>
     </section>
-    <section v-if="data.subComments && data.subComments">
-      <div class="sub-comment" v-for="(subComment, idx) in data.subComments" :key="idx">
+    <section v-if="subComments && subComments">
+      <div class="sub-comment" v-for="(sub, idx) in subComments" :key="idx">
         <i class="pi pi-reply"></i>
         <section style="width:100%; padding-right:20px;">
           <div class="comment__row">
-            <Avatar :image="subComment.imageUrl" class="flex align-items-center justify-content-center mr-2" size="small"
+            <Avatar :image="sub.imageUrl" class="flex align-items-center justify-content-center mr-2" size="small"
               shape="circle" />
-            <span>{{ subComment.user.email }}</span>
-            <span class="sub-color">{{ elapsedTime(subComment.createdAt) }}</span>
+            <span>{{ sub.user.name }}</span>
+            <span class="sub-color">{{ elapsedTime(sub.createdAt) }}</span>
             <div style="
                 display: flex;
                 align-items: center;
                 margin-left: auto;
                 color: #a09999;
               ">
-              <i class="pi pi-ellipsis-v"></i>
+              <i @click="handleDeleteSubComment(sub)" class="pi pi-trash"></i>
+              <!-- <i class="pi pi-ellipsis-v"></i> -->
             </div>
           </div>
           <div>
             <p>
-              {{ subComment.comment }}
+              {{ sub.comment }}
             </p>
           </div>
         </section>
+      </div>
+      <div v-if="isSubCommentLoading" style="display:flex; justify-content: center;">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
       </div>
     </section>
   </div>
@@ -62,7 +68,7 @@
 
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import { useUserState } from '../../stores/user'
 export default {
@@ -74,8 +80,12 @@ export default {
     },
   },
   setup(props, { emit }) {
+    const isSubCommentLoading = ref(false)
     const userState = useUserState()
     const subComment = ref('')
+    const subComments = ref([])
+
+    subComments.value = props.data.subComments
     const isSubCommentVisible = ref(false)
     const handleReply = () => {
       isSubCommentVisible.value = true
@@ -114,25 +124,49 @@ export default {
       }
 
       try {
-        const { data } = await axios.post('http://127.0.0.1:3000/api/casualtalks-sub', body)
+        isSubCommentLoading.value = true
+        await axios.post('http://127.0.0.1:3000/api/casualtalks-sub', body)
         isSubCommentVisible.value = false
-
-        emit('reload')
+        subComments.value.push(body)
+        subComment.value = ''
       } catch {
 
+      } finally {
+        isSubCommentLoading.value = false
       }
+    }
 
+    const handleDeleteSubComment = async (data) => {
+      console.log('#subComments', data._id)
+      console.log(subComments.value)
+      const { data: res } = await axios.delete(`http://127.0.0.1:3000/api/casualtalks-sub/${data._id}`)
+      console.log(4343343434)
+      console.log(res)
+      subComments.value = subComments.value.filter(x => x._id !== res._id)
+    }
 
-      // console.log(543534, response)
+    const handleDeleteComment = async (data) => {
+      console.log('#handleDeleteComment')
+      console.log(data)
+      console.log(data._id)
+      const isConfirmed = confirm('Do you want to delete the comment?')
+      if (isConfirmed) {
+        emit('delete', data._id)
+      }
     }
 
     elapsedTime('2022-11-15');
     return {
+      isSubCommentLoading,
       subComment,
+      subComments,
       isSubCommentVisible,
       handleReply,
       handleCreateSubComment,
-      elapsedTime
+      elapsedTime,
+      handleDeleteComment,
+      handleDeleteSubComment,
+      isSubCommentLoading
     }
   },
 };

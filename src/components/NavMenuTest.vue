@@ -53,17 +53,17 @@ export default {
           },
           {
             label: "Casual Talk",
-            icon: "pi pi-chart-bar",
+            icon: "pi pi-pencil",
             routeName: "casualtalk",
           },
           {
-            label: "Assignment",
-            icon: "pi pi-briefcase",
-            routeName: "assignments",
+            label: 'Assignment',
+            icon: 'pi pi-book',
+            routeName: 'assignments'
           },
           {
             label: "Vocabulary",
-            icon: "pi pi-align-justify",
+            icon: "pi pi-language",
             routeName: "vocabulary",
             badge: "Beta",
           },
@@ -123,19 +123,19 @@ export default {
   font-size: 36px;
   font-weight: 900;
   font-family: 'Courier New', Courier, monospace;
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
   padding: 10px;
   padding-top: 15px;
 }
 
 .is-matched {
-  @include glassmorphism(5px);
+  // @include glassmorphism(5px);
 }
 
 .g-menu {
   ::v-deep(.p-menu) {
+    border: none;
     padding: 15px;
-    @include glassmorphism(5px);
   }
 
   ::v-deep(.p-menuitem) {
@@ -178,8 +178,8 @@ export default {
 
   ::v-deep(.p-menuitem-link) {
     border-radius: 6px;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 12px;
+    font-weight: 500;
 
     &:hover {
       background: transparent;

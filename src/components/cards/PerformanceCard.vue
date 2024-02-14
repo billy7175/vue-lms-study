@@ -58,7 +58,7 @@ export default {
   padding: 20px;
   // color: #fff;
   font-weight: 600;
-  @include glassmorphism(1px);
+  // @include glassmorphism(1px);
   /* background: #DABEA9; */
   /* color:#000; */
 }

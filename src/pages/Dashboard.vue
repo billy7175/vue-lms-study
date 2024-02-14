@@ -130,7 +130,7 @@ export default {
 .test {
   width: 80%;
   border: 2px solid red;
-  @include glassmorphism(2px);
+  // @include glassmorphism(2px);
   display: flex;
   justify-content: center;
   align-items: center;

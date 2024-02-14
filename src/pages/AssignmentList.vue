@@ -144,17 +144,17 @@ td {}
 }
 
 .p-paginator {
-  @include glassmorphism(2px);
+  // @include glassmorphism(2px);
   margin-top: 10px;
 }
 
 .p-datatable .p-datatable-header {
-  @include glassmorphism(2px);
+  // @include glassmorphism(2px);
   margin-bottom: 20px;
 }
 
 .p-datatable .p-datatable-thead {
-  @include glassmorphism(2px);
+  // @include glassmorphism(2px);
 }
 
 .p-datatable .p-datatable-thead>tr>th {
@@ -167,7 +167,7 @@ td {}
 }
 
 .p-datatable .p-datatable-tbody {
-  @include glassmorphism(10px);
+  // @include glassmorphism(10px);
 }
 
 .p-datatable .p-datatable-tbody>tr {
