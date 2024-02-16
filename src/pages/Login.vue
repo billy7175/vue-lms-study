@@ -6,20 +6,11 @@ import { loginPost } from "../apis/login";
 import { useUserState } from "../stores/user.js";
 import { useRouter } from "vue-router";
 import VueCookies from "vue-cookies";
-import MessageBox from '../components/MessageBox.vue'
 import MessageScript from '../components/MessageBox.js'
 const userStore = useUserState();
 const router = useRouter();
-
 const userEmail = ref("");
 const userPassword = ref("");
-
-console.log('#MessageBox')
-console.log(MessageBox)
-console.log(MessageBox.wow)
-
-console.log('MessageScript', MessageScript)
-// MessageScript.test()
 
 const login = () => {
   const isValid = validateForms();
@@ -75,12 +66,20 @@ const handleLoginPost = async () => {
     }
   }
 };
+const handleClick = async () => {
+  await MessageScript.create('Do you really want to delete it ??<br> really ?', { useHtml: true })
+    .then((res) => {
+      console.log('true', res)
+    })
+    .catch((err) => {
+      console.log('false', err)
+    })
+}
 </script>
 
 <template>
   <div>
-    <MessabeBox></MessabeBox>
-    {{ MessageScript.create() }}
+    <button @click="handleClick">global function</button>
     <section>
       <div class="box">
         <div class="square"></div>

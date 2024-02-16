@@ -1,47 +1,46 @@
-import { createVNode, render } from "vue";
+import { createVNode, render, createApp } from "vue";
+import MessageBox from "./MessageBox.vue";
 
 export default {
-  vnode: null,
-
-  test() {
-    alert("test");
-    console.log("#message box js.");
-  },
-
-  create() {
-    console.log("message box h");
-    const newVnode = createVNode(
-      "div",
-      {
+  vnodes: [],
+  create(
+    message = "This feature is being tested right now.",
+    { useHtml = false } = {}
+  ) {
+    console.log("#before - newVnode");
+    const container = document.createElement("div");
+    return new Promise((resolve) => {
+      const newVnode = createVNode(MessageBox, {
         class: "global-alert",
-      },
-      "wow i think this is working"
-    );
-
-    // Update the top-level vnode with the new vnode
-    this.vnode = newVnode;
-
-    // Render the new vnode
-    render(newVnode, document.body);
-
-    // Now, you can perform additional actions after the new vnode has been rendered
-    console.log("Component has been created.");
-
-    setTimeout(() => {
-      this.deleteVNode();
-    }, 3000);
+        useHtml: useHtml,
+        label: message,
+        onConfirm: async () => {
+          // Handle confirm action here if needed
+          await this.deleteVNode(newVnode);
+          resolve(true);
+        },
+        onCancel: async () => {
+          // Handle cancel action here if needed
+          this.deleteVNode(newVnode);
+          await resolve("this is a false");
+        },
+        onDelete: () => {
+          this.deleteVNode(newVnode);
+        },
+      });
+      this.vnodes.push(newVnode);
+      render(newVnode, container);
+      document.body.appendChild(container);
+    });
   },
 
-  // Example of a function that can be called externally to delete the vnode
-  deleteVNode() {
-    console.log("#deleteVNode");
-    console.log(this.vnode);
-    if (this.vnode && this.vnode.el) {
-      // Remove the vnode from the DOM
-      this.vnode.el.remove();
-
-      // Reset the vnode variable
-      this.vnode = null;
+  deleteVNode(vnode) {
+    if (vnode && vnode.el) {
+      vnode.el.remove();
+      const index = this.vnodes.indexOf(vnode);
+      if (index !== -1) {
+        this.vnodes.splice(index, 1);
+      }
     }
   },
 };
