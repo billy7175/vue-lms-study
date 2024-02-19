@@ -1,73 +1,72 @@
 <template>
   <div class="comment">
-    <!-- <pre>
-      {{ data }}
-    </pre> -->
-    <section class="comment__body">
-      <div class="comment__row">
-        <Avatar image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
-          class="flex align-items-center justify-content-center mr-2" size="small" shape="circle" />
-        <span>{{ data.user.name }} </span>
-        <span class="sub-color">{{ elapsedTime(data.createdAt) }}</span>
-        <div style="
+    <div class="comment__inner">
+      <section class="comment__body">
+        <div class="comment__row">
+          <Avatar image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
+            class="flex align-items-center justify-content-center mr-2" size="small" shape="circle" />
+          <span>{{ data.user.name }} </span>
+          <span class="sub-color">{{ elapsedTime(data.createdAt) }}</span>
+          <div style="
             display: flex;
             align-items: center;
             margin-left: auto;
             color: #a09999;
           ">
-          <i @click="handleDeleteComment(data)" class="pi pi-trash"></i>
+            <i @click="handleDeleteComment(data)" class="pi pi-trash"></i>
+          </div>
         </div>
-      </div>
-      <div>
-        <Textarea class="comment-textarea" autoResize v-model="data.comment" disabled />
-      </div>
-      <div style="display: flex; gap: 10px; justify-items: center; padding:10px 0px;">
-        <i v-if="isLiked" @click="isLiked = !isLiked" style="color: red" class="pi pi-heart-fill"></i>
-        <i v-else @click="isLiked = !isLiked" style="color: red" class="pi pi-heart"></i>
-        <i v-if="isBookmarked" @click="isBookmarked = !isBookmarked" class="pi pi-bookmark-fill"></i>
-        <i v-else @click="isBookmarked = !isBookmarked" class="pi pi-bookmark"></i>
-        <div @click="handleReply" class="sub-color" style="margin-bottom: 0px">reply</div>
-      </div>
-      <div v-if="isSubCommentVisible" style="display:flex; gap:10px; align-items: center; padding:5px 0px;">
-        <Avatar shape="circle"></Avatar>
-        <textarea placeholder="댓글 추가..." v-model="subComment" style="width:80%;">
+        <div>
+          <Textarea class="comment-textarea" autoResize v-model="data.comment" disabled />
+        </div>
+        <div style="display: flex; gap: 10px; justify-items: center; padding:10px 0px;">
+          <i v-if="isLiked" @click="isLiked = !isLiked" style="color: red" class="pi pi-heart-fill"></i>
+          <i v-else @click="isLiked = !isLiked" style="color: red" class="pi pi-heart"></i>
+          <i v-if="isBookmarked" @click="isBookmarked = !isBookmarked" class="pi pi-bookmark-fill"></i>
+          <i v-else @click="isBookmarked = !isBookmarked" class="pi pi-bookmark"></i>
+          <div @click="handleReply" class="sub-color" style="margin-bottom: 0px">reply</div>
+        </div>
+        <div v-if="isSubCommentVisible" style="display:flex; gap:10px; align-items: center; padding:5px 0px;">
+          <Avatar shape="circle"></Avatar>
+          <textarea placeholder="댓글 추가..." v-model="subComment" style="width:80%;">
         </textarea>
-        <i @click="handleCreateSubComment" class="pi pi-send"></i>
+          <i @click="handleCreateSubComment" class="pi pi-send"></i>
 
-      </div>
-    </section>
-    <section v-if="subComments && subComments">
-      <div class="sub-comment" v-for="(sub, idx) in subComments" :key="idx">
-        <i class="pi pi-reply"></i>
-        <section style="width:100%; padding-right:20px;">
-          <div class="comment__row">
-            <Avatar image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
-              class="flex align-items-center justify-content-center mr-2" size="small" shape="circle" />
-            <span>{{ sub.user.name }}</span>
-            <!-- <pre>
+        </div>
+      </section>
+      <section v-if="subComments && subComments">
+        <div class="sub-comment" v-for="(sub, idx) in subComments" :key="idx">
+          <i class="pi pi-reply"></i>
+          <section style="width:100%; padding-right:20px;">
+            <div class="comment__row">
+              <Avatar image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
+                class="flex align-items-center justify-content-center mr-2" size="small" shape="circle" />
+              <span>{{ sub.user.name }}</span>
+              <!-- <pre>
               {{ sub }}
             </pre> -->
-            <span class="sub-color">{{ elapsedTime(sub.createdAt) }}</span>
-            <div style="
+              <span class="sub-color">{{ elapsedTime(sub.createdAt) }}</span>
+              <div style="
                 display: flex;
                 align-items: center;
                 margin-left: auto;
                 color: #a09999;
               ">
-              <i @click="handleDeleteSubComment(sub)" class="pi pi-trash"></i>
+                <i @click="handleDeleteSubComment(sub)" class="pi pi-trash"></i>
+              </div>
             </div>
-          </div>
-          <div>
-            <p class="sub-comment-field">
-              {{ sub.comment }}
-            </p>
-          </div>
-        </section>
-      </div>
-      <div v-if="isSubCommentLoading" style="display:flex; justify-content: center;">
-        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
-      </div>
-    </section>
+            <div>
+              <p class="sub-comment-field">
+                {{ sub.comment }}
+              </p>
+            </div>
+          </section>
+        </div>
+        <div v-if="isSubCommentLoading" style="display:flex; justify-content: center;">
+          <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -173,12 +172,26 @@ export default {
 .comment {
   position: relative;
   width: 100%;
-  padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   margin: 20px 0px;
   background: #fff;
   border-radius: 10px;
+  transform-style: preserve-3d;
+  perspective-origin: center;
+  perspective: 500px;
+
+  &__inner {
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    transition: .5s;
+
+    &:hover {
+      transform: rotateX(-3deg) rotateY(0deg) translateZ(20px);
+    }
+  }
 
   ::v-deep(.comment-textarea) {
     width: 100%;
