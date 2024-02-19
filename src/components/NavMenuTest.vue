@@ -113,27 +113,14 @@ export default {
 @import '../../src/assets/styles/mixins.scss';
 
 .logo {
-  display: flex;
-  justify-content: center;
-  color: #1f8ee2;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 6px;
-  position: relative;
-  font-size: 72px;
-  font-weight: 900;
-  font-family: 'Courier New', Courier, monospace;
-  margin: 0px;
-  // background: red;
-  // backdrop-filter: blur(8px);
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  text-align: center;
 }
 
 .g-menu {
   ::v-deep(.p-menu) {
     border: none;
     padding: 15px;
+    background: #fdfdf9;
   }
 
   ::v-deep(.p-menuitem) {

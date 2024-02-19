@@ -1,9 +1,12 @@
 <template>
   <div class="comment">
+    <!-- <pre>
+      {{ data }}
+    </pre> -->
     <section class="comment__body">
       <div class="comment__row">
-        <Avatar :image="data.imageUrl" class="flex align-items-center justify-content-center mr-2" size="small"
-          shape="circle" />
+        <Avatar image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
+          class="flex align-items-center justify-content-center mr-2" size="small" shape="circle" />
         <span>{{ data.user.name }} </span>
         <span class="sub-color">{{ elapsedTime(data.createdAt) }}</span>
         <div style="
@@ -12,16 +15,17 @@
             margin-left: auto;
             color: #a09999;
           ">
-          <!-- <i class="pi pi-ellipsis-v"></i> -->
           <i @click="handleDeleteComment(data)" class="pi pi-trash"></i>
         </div>
       </div>
       <div>
-        <Textarea class="comment-textarea" v-model="data.comment" disabled />
+        <Textarea class="comment-textarea" autoResize v-model="data.comment" disabled />
       </div>
       <div style="display: flex; gap: 10px; justify-items: center; padding:10px 0px;">
-        <i style="color: red" class="pi pi-heart-fill"></i>
-        <i style="" class="pi pi-bookmark"></i>
+        <i v-if="isLiked" @click="isLiked = !isLiked" style="color: red" class="pi pi-heart-fill"></i>
+        <i v-else @click="isLiked = !isLiked" style="color: red" class="pi pi-heart"></i>
+        <i v-if="isBookmarked" @click="isBookmarked = !isBookmarked" class="pi pi-bookmark-fill"></i>
+        <i v-else @click="isBookmarked = !isBookmarked" class="pi pi-bookmark"></i>
         <div @click="handleReply" class="sub-color" style="margin-bottom: 0px">reply</div>
       </div>
       <div v-if="isSubCommentVisible" style="display:flex; gap:10px; align-items: center; padding:5px 0px;">
@@ -37,9 +41,12 @@
         <i class="pi pi-reply"></i>
         <section style="width:100%; padding-right:20px;">
           <div class="comment__row">
-            <Avatar :image="sub.imageUrl" class="flex align-items-center justify-content-center mr-2" size="small"
-              shape="circle" />
+            <Avatar image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
+              class="flex align-items-center justify-content-center mr-2" size="small" shape="circle" />
             <span>{{ sub.user.name }}</span>
+            <!-- <pre>
+              {{ sub }}
+            </pre> -->
             <span class="sub-color">{{ elapsedTime(sub.createdAt) }}</span>
             <div style="
                 display: flex;
@@ -48,11 +55,10 @@
                 color: #a09999;
               ">
               <i @click="handleDeleteSubComment(sub)" class="pi pi-trash"></i>
-              <!-- <i class="pi pi-ellipsis-v"></i> -->
             </div>
           </div>
           <div>
-            <p>
+            <p class="sub-comment-field">
               {{ sub.comment }}
             </p>
           </div>
@@ -67,8 +73,7 @@
 
 
 <script>
-import { ref } from 'vue'
-import axios from 'axios'
+import { ref, watch } from 'vue'
 import { useUserState } from '../../stores/user'
 export default {
   components: {},
@@ -83,6 +88,8 @@ export default {
     const userState = useUserState()
     const subComment = ref('')
     const subComments = ref([])
+    const isLiked = ref(false)
+    const isBookmarked = ref(false)
 
     subComments.value = props.data.subComments
     const isSubCommentVisible = ref(false)
@@ -116,46 +123,38 @@ export default {
     }
 
     const handleCreateSubComment = async () => {
-      const body = {
+      isSubCommentLoading.value = true
+      emit('create-sub-comment', {
         parentId: props.data._id,
         comment: subComment.value,
         user: userState.user.user._id
-      }
+      })
 
-      try {
-        isSubCommentLoading.value = true
-        await axios.post('http://127.0.0.1:3000/api/casualtalks-sub', body)
-        isSubCommentVisible.value = false
-        subComments.value.push(body)
-        subComment.value = ''
-      } catch {
-
-      } finally {
-        isSubCommentLoading.value = false
-      }
+      isSubCommentVisible.value = false
+      isSubCommentLoading.value = false
+      subComment.value = ''
     }
 
     const handleDeleteSubComment = async (data) => {
-      console.log('#subComments', data._id)
-      console.log(subComments.value)
-      const { data: res } = await axios.delete(`http://127.0.0.1:3000/api/casualtalks-sub/${data._id}`)
-      console.log(4343343434)
-      console.log(res)
-      subComments.value = subComments.value.filter(x => x._id !== res._id)
+      emit('delete-sub-comment', data)
     }
 
     const handleDeleteComment = async (data) => {
-      console.log('#handleDeleteComment')
-      console.log(data)
-      console.log(data._id)
       const isConfirmed = confirm('Do you want to delete the comment?')
       if (isConfirmed) {
         emit('delete', data._id)
       }
     }
 
+
+    watch(() => props.data.subComments, (newVal, oldVal) => {
+      subComments.value = newVal
+    })
+
     elapsedTime('2022-11-15');
     return {
+      isLiked,
+      isBookmarked,
       isSubCommentLoading,
       subComment,
       subComments,
@@ -182,16 +181,16 @@ export default {
   border-radius: 10px;
 
   ::v-deep(.comment-textarea) {
-    display: inline-block;
-    border: none;
-    height: auto;
     width: 100%;
-    background: none;
-    font-size: 16px;
-    color: #000;
-    font-weight: 700;
-    min-height: 120px;
     margin: 10px 0px;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    // border: 1px solid rgb(179, 169, 169);
+    padding: 20px 20px;
+    background: #faf7f7;
+    border: none;
   }
 
   &__body {
@@ -203,6 +202,14 @@ export default {
     align-items: center;
     gap: 10px;
   }
+}
+
+.sub-comment-field {
+  background: #faf7f7;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0px;
+  color: #000;
 }
 
 .pi-reply {

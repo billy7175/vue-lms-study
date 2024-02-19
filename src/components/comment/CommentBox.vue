@@ -11,7 +11,9 @@
           <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
         </div>
         <div v-for="(comment, idx) in commentList" :key="idx">
-          <comment :data="comment" @reload="fetchComments" @delete="onDelete"></comment>
+          <comment :data="comment" @create-sub-comment="handleCreateSubComment"
+            @delete-sub-comment="handleDeleteSubComment" @reload="fetchComments" @delete="onDelete">
+          </comment>
         </div>
       </div>
     </section>
@@ -160,13 +162,47 @@ export default {
       }
     };
 
+    const handleCreateSubComment = async (body) => {
+      console.log('#handleCreateSubComment', body)
+      const { data } = await axios.post('http://127.0.0.1:3000/api/casualtalks-sub', body)
+      console.log('#data', data)
+      commentList.value.forEach(x => x._id === body.parentId ? x.subComments.push(data) : x)
+
+      console.log('#commentList', commentList.value)
+    }
+
+
+    const handleDeleteSubComment = async (data) => {
+      console.log('#handleCreateSubComment', data)
+      console.log('#commentList', commentList.value)
+      const { data: res } = await axios.delete(`http://127.0.0.1:3000/api/casualtalks-sub/${data._id}`)
+      // console.log('Delete item,', res)
+      // commentList.value = commentList.value.map(x => x._id === data.parentId ? x.subComments = x.subComments.filter(x => x._id !== data._id) : x)
+
+
+      // const commentList = ref([]);
+
+      commentList.value = commentList.value.map((item) => {
+        if (item._id === data.parentId) {
+
+          item.subComments = item.subComments.filter((subItem) => subItem._id !== res._id);
+        }
+
+        return item;
+      });
+
+      console.log('#commentList', commentList.value)
+    }
+
     return {
       onDelete,
       isCommentLoading,
       fetchComments,
       handleCreate,
       comment,
-      commentList: commentList
+      commentList: commentList,
+      handleCreateSubComment,
+      handleDeleteSubComment
     }
   }
 }
@@ -180,7 +216,9 @@ export default {
   color: #191818;
   padding: 20px;
   overflow-y: auto;
-  /* background: #fafaf6; */
+  background: #fafaf6;
+  /* background: red; */
+  /* background: #faf7f7; */
   border-radius: 10px;
 
 }
