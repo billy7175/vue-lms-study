@@ -1,22 +1,29 @@
 <template>
-  <table class="table">
-    <thead>
-      <tr>
-        <th v-for="column in columns" :key="column.key">
-          <slot name="column" :column="column">{{ column.label }}</slot>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in row" :key="item.id" @click="$emit('select', item)">
-        <td v-for="column in columns" :key="column.key">
-          <slot name="cell" :column="column" :item="item">
-            {{ item[column.key] }} <!-- slot 대체 컨텐츠 -->
-          </slot>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th v-for="column in columns" :key="column.key">
+            <slot name="column" :column="column">{{ column.label }}</slot>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in paginatedData" :key="index" @click="$emit('select', item)">
+          <td v-for="column in columns" :key="column.key">
+            <slot name="cell" :column="column" :item="item">
+              {{ item[column.key] }} <!-- slot 대체 컨텐츠 -->
+            </slot>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button @click="previousPage" :disabled="currentPage === 1">Previous</button>
+      <span>{{ currentPage }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -29,6 +36,37 @@ export default {
     row: {
       type: Array,
       required: true,
+    },
+    pageSize: {
+      type: Number,
+      default: 10,
+    },
+  },
+  data() {
+    return {
+      currentPage: 1,
+    };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.row.length / this.pageSize);
+    },
+    paginatedData() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.row.slice(startIndex, endIndex);
+    },
+  },
+  methods: {
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
     },
   },
 };
@@ -56,7 +94,6 @@ export default {
     cursor: pointer;
   }
 
-
   td {
     padding: 8px;
   }
@@ -65,8 +102,15 @@ export default {
     padding: 8px;
   }
 
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    button {
+      margin: 0 5px;
+    }
+  }
 }
 </style>
-
-
