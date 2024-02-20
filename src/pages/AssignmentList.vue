@@ -31,6 +31,21 @@
         </template>
       </Column>
     </DataTable>
+    <test-table :columns="tableColumns" :row="[...questions, ...questions, ...questions]"
+      @select="(row) => routeTo('assignment-update', row)">
+
+      <template #column="{ column }">
+        <!-- Custom content for the column header -->
+        <div>{{ column.label.toUpperCase() }}</div>
+      </template>
+      <template #cell="{ column, item }">
+        <!-- Custom content for the cell -->
+        <div v-if="column.key === 'info'">
+          <billy-button @click="handleDeleteClick" type="danger">삭제</billy-button>
+        </div>
+        <div v-else>{{ item[column.key] }}</div>
+      </template>
+    </test-table>
   </div>
 </template>
   
@@ -43,10 +58,11 @@ import { useRouter } from "vue-router";
 import QuestionBoardForm from "../components/form/QuestionBoardForm.vue";
 import { useUserState } from "../stores/user";
 import { Button } from 'billy-ui'
+import TestTable from '../components/table/TestTable.vue'
 // import BillyButton from '../components/button/BButton.vue'
 
 export default {
-  components: { QuestionBoardForm, 'billy-button': Button },
+  components: { QuestionBoardForm, 'billy-button': Button, TestTable },
   setup() {
     const userState = useUserState()
     const isModalOpen = ref(false);
@@ -82,6 +98,7 @@ export default {
         return {
           ...x,
           date: dayjs(x.date).format("YYYY.MM.DD"),
+          info: 'info',
         };
       });
     };
@@ -108,7 +125,18 @@ export default {
       return userState.user?.user?.role === 'teacher'
     })
 
+    const handleDeleteClick = () => {
+      console.log('delete')
+      alert('delete')
+    }
+
+    const handleSelectRow = (data) => {
+      console.log('handleSelectRow', data)
+    }
+
     return {
+      handleSelectRow,
+      handleDeleteClick,
       handleModalOpen,
       handleModalCancel,
       handleDelete,
@@ -117,7 +145,17 @@ export default {
       today,
       isModalOpen,
       handleCreateBoard,
-      isTeacher
+      isTeacher,
+      tableList: [{ name: '123', age: 10, job: 'developer' }, { name: '123', age: 2200, job: 'designer' }, { name: '123', age: 300, job: 'shooter' }],
+      tableColumns: [
+        { key: 'date', label: '날짜' },
+        { key: 'title', label: '제목' },
+        { key: 'description', label: '설명' },
+        { key: 'rate', label: '난이도' },
+        { key: 'isReleased', label: '상태' },
+        { key: 'info', label: '비고' }
+
+      ]
     };
   },
 };
@@ -129,20 +167,6 @@ export default {
   border-radius: 10px;
 }
 
-.assignment-list .p-datatable-wrapper tr,
-td,
-th {
-  text-indent: 10px;
-  padding: 10px;
-  font-weight: 600;
-}
-
-.assignment-list .p-datatable-wrapper th,
-td {}
-
-.assignment-list .p-datatable-wrapper .p-rating-item path {
-  /* color: #FFF27A; */
-}
 
 .p-paginator {
   // @include glassmorphism(2px);
