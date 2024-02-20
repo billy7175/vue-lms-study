@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue';
+
 export default {
   props: {
     columns: {
@@ -48,72 +50,81 @@ export default {
       default: 5,
     },
   },
-  data() {
-    return {
-      currentPage: 1,
-    };
-  },
-  computed: {
-    totalPages() {
-      return Math.ceil(this.row.length / this.pageSize);
-    },
-    paginatedData() {
-      const startIndex = (this.currentPage - 1) * this.pageSize;
-      const endIndex = startIndex + this.pageSize;
-      return this.row.slice(startIndex, endIndex);
-    },
-    visiblePages() {
-      const totalVisiblePages = Math.min(this.totalPages, this.maxVisiblePages);
+  setup(props, { emit }) {
+    const currentPage = ref(1);
+    const totalPages = computed(() => {
+      return Math.ceil(props.row.length / props.pageSize);
+    });
+
+    const paginatedData = computed(() => {
+      const startIndex = (currentPage.value - 1) * props.pageSize;
+      const endIndex = startIndex + props.pageSize;
+      return props.row.slice(startIndex, endIndex);
+    });
+
+    const visiblePages = computed(() => {
+      const totalVisiblePages = Math.min(totalPages.value, props.maxVisiblePages);
       const pages = [];
 
-      if (this.currentPage <= totalVisiblePages - 2) {
+      if (currentPage.value <= totalVisiblePages - 2) {
         // Display pages from the beginning
         for (let i = 1; i <= totalVisiblePages - 1; i++) {
           pages.push(i);
         }
         pages.push('...');
-        pages.push(this.totalPages);
-      } else if (this.currentPage >= this.totalPages - totalVisiblePages + 3) {
+        pages.push(totalPages.value);
+      } else if (currentPage.value >= totalPages.value - totalVisiblePages + 3) {
         // Display pages near the end
         pages.push(1);
         pages.push('...');
-        for (let i = this.totalPages - totalVisiblePages + 2; i <= this.totalPages; i++) {
+        for (let i = totalPages.value - totalVisiblePages + 2; i <= totalPages.value; i++) {
           pages.push(i);
         }
       } else {
         // Display pages around the current page
         pages.push(1);
-        if (this.currentPage > 3) {
+        if (currentPage.value > 3) {
           pages.push('...');
         }
-        for (let i = this.currentPage - 1; i <= this.currentPage + 1; i++) {
+        for (let i = currentPage.value - 1; i <= currentPage.value + 1; i++) {
           pages.push(i);
         }
-        if (this.currentPage < this.totalPages - 2) {
+        if (currentPage.value < totalPages.value - 2) {
           pages.push('...');
         }
-        pages.push(this.totalPages);
+        pages.push(totalPages.value);
       }
 
       return pages;
-    },
-  },
-  methods: {
-    previousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
+    });
+
+    const previousPage = () => {
+      if (currentPage.value > 1) {
+        currentPage.value--;
       }
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
+    };
+
+    const nextPage = () => {
+      if (currentPage.value < totalPages.value) {
+        currentPage.value++;
       }
-    },
-    selectPage(page) {
+    };
+
+    const selectPage = (page) => {
       if (page !== '...') {
-        this.currentPage = page;
+        currentPage.value = page;
       }
-    },
+    };
+
+    return {
+      currentPage,
+      totalPages,
+      paginatedData,
+      visiblePages,
+      previousPage,
+      nextPage,
+      selectPage,
+    };
   },
 };
 </script>
