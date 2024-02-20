@@ -12,69 +12,23 @@
       <engagement-card :data="dashboard"></engagement-card>
     </div>
     <section>
-      <h2>WORKING ON</h2>
       <div class="card__wrapper">
-        <performance-card></performance-card>
-        <graph-card></graph-card>
+        <!-- <performance-card></performance-card> -->
+        <!-- <graph-card></graph-card> -->
       </div>
     </section>
     <!-- <section style="margin-top: 50px">
       <h2 class="card__title">Popular Courses</h2>
       <div class="card__wrapper">
-        <simple-card
-          title="English Grammmars In Use"
-          contents="13$"
-        ></simple-card>
-        <simple-card
-          title="Japanese Grammars In Use"
-          contents="7$"
-          mainBackground="red"
-        ></simple-card>
+        <simple-card title="English Grammmars In Use" contents="13$"></simple-card>
+        <simple-card title="Japanese Grammars In Use" contents="7$" mainBackground="red"></simple-card>
         <p>
-          <iframe
-            src="https://www.youtube.com/embed/jSJM9iOiQ1g" 
-            width="560"
-            height="315"
-            frameborder="0"
-            allowfullscreen
-          >
+          <iframe src="https://www.youtube.com/embed/jSJM9iOiQ1g" width="560" height="315" frameborder="0"
+            allowfullscreen>
           </iframe>
         </p>
       </div>
     </section> -->
-    <section style="margin-top: 50px">
-      <h2 class="card__title">Members</h2>
-      <DataTable stripedRows selectionMode="single" :value="[
-        {
-          date: '2023-12-12',
-          title: '파트 5문제 입니다~!(상)',
-          description: 'take your time and stay focused.',
-          rating: 5,
-          isPublic: 'success',
-        },
-        {
-          date: '2023-12-12',
-          title: '파트 5문제 입니다~!(상)',
-          description: 'take your time and stay focused.',
-          rating: 1,
-          isPublic: 'success',
-        },
-      ]" tableStyle="min-width: 50rem" size="Normal">
-        <Column field="date" header="Date"></Column>
-        <Column field="title" header="Title"></Column>
-        <Column field="description" header="Description"></Column>
-        <Column field="rating" header="Reviews">
-          <template #body="slotProps">
-            <Rating :modelValue="slotProps.data.rating" readonly :cancel="false" />
-          </template>
-        </Column>
-        <Column field="isPublic" header="Status">
-          <template #body>
-            <Tag value="info" severity="info" />
-          </template>
-        </Column>
-      </DataTable>
-    </section>
   </div>
 </template>
 

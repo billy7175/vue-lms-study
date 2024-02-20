@@ -9,7 +9,6 @@ import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "./assets/main.scss";
 import BillyUI from "billy-ui";
-console.log(BillyUI);
 const pinia = createPinia();
 
 const app = createApp(App);
@@ -35,7 +34,6 @@ app.use(PrimeVue, {
   },
   ripple: true,
 });
-
 app.config.globalProperties.$myGlobalFunction = function () {
   console.log("This is a global function!");
 };

@@ -3,9 +3,6 @@
 
 <template>
   <div class="app">
-    <!-- <button @click="open">add</button> -->
-    <!-- <button @click="close">close</button> -->
-    <test></test>
     <cube></cube>
     <router-view></router-view>
   </div>
@@ -13,7 +10,6 @@
 
 
 <script>
-import Test from './components/Test.vue'
 import { onMounted, reactive, ref } from "vue";
 import Cube from "./components/cube/Cube.vue";
 import { useUserState } from "./stores/user";
@@ -22,7 +18,6 @@ import useSocketIO from '../src/socket/index'
 export default {
   components: {
     Cube,
-    Test
   },
   setup(props, context, test) {
     const { socket } = useSocketIO()

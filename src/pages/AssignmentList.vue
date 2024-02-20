@@ -24,8 +24,10 @@
         </template>
       </Column>
       <Column v-if="isTeacher" field="" header="비고">
-        <template #body>
-          <Button label="DELETE" severity="danger" rounded size="small" @click="handleDelete" />
+        <template #body="slotProps">
+          <div style="border:1px solid red;">
+            <billy-button @click="handleDelete(slotProps.data)" type="danger">삭제</billy-button>
+          </div>
         </template>
       </Column>
     </DataTable>
@@ -40,12 +42,13 @@ import { getQuestionBoards } from "../apis/question";
 import { useRouter } from "vue-router";
 import QuestionBoardForm from "../components/form/QuestionBoardForm.vue";
 import { useUserState } from "../stores/user";
+import { Button } from 'billy-ui'
+// import BillyButton from '../components/button/BButton.vue'
 
 export default {
-  components: { QuestionBoardForm },
+  components: { QuestionBoardForm, 'billy-button': Button },
   setup() {
     const userState = useUserState()
-
     const isModalOpen = ref(false);
     const today = dayjs(new Date()).format("YYYY-MM-DD");
     const router = useRouter();
@@ -84,7 +87,6 @@ export default {
     };
     const routeTo = (routeName, row = {}) => {
       const date = dayjs(row?.date).format("YYYY-MM-DD");
-
       router.push({
         params: {
           id: date,
@@ -93,9 +95,8 @@ export default {
       });
     };
 
-    const handleDelete = () => {
-      const isConfirmed = confirm('handleDelete')
-      alert(isConfirmed)
+    const handleDelete = (data) => {
+      console.log('#handleDelete', data)
     }
 
     let questions = ref([]);

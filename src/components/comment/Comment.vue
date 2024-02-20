@@ -1,6 +1,7 @@
 <template>
   <div class="comment">
-    <div class="comment__inner">
+    <div class="comment__inner" @mouseover="isHovering = true" @mouseout="handleMouseOut"
+      :class="{ 'test-animation': isHovering }">
       <section class="comment__body">
         <div class="comment__row">
           <Avatar image="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397_640.png"
@@ -72,8 +73,9 @@
 
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useUserState } from '../../stores/user'
+import { MessageBox } from 'billy-ui'
 export default {
   components: {},
   props: {
@@ -89,13 +91,41 @@ export default {
     const subComments = ref([])
     const isLiked = ref(false)
     const isBookmarked = ref(false)
+    const isHovering = ref(false)
 
     subComments.value = props.data.subComments
     const isSubCommentVisible = ref(false)
     const handleReply = () => {
       isSubCommentVisible.value = true
+      alert(isSubCommentVisible.value)
     }
 
+
+    const handleClickOutside = (event) => {
+      console.log('#handleClickOutside event', event)
+      console.log('#handleClickOutside event', event.srcElement)
+      const el = event.srcElement
+
+      document.querySelector('body').addEventListener('click', e => {
+        if (el.contains(e.target)) {
+          console.log('clicked inside')
+          return
+        } else {
+          console.log('clicked outside')
+          isSubCommentVisible.value = false
+        }
+      })
+    };
+
+    onMounted(() => {
+      // Attach the event listener when the component is mounted
+      document.addEventListener('click', handleClickOutside);
+    });
+
+    onUnmounted(() => {
+      // Remove the event listener when the component is unmounted
+      document.removeEventListener('click', handleClickOutside);
+    });
 
     function elapsedTime(date) {
       const start = new Date(date);
@@ -135,16 +165,26 @@ export default {
     }
 
     const handleDeleteSubComment = async (data) => {
-      emit('delete-sub-comment', data)
+      MessageBox.confirm('삭제하시겠습니까?').then(() => {
+        emit('delete-sub-comment', data)
+      }).catch(() => {
+        console.log('cancel')
+      })
     }
 
     const handleDeleteComment = async (data) => {
-      const isConfirmed = confirm('Do you want to delete the comment?')
+      const isConfirmed = await MessageBox.confirm('삭제하시겠습니까?')
+      console.log('#isConfirmed', isConfirmed)
+
       if (isConfirmed) {
         emit('delete', data._id)
       }
     }
 
+
+    const handleMouseOut = () => {
+      isHovering.value = false
+    }
 
     watch(() => props.data.subComments, (newVal, oldVal) => {
       subComments.value = newVal
@@ -163,7 +203,9 @@ export default {
       elapsedTime,
       handleDeleteComment,
       handleDeleteSubComment,
-      isSubCommentLoading
+      isSubCommentLoading,
+      handleMouseOut,
+      isHovering
     }
   },
 };
@@ -173,24 +215,22 @@ export default {
   position: relative;
   width: 100%;
   margin-bottom: 20px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   margin: 20px 0px;
-  background: #fff;
-  border-radius: 10px;
   transform-style: preserve-3d;
   perspective-origin: center;
   perspective: 500px;
 
   &__inner {
+    border-radius: 10px;
     padding: 20px;
     background: #fff;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-    transition: .5s;
+    transition: 1s;
 
-    &:hover {
-      transform: rotateX(-3deg) rotateY(0deg) translateZ(20px);
-    }
+    // &:hover {
+    //   transform: rotateX(-3deg) rotateY(0deg) translateZ(20px);
+    // }
   }
 
   ::v-deep(.comment-textarea) {
@@ -246,5 +286,42 @@ p {
 
 .sub-color {
   color: #a09999;
+}
+
+
+.test-animation {
+  animation: moveObject 3s infinite linear normal;
+}
+
+
+@keyframes moveObject {
+
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+
+  25% {
+    transform: rotateX(-1deg) rotateY(-1deg) rotateZ(0deg);
+  }
+
+  50% {
+    transform: rotateX(1deg) rotateY(1deg) rotateZ(0deg);
+  }
+
+  // 50% {
+  //   transform: rotateX(-4deg) rotateY(-2deg) rotateZ(0deg);
+  // }
+
+  100% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+
+  // from {
+  //   transform: rotateX(360deg) rotateY(0deg) rotateZ(0deg);
+  // }
+
+  // to {
+  //   transform: rotateX(0deg) rotateY(360deg) rotateZ(360deg);
+  // }
 }
 </style>

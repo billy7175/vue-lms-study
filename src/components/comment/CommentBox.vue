@@ -3,7 +3,7 @@
     <h2 class="title">Casual Talk</h2>
     <section>
       <div class="input-wrapper" style="position: relative">
-        <textarea v-model="comment" class="input-field" placeholder="Write comment"></textarea>
+        <Textarea v-model="comment" class="input-field" placeholder="Write comment" autoResize></textarea>
         <i @click="handleCreate" class="pi pi-send"></i>
       </div>
       <div v-if="commentList && commentList.length">
@@ -202,7 +202,7 @@ export default {
       comment,
       commentList: commentList,
       handleCreateSubComment,
-      handleDeleteSubComment
+      handleDeleteSubComment,
     }
   }
 }
@@ -215,12 +215,11 @@ export default {
   color: #fff;
   color: #191818;
   padding: 20px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   background: #fafaf6;
   /* background: red; */
   /* background: #faf7f7; */
   border-radius: 10px;
-
 }
 
 .title {
