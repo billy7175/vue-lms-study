@@ -119,7 +119,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* ... your existing styles ... */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  overflow: hidden;
+  border-radius: 6px;
+
+  tr {
+    border-bottom: 1px solid #dcd5d5;
+  }
+
+  th {
+    text-align: left;
+    background: #f3f4f6;
+  }
+
+  td {
+    text-align: left;
+    cursor: pointer;
+  }
+
+  td {
+    padding: 8px;
+  }
+
+  th {
+    padding: 8px;
+  }
+}
 
 .pagination {
   margin-top: 20px;
