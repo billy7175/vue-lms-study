@@ -8,7 +8,7 @@
       <question-board-form @create="handleCreateBoard" @cancel="handleModalCancel"></question-board-form>
     </Dialog>
 
-    <DataTable selectionMode="single" @rowSelect="(row) => routeTo('assignment-update', row.data)" :value="questions"
+    <!-- <DataTable selectionMode="single" @rowSelect="(row) => routeTo('assignment-update', row.data)" :value="questions"
       tableStyle="min-width: 50rem" size="Normal">
       <Column field="date" header="Date"></Column>
       <Column field="title" header="Title"></Column>
@@ -30,8 +30,9 @@
           </div>
         </template>
       </Column>
-    </DataTable>
-    <test-table :columns="tableColumns" :row="[...questions, ...questions, ...questions]"
+    </DataTable> -->
+    <test-table :columns="tableColumns"
+      :row="[...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions, ...questions]"
       @select="(row) => routeTo('assignment-update', row)">
 
       <template #column="{ column }">
